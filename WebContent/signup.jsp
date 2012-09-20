@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="comp9321.*"%>
-<jsp:useBean id="user" class="comp9321.User"
+<%@ page import="edu.unsw.comp9321.beans.*"%>
+<jsp:useBean id="user" class="edu.unsw.comp9321.beans.User"
 	scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
