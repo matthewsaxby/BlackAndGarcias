@@ -1,0 +1,28 @@
+1) download and setup a derby db. Should be installed to:
+	/db-derby-10.9.1.0-bin/
+
+2) run the commands:
+$ nohup java -jar $DERBY_HOME/lib/derbyrun.jar server start & 
+$ java -jar $DERBY_HOME/lib/derbyrun.jar server sysinfo
+in a terminal 
+
+Derby is now running, and needs to be set up in eclipse
+
+3) to set up in eclipse:
+a) Window -> Preferences -> Data Management -> Driver Definition
+	- Jar List tab. Remove the existing derbyclient.jar. Click on
+	  Add Jar/Zip, navigate to your DERBY_HOME/lib directory, and
+	  select derbyclient.jar
+b) Properties tab, and change the database name
+	- NOTE USERNAME AND PASSWORD - THIS IS WHERE THEY CAN BE CHANGED!
+c) Window -> Show View -> Data Source Explorer).Right click on Database Connections and click New
+	- fill in SAME DATA AS WHAT YOU SET UP IN PROPERTIES TAB
+
+* * * * * * *
+The database is now setup. To use in the project, we need to 
+only change the stuff in context.xml to match what we filled in 
+in the properties tab.
+* * * * * * *
+
+4) context.xml is located in META-INF. configure: url, username, and password 
+   attributes to match what has been set up.
