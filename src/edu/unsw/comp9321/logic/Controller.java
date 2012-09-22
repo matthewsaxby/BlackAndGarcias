@@ -17,6 +17,8 @@ import edu.unsw.comp9321.exception.EmptyResultException;
 import edu.unsw.comp9321.jdbc.CastDAO;
 import edu.unsw.comp9321.jdbc.CommentDTO;
 import edu.unsw.comp9321.jdbc.DerbyDAOImpl;
+import edu.unsw.comp9321.jdbc.MovieDAO;
+import edu.unsw.comp9321.jdbc.MovieDTO;
 import edu.unsw.comp9321.jdbc.MySQLDAOImpl;
 import edu.unsw.comp9321.jdbc.CharacterDTO;
 
@@ -27,6 +29,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static Logger logger = Logger.getLogger(Controller.class.getName());
 	private CastDAO cast;
+	private MovieDAO movies;
        
     /**
      * @throws ServletException 
@@ -36,6 +39,7 @@ public class Controller extends HttpServlet {
     	// TODO Auto-generated constructor stub
         super();
         try {
+        	movies = new MovieDAO();
 			cast = new DerbyDAOImpl();
 		} catch (ServiceLocatorException e) {
 			logger.severe("Trouble connecting to database "+e.getStackTrace());
@@ -63,6 +67,13 @@ public class Controller extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String forwardPage = "";
+		List<MovieDTO> resSet = movies.findAll();
+		request.setAttribute("movieDeets",  resSet);
+		forwardPage = "testpage.jsp";
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+		dispatcher.forward(request, response);
+		
+		/*String forwardPage = "";
 		String action = request.getParameter("action");
 		String character = request.getParameter("character");
 		try{
@@ -81,7 +92,7 @@ public class Controller extends HttpServlet {
 			forwardPage = "error.jsp";
 		}
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-		dispatcher.forward(request, response);
+		dispatcher.forward(request, response);*/
 	}
 	
 	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){

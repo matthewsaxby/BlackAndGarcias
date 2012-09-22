@@ -23,7 +23,8 @@ public class DBConnectionFactory {
 	private DBConnectionFactory() throws ServiceLocatorException{
 		try{
 			ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:/comp/env/jdbc/cs9321");
+			// apparently java:comp rather than java:/comp. If shit breaks, check here
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/cs9321"); 
 			logger.info("Database found:"+ds.toString());
 		}catch(NamingException e){
 			logger.severe("Cannot find context, throwing exception"+e.getMessage());

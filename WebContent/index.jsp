@@ -36,7 +36,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="index.jsp">Home</a></li>
-              <li><a href="myProfile.jsp">My Profile</a></li>			<%-- only show this is someone is logged in--%>
+              <li><a href="myProfile.jsp">My Profile</a></li>			<%-- only show this if someone is logged in--%>
               <li><a href="movieSearch.jsp">Search</a></li>
               <li><a href="nowShowing.jsp">Now Showing</a></li>
               <li><a href="comingSoon.jsp">Coming Soon</a></li>
@@ -62,7 +62,7 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h1>Welcome to the SMDB!</h1>
-        <p>Member is current free, click the join now button to become a member now.</p>
+        <p>Becoming a member is currently free, click the join now button to become a member now.</p>
         <form action='signup.jsp' method='POST'>
         <input type='submit' class="btn btn-primary btn-large" value='Join Now &raquo'>
         </form>

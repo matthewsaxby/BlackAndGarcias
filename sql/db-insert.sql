@@ -1,0 +1,5 @@
+insert into cinema (name, address, seating_capacity) values ('MCR', '354 anzac parade, NSW', 50);
+
+insert into movie (title, poster, synopsis, user_rating, rating_count, release_date, director, age_rating, genres, cinema_id) values ('Transformers', '/images/trans.jpg', 'yay robots', 7.2, 5, '2007-06-28', 'Michael Bay', 'PG-13', 'Action, Scifi, Thriller', 1);
+insert into movie (title, poster, synopsis, user_rating, rating_count, release_date, director, age_rating, genres, cinema_id) values ('Moulin Rouge!', '/images/moulinrouge.jpg', 'yay dancing', 7.6, 15, '2001-05-24', 'Baz Luhrmann', 'PG-13', 'Drama, Musical, Romance', 1);
+insert into movie (title, poster, synopsis, user_rating, rating_count, release_date, director, age_rating, genres, cinema_id) values ('Cars', '/images/cars.jpg', 'yay cars', 7.3, 8, '2006-06-08', 'John Lasseter', 'G', 'Animation, Adventure, Comedy', 1);

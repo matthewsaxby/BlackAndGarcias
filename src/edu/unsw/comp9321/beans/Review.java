@@ -4,7 +4,7 @@ public class Review {
 	private String comment;
 	private int rating;
 	private Movie reviewedMovie;
-	private User writter; 
+	private User writer; 
 	
 	public int getRating() {
 		return rating;
@@ -25,10 +25,10 @@ public class Review {
 		this.reviewedMovie = reviewedMovie;
 	}
 	public User getWritter() {
-		return writter;
+		return writer;
 	}
 	public void setWritter(User writter) {
-		this.writter = writter;
+		this.writer = writter;
 	}
 	
 }

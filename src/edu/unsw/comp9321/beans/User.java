@@ -17,7 +17,7 @@ public class User {
 	
 	private List<Review> myReviews;
 	//user preferences
-	private List<Genre> favouriteGenres;
+//	private List<Genre> favouriteGenres; need this commented out for now. Not sure how to deal with beans yet.
 	private List<Actor> favouriteActors;
 	private List<Movie> favouriteMovies;
 	private List<Booking> myBookings;

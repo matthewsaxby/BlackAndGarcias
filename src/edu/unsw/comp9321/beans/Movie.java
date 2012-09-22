@@ -11,9 +11,10 @@ public class Movie {
 	private List<Actor> mainActors;
 	private String movieSynopsis;
 	private int currentUserRating;
+	private int ratingCount;
 	private Time releaseDate;
 	private List<Review> reviews;
-	private List<Genre> movieGenres;
+	private String[] genres;
 	private String director;
 	private String ageRating;
 	
