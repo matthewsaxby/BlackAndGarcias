@@ -2,8 +2,8 @@
 	/db-derby-10.9.1.0-bin/
 
 2) run the commands:
-$ nohup java -jar $DERBY_HOME/lib/derbyrun.jar server start & 
-$ java -jar $DERBY_HOME/lib/derbyrun.jar server sysinfo
+nohup java -jar $DERBY_HOME/lib/derbyrun.jar server start & 
+java -jar $DERBY_HOME/lib/derbyrun.jar server sysinfo
 in a terminal 
 
 Derby is now running, and needs to be set up in eclipse
