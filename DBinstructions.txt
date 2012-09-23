@@ -9,7 +9,7 @@ in a terminal
 Derby is now running, and needs to be set up in eclipse
 
 3) to set up in eclipse:
-a) Window -> Preferences -> Data Management -> Driver Definition
+a) Window -> Preferences -> Data Management -> Connectivity -> Driver Definition
 	- Jar List tab. Remove the existing derbyclient.jar. Click on
 	  Add Jar/Zip, navigate to your DERBY_HOME/lib directory, and
 	  select derbyclient.jar
