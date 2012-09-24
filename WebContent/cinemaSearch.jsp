@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="comp9321.*"%>
-<jsp:useBean id="user" class="comp9321.User"
-	scope="session" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.unsw.comp9321.jdbc.*, java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -66,19 +65,19 @@
         <form action='ControlServlet' method='POST'>
           
           <ul class="nav nav-tabs">
-          <li class="active">
+          <li>
           <a href="movieSearch.jsp">Movie Search</a></li>
-          <li><a href="cinemaSearch.jsp">Cinema Search</a></li>
+          <li class="active"><a href="cinemaSearch.jsp">Cinema Search</a></li>
           </ul>
           
           
-          <label>Movie name:</label>
+          <label>Cinema name:</label>
 		  <input type="text" name="movieName">
-		  <label>Year:</label>
+		  <label>Street:</label>
 		  <input type="text" name="year">
-          <label>Genre:</label>
+          <label>Postcode:</label>
 		  <input type="text" name="genre">
-		  <label>Actor:</label>
+		  <label>Suburb:</label>
 		  <input type="text" name="actorName">
           <p>
           <input type='submit' class="btn" value='Search &raquo'>

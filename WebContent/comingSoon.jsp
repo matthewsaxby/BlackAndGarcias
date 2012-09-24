@@ -8,7 +8,7 @@
 
 
 <head>
-<title>Sign up</title>
+<title>Coming Soon</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -61,35 +61,78 @@
     <div class="container">
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Search</h1>
-        <p>Search for a specific movie or cinema below:</p>
-        <form action='ControlServlet' method='POST'>
-          
-          <ul class="nav nav-tabs">
-          <li class="active">
-          <a href="movieSearch.jsp">Movie Search</a></li>
-          <li><a href="cinemaSearch.jsp">Cinema Search</a></li>
-          </ul>
-          
-          
-          <label>Movie name:</label>
-		  <input type="text" name="movieName">
-		  <label>Year:</label>
-		  <input type="text" name="year">
-          <label>Genre:</label>
-		  <input type="text" name="genre">
-		  <label>Actor:</label>
-		  <input type="text" name="actorName">
-          <p>
-          <input type='submit' class="btn" value='Search &raquo'>
-        </form>
-        
+        <h1>Coming Soon</h1>
+        <p>The next best thing to hit the screen</p>
+        <br>
+        <!-- The next ten movies to be released-->
+        <ul class="thumbnails">
+        <li class="span10">
+    		<div class="thumbnail">
+    			<div class="row">
+    				<div class="span6">
+        				<h2>Transformers <small>2011</small></h2>
+        				
+        				<p>An ancient struggle reerupts on Earth between two extraterrestrial clans, the heroic Autobots and the evil Decepticons, with a clue to the ultimate power held by a young teenager. </p>
+        				<p><b>Release Date:</b>21/12/2011</p>
+        				<p><b>Stars:</b>Shia LaBeouf, Megan Fox and Josh Duhamel</p>
+        				<div class="row">
+	        				<div class="span2">
+	        					<form action='ControlServlet' method='POST'>
+	        					<input type="hidden" name="viewDetailsOnMovie" value="DYNAMIC_INSERT">
+        						<input type='submit' class="btn btn" value='View Details'>
+        						</form>
+        					</div>
+	        				<div class="span3">
+	        					<form action='ControlServlet' method='POST'>
+	        					<input type="hidden" name="buyTicketsMovieName" value="DYNAMIC_INSERT">
+	        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>
+	        					</form>
+        					</div>
+        				</div>
+        			</div>
+        			<div class="span3">
+        			<img src="pics/transformers.jpg" alt="property_image"/>
+        			</div>
+        		</div>
+        	</div>
+        	<br>
+        	<div class="thumbnail">
+    			<div class="row">
+    				<div class="span6">
+        				<h2>Transformers <small>2011</small></h2>
+        				
+        				<p>An ancient struggle reerupts on Earth between two extraterrestrial clans, the heroic Autobots and the evil Decepticons, with a clue to the ultimate power held by a young teenager. </p>
+        				<p><b>Release Date:</b>21/12/2011</p>
+        				<p><b>Stars:</b>Shia LaBeouf, Megan Fox and Josh Duhamel</p>
+        				<div class="row">
+	        				<div class="span2">
+	        					<form action='ControlServlet' method='POST'>
+	        					<input type="hidden" name="viewDetailsOnMovie" value="DYNAMIC_INSERT">
+        						<input type='submit' class="btn btn" value='View Details'>
+        						</form>
+        					</div>
+	        				<div class="span3">
+	        					<form action='ControlServlet' method='POST'>
+	        					<input type="hidden" name="buyTicketsMovieName" value="DYNAMIC_INSERT">
+	        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>
+	        					</form>
+        					</div>
+        				</div>
+        			</div>
+        			<div class="span3">
+        			<img src="pics/transformers.jpg" alt="property_image"/>
+        			</div>
+        		</div>
+        	</div>
+  		</li>
+  		</ul>
+  		
       </div>
-
       
 
 
-
+<br>
+<br>
 
 
       <footer>

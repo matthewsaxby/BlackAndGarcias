@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="edu.unsw.comp9321.beans.*"%>
-<jsp:useBean id="user" class="edu.unsw.comp9321.beans.User"
-	scope="session" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.unsw.comp9321.jdbc.*, java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -63,18 +62,29 @@
       <div class="hero-unit">
         <h1>Sign Up</h1>
         <p>Fill in your details below</p>
-        <form action='search.jsp' method='POST'>
-    
+        <p>	</p>
+        <br>
+        <form action='Controller' method='POST'>
+    	  <h4>Account Details:</h4>
           <label>Username:</label>
-		  <input type="text" placeholder="">
+		  <input type="text" name="username">
           <label>Password:</label>
-		  <input type="text" placeholder="">
+		  <input type="password" name="password">
           <label>Repeat Password:</label>
-		  <input type="text" placeholder="">
-
-          
-          
-          <input type='submit' class="btn" value='Search &raquo'>
+		  <input type="password" name="repeatPassowrd">
+		  <h4>Personal Details:</h4>
+		  <label>Name:</label>
+		  <input type="text" name="firstName" placeholder="First Name"><input type="text" name="lastName" placeholder="Last Name">
+          <label>Nick Name:</label>
+		  <input type="text" name="nickName">
+          <label>Year of Birth:</label>
+		  <input type="text" name="yearOfBirth">
+		  <label>Email Address:</label>
+		  <input type="text" name="emailAddress">
+		  <label>Repeat Email Address:</label>
+		  <input type="text" name="repeatEmailAddress">
+          <p>
+          <input type='submit' class="btn-primary btn-large" value='Submit &raquo'>
         </form>
         
       </div>
