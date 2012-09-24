@@ -66,7 +66,9 @@ public class MovieDAO {
 				logger.info(ageRating);
 				String genresAsString= res.getString("genres");
 				String[] genres = genresAsString.split(", ");
-				logger.info(genresAsString);
+				for(String genre : genres) {
+					logger.info(genre);
+				}
 				int cinemaId= Integer.parseInt(res.getString("cinema_id"));
 				logger.info(new String("" +cinemaId));
 				movies.add(new MovieDTO(title, poster, synopsis, currentUserRating, ratingCount, releaseDate, genres, director, ageRating, cinemaId));

@@ -10,18 +10,21 @@
 </head>
 <body>
 <c:forEach items="${movieDeets}" var="aMovie">
-	<h1>Movie Information</h1>
+	<h3>Movie Information</h3>
 	<b>Title: </b> <c:out value="${aMovie.title}" /> <br />
 	<b>poster: </b> <c:out value="${aMovie.poster}" /> <br />
 	<b>movieSynopsis: </b> <c:out value="${aMovie.movieSynopsis}" /> <br />
 	<b>currentUserRating: </b> <c:out value="${aMovie.currentUserRating}" /> <br />
 	<b>ratingCount: </b> <c:out value="${aMovie.ratingCount}" /> <br />
 	<b>releaseDate: </b> <c:out value="${aMovie.releaseDate}" /> <br />
-	<b>genres: </b> <c:out value="${aMovie.genres}" /> <br />
+	<b>genres: </b>
+		<c:forEach items="${aMovie.genres}" var="genre"> 
+			<c:out value="${genre}" /> 
+		</c:forEach> <br>
 	<b>director: </b> <c:out value="${aMovie.director}" /> <br />
 	<b>ageRating: </b> <c:out value="${aMovie.ageRating}" /> <br />
 	
-	<br><br><br><br>
+	<br><br>
 </c:forEach>	
 </body>
 </html>
