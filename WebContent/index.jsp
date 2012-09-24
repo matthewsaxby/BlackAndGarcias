@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ page import="edu.unsw.comp9321.beans.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="edu.unsw.comp9321.logic.*, java.util.*"%>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -82,8 +83,8 @@
           <div class="span2"><img src="pics/transformers.jpg" alt="property_image" width="149" height="112"/></div>
           </div>
           <p>
-          <form action='nowShowing.jsp' method='POST'>
-          <input type="hidden" name="movie" value="1" />
+          <form action='controller' method='POST'>
+          <input type="hidden" name="action" value="nowShowing" />
           <input type='submit' class="btn" value='See more movies &raquo'>
           </form>
        </div>
@@ -95,8 +96,8 @@
           <div class="span2"><img src="pics/transformers.jpg" alt="property_image" width="149" height="112"/></div>
           </div>
           <p>
-          <form action='comingSoon.jsp' method='POST'>
-          <input type="hidden" name="movie" value="1" />
+          <form action='controller' method='POST'>
+          <input type="hidden" name="action" value="comingSoon" />
           <input type='submit' class="btn" value='See more movies &raquo'>
           </form>
        </div>

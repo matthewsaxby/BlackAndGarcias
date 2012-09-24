@@ -67,12 +67,24 @@ public class Controller extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String forwardPage = "";
-		List<MovieDTO> resSet = movies.findAll();
-		request.setAttribute("movieDeets",  resSet);
-		forwardPage = "testpage.jsp";
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-		dispatcher.forward(request, response);
 		
+		if(request.getParameter("action").equals("nowShowing")){
+			
+			List<MovieDTO> resSet = movies.findNowShowing();
+			request.setAttribute("movieDeets",  resSet);
+			forwardPage = "nowShowing.jsp";
+			System.out.println("I made it here");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		} else if(request.getParameter("action").equals("comingSoon")){
+			
+			List<MovieDTO> resSet = movies.findComingSoon();
+			request.setAttribute("movieDeets",  resSet);
+			forwardPage = "comingSoon.jsp";
+			System.out.println("I made it here");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		}
 		/*String forwardPage = "";
 		String action = request.getParameter("action");
 		String character = request.getParameter("character");

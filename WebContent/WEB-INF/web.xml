@@ -21,7 +21,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-</web-app>
 
 <resource-ref>
   <description>
@@ -36,7 +35,11 @@
   <res-type>
     javax.mail.Session
   </res-type>
-  <res-auth>
-    Container
-  </res-auth>
+
 </resource-ref>
+
+
+
+
+</web-app>
+

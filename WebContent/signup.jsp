@@ -65,6 +65,8 @@
         <p>	</p>
         <br>
         <form action='Controller' method='POST'>
+    	  <input type="hidden" name="action" value="signup">
+    	  
     	  <h4>Account Details:</h4>
           <label>Username:</label>
 		  <input type="text" name="username">

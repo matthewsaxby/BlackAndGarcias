@@ -9,10 +9,19 @@
 <head>
 <title>Now Showing</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="fontAwesome/css/font-awesome.css">
-<style type="text/css"> .icon {background:none;} </style>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+
 </head>
+
 
 
 <body>
@@ -59,65 +68,44 @@
         <!-- The highest rated movies in the database-->
         <ul class="thumbnails">
         <li class="span10">
-    		<div class="thumbnail">
-    			<div class="row">
-    				<div class="span6">
-        				<h2>Transformers <small>2011</small></h2>
-        				<h2><font color="#FDD017"><i class ="icon-star"></i></font></h2>
-
-        				
-        				<p>An ancient struggle reerupts on Earth between two extraterrestrial clans, the heroic Autobots and the evil Decepticons, with a clue to the ultimate power held by a young teenager. </p>
-        				<p><b>Release Date:</b>21/12/2011</p>
-        				<p><b>Stars:</b>Shia LaBeouf, Megan Fox and Josh Duhamel</p>
-        				<div class="row">
-	        				<div class="span2">
-	        					<form action='ControlServlet' method='POST'>
-	        					<input type="hidden" name="viewDetailsOnMovie" value="DYNAMIC_INSERT">
-        						<input type='submit' class="btn btn" value='View Details'>
-        						</form>
-        					</div>
-	        				<div class="span3">
-	        					<form action='ControlServlet' method='POST'>
-	        					<input type="hidden" name="buyTicketsMovieName" value="DYNAMIC_INSERT">
-	        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>
-	        					</form>
-        					</div>
-        				</div>
-        			</div>
-        			<div class="span3">
-        			<img src="images/transformers.jpg" alt="property_image"/>
-        			</div>
-        		</div>
-        	</div>
-        	<br>
-        	<div class="thumbnail">
-    			<div class="row">
-    				<div class="span6">
-        				<h2>Transformers <small>2011</small></h2>
-        				
-        				<p>An ancient struggle reerupts on Earth between two extraterrestrial clans, the heroic Autobots and the evil Decepticons, with a clue to the ultimate power held by a young teenager. </p>
-        				<p><b>Release Date:</b>21/12/2011</p>
-        				<p><b>Stars:</b>Shia LaBeouf, Megan Fox and Josh Duhamel</p>
-        				<div class="row">
-	        				<div class="span2">
-	        					<form action='ControlServlet' method='POST'>
-	        					<input type="hidden" name="viewDetailsOnMovie" value="DYNAMIC_INSERT">
-        						<input type='submit' class="btn btn" value='View Details'>
-        						</form>
-        					</div>
-	        				<div class="span3">
-	        					<form action='ControlServlet' method='POST'>
-	        					<input type="hidden" name="buyTicketsMovieName" value="DYNAMIC_INSERT">
-	        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>
-	        					</form>
+    		<c:forEach items="${movieDeets}" var="aMovie">
+				<div class="thumbnail">
+					<div class="row">
+						<div class="span6">
+							<h2><c:out value="${aMovie.title}" /></h2>
+							<p><c:out value="${aMovie.movieSynopsis}" /> <br /></p>
+							<p><b>Current User Rating: </b> <c:out value="${aMovie.currentUserRating}" /> <br /></p>
+							<p><b>Number of Reviews: </b> <c:out value="${aMovie.ratingCount}" /> <br /></p>
+							<p><b>Release Date: </b> <c:out value="${aMovie.releaseDate}" /> <br /></p>
+							<p><b>Genres: </b>
+							<c:forEach items="${aMovie.genres}" var="genre"> 
+								<c:out value="${genre}" /> 
+							</c:forEach> <br></p>
+							<div class="row">
+		        				<div class="span2">
+		        					<form action='controller' method='POST'>
+		        					<input type="hidden" name="action" value="<c:out value="viewFullDetails" />">
+		        					<input type="hidden" name="viewDetailsOnMovie" value="<c:out value="${aMovie.title}" />">
+	        						<input type='submit' class="btn btn" value='View Details'>
+	        						</form>
+	        					</div>
+		        				<div class="span3">
+		        					<form action='controller' method='POST'>
+		        					<input type="hidden" name="action" value="<c:out value="buyTickets" />">
+		        					<input type="hidden" name="buyTicketsMovieName" value="<c:out value="${aMovie.title}" />">
+		        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>
+		        					</form>
+	        					</div>
         					</div>
         				</div>
+        				<div class="span3">
+        					<img src="/BlackAndGarcias/<c:out value="${aMovie.poster}" />" alt="property_image"/>
+        				</div>
         			</div>
-        			<div class="span3">
-        			<img src="images/transformers.jpg" alt="property_image"/>
-        			</div>
-        		</div>
-        	</div>
+				</div>			
+				<br>			
+			</c:forEach>
+    		
   		</li>
   		</ul>
   		
