@@ -73,8 +73,8 @@
           
           <label>Movie name:</label>
 		  <input type="text" name="movieName">
-		  <label>Year:</label>
-		  <input type="text" name="year">
+		  <label>Year Range:</label>
+		  <input type="text" name="yearStart" size="5"> - <input type="text" name="yearEnd" size="5">
           <label>Genres:</label>
           <select multiple="multiple">
 			<c:forEach items="${genreList}" var="aGenre">
