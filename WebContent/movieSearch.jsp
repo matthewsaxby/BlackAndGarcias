@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="comp9321.*"%>
-<jsp:useBean id="user" class="comp9321.User"
-	scope="session" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.unsw.comp9321.jdbc.*, java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -63,8 +62,8 @@
       <div class="hero-unit">
         <h1>Search</h1>
         <p>Search for a specific movie or cinema below:</p>
-        <form action='ControlServlet' method='POST'>
-          
+        <form action='controller' method='POST'>
+          <input type="hidden" name="action" value="movieSearchResults">
           <ul class="nav nav-tabs">
           <li class="active">
           <a href="movieSearch.jsp">Movie Search</a></li>
@@ -76,10 +75,18 @@
 		  <input type="text" name="movieName">
 		  <label>Year:</label>
 		  <input type="text" name="year">
-          <label>Genre:</label>
-		  <input type="text" name="genre">
-		  <label>Actor:</label>
-		  <input type="text" name="actorName">
+          <label>Genres:</label>
+          <select multiple="multiple">
+			<c:forEach items="${genreList}" var="aGenre">
+				<option><c:out value="${anActor.genre}" /></option>
+			</c:forEach>
+		  </select>
+		  <label>Actors:</label>
+		  <select multiple="multiple">
+			<c:forEach items="${actorList}" var="anActor">
+				<option><c:out value="${anActor.firstName}" /> <c:out value="${anActor.lastName}" /></option>
+			</c:forEach>
+		  </select>
           <p>
           <input type='submit' class="btn" value='Search &raquo'>
         </form>

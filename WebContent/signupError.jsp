@@ -67,6 +67,12 @@
         <form action='controller' method='POST'>
     	  <input type="hidden" name="action" value="signup">
     	  
+    	  <div class="alert alert-error">
+    			<h4>Error!</h4>
+    			${message}
+   		  </div>
+    	  
+    	  
     	  <h4>Account Details:</h4>
           <label>Username:</label>
 		  <input type="text" name="username">
@@ -78,7 +84,7 @@
 		  <label>Email Address:</label>
 		  <input type="text" name="email">
 		  <label>Repeat Email Address:</label>
-		  <input type="text" name="confrimEmail">
+		  <input type="text" name="confirmEmail">
           <p>
           <input type='submit' class="btn-primary btn-large" value='Submit &raquo'>
         </form>

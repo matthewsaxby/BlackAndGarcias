@@ -60,27 +60,42 @@
     <div class="container">
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Sign Up</h1>
-        <p>Fill in your details below</p>
+        <h1>Edit Your Profile</h1>
+        <p>Change your details below</p>
         <p>	</p>
         <br>
         <form action='controller' method='POST'>
-    	  <input type="hidden" name="action" value="signup">
+    	  <input type="hidden" name="action" value="editProfile">
     	  
     	  <h4>Account Details:</h4>
           <label>Username:</label>
-		  <input type="text" name="username">
+          <b>${user.username}</b>
           <label>Password:</label>
 		  <input type="password" name="password">
           <label>Repeat Password:</label>
-		  <input type="password" name="confirmPassword">
+		  <input type="password" name="repeatPassowrd">
 		  <h4>Personal Details:</h4>
+		  <label>Name:</label>
+		  <input type="text" name="firstName" placeholder="${user.firstName}"><input type="text" name="lastName" placeholder="${user.lastName}">
+          <label>Nick Name:</label>
+		  <input type="text" name="nickName" placeholder="${user.nickName}">
+          <label>Year of Birth:</label>
+		  <input type="text" name="yearOfBirth" placeholder="${user.yearOfBirth}">
 		  <label>Email Address:</label>
-		  <input type="text" name="email">
-		  <label>Repeat Email Address:</label>
-		  <input type="text" name="confrimEmail">
+		  <input type="text" name="emailAddress" placeholder="${user.emailAddress}">
+          <label>Favourite Actors:</label>
+		  <select multiple="multiple">
+			<c:forEach items="${actorList}" var="anActor">
+				<option><c:out value="${anActor.firstName}" /> <c:out value="${anActor.lastName}" /></option>
+			</c:forEach>
+		  </select>
+		  <label>Favourite Genres:</label>
+		  <select multiple="multiple">
+			<option> to do</option>
+		  </select>
+          
           <p>
-          <input type='submit' class="btn-primary btn-large" value='Submit &raquo'>
+          <input type='submit' class="btn-primary btn-large" value='Update'>
         </form>
         
       </div>

@@ -60,28 +60,9 @@
     <div class="container">
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Sign Up</h1>
-        <p>Fill in your details below</p>
-        <p>	</p>
-        <br>
-        <form action='controller' method='POST'>
-    	  <input type="hidden" name="action" value="signup">
-    	  
-    	  <h4>Account Details:</h4>
-          <label>Username:</label>
-		  <input type="text" name="username">
-          <label>Password:</label>
-		  <input type="password" name="password">
-          <label>Repeat Password:</label>
-		  <input type="password" name="confirmPassword">
-		  <h4>Personal Details:</h4>
-		  <label>Email Address:</label>
-		  <input type="text" name="email">
-		  <label>Repeat Email Address:</label>
-		  <input type="text" name="confrimEmail">
-          <p>
-          <input type='submit' class="btn-primary btn-large" value='Submit &raquo'>
-        </form>
+        <h1>Your Details have been updated</h1>
+        <p>Thankyou for keeping your profile up to date</p>
+        
         
       </div>
 

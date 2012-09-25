@@ -7,7 +7,7 @@
 
 
 <head>
-<title>Sign up</title>
+<title>My Profile</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -60,27 +60,28 @@
     <div class="container">
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Sign Up</h1>
-        <p>Fill in your details below</p>
-        <p>	</p>
-        <br>
+        <h1>My Profile</h1>
+        <p>Its all about you</p>
+        
+        <h2>Change my details</h2>
+        <p>Click the button below to change your personal details</p>
         <form action='controller' method='POST'>
-    	  <input type="hidden" name="action" value="signup">
-    	  
-    	  <h4>Account Details:</h4>
-          <label>Username:</label>
-		  <input type="text" name="username">
-          <label>Password:</label>
-		  <input type="password" name="password">
-          <label>Repeat Password:</label>
-		  <input type="password" name="confirmPassword">
-		  <h4>Personal Details:</h4>
-		  <label>Email Address:</label>
-		  <input type="text" name="email">
-		  <label>Repeat Email Address:</label>
-		  <input type="text" name="confrimEmail">
-          <p>
-          <input type='submit' class="btn-primary btn-large" value='Submit &raquo'>
+        <input type="hidden" name="action" value="editProfile">
+        <input type='submit' class="btn btn-primary" value='Edit Details &raquo'>
+        </form>
+        
+        <h2>View my bookings</h2>
+        <p>Click the button below to view bookings that you have made</p>
+        <form action='controller' method='POST'>
+        <input type="hidden" name="action" value="viewBookings">
+        <input type='submit' class="btn btn-primary" value='View Bookings &raquo'>
+        </form>
+        
+        <h2>View suggested movies</h2>
+        <p>Click the button below to view movies that are recommended for you to watch</p>
+        <form action='controller' method='POST'>
+        <input type="hidden" name="action" value="seeRecommendation">
+        <input type='submit' class="btn btn-primary" value='See recommendations &raquo'>
         </form>
         
       </div>

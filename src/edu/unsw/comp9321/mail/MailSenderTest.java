@@ -41,11 +41,11 @@ public class MailSenderTest extends TestCase {
         Reference ref = new Reference("javax.mail.Session", "org.apache.naming.factory.MailSessionFactory", null);
         ref.add(new StringRefAddr("auth", "Container"));
         //You can also use other smtp providers
-        ref.add(new StringRefAddr("mail.smtp.host","smtp.cse.unsw.edu.au"));
+        ref.add(new StringRefAddr("mail.smtp.host","smtp.gmail.com"));
         ref.add(new StringRefAddr("mail.smtp.auth","true"));
         //Replace as necessary
-        ref.add(new StringRefAddr("mail.smtp.user","your_username"));
-        ref.add(new StringRefAddr("mail.smtp.password","your_password"));
+        ref.add(new StringRefAddr("mail.smtp.user","blackandgarcias"));
+        ref.add(new StringRefAddr("mail.smtp.password","garciasandblack"));
         //Turn this off to avoid username and password appearing in log files.
         ref.add(new StringRefAddr("mail.debug","false"));
         ref.add(new StringRefAddr("mail.smtp.starttls.enable","true"));
@@ -73,8 +73,8 @@ public class MailSenderTest extends TestCase {
 		try{
 			sender = MailSender.getMailSender();
 			//Replace as necessary
-			String fromAddress = "your_addr@cse.unsw.edu.au";
-			String toAddress = "target_address@target_domain.com";
+			String fromAddress = "garciasandblack@gmail.com";
+			String toAddress = "matthew.c.saxby@gmail.com";
 			String subject = "test";
 			StringBuffer mailBody = new StringBuffer();
 			mailBody.append("Dear Mailer, Why you email me?!!");
@@ -96,6 +96,25 @@ public class MailSenderTest extends TestCase {
 		subContext.destroySubcontext("/env/mail");
 		ic.destroySubcontext("java:comp");
 		ic.destroySubcontext("java:");
+	}
+
+	public void sendConfirmationEmail(String username, String email) {
+		MailSender sender = null;
+		try{
+			sender = MailSender.getMailSender();
+			//Replace as necessary
+			String fromAddress = "garciasandblack@gmail.com";
+			String toAddress = email;
+			String subject = "Confirmation for SMDB";
+			StringBuffer mailBody = new StringBuffer();
+			mailBody.append("Hi, \nThanks for signing up to the Sydney Movie Database. A world of movies and showtimes awaits you. \nTo Finalise your membership simply click on the link below: \nhttp://localhost:8080/BlackAndGarcias/controller?action=confirmSignup&username=" + username);
+			sender.sendMessage(fromAddress, toAddress, subject, mailBody);
+			assertTrue(true);
+ 		}catch(Exception e){
+			e.printStackTrace();
+			fail("MailSender did not send message");
+		}
+		
 	}
 
 }
