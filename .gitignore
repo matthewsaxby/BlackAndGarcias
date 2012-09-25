@@ -1,6 +1,10 @@
 *.class
 *.classpath
 
+# no derby stuff plz
+*.log
+*.out
+
 # Package Files #
 *.jar
 *.war
