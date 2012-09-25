@@ -1,7 +1,7 @@
-Tue Sep 25 09:19:55 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
+Wed Sep 26 08:30:33 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Tue Sep 25 09:20:04 EST 2012:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0139-fa94-6e46-ffffd972e654 
+Wed Sep 26 08:30:46 EST 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0139-ff8d-9898-ffffd972e654 
 on database directory /home/matthew/workspace/BlackAndGarcias/movieDB  with class loader sun.misc.Launcher$AppClassLoader@6d6f0472 
 Loaded from file:/home/matthew/derby/lib/derby.jar
 java.vendor=Sun Microsystems Inc.
