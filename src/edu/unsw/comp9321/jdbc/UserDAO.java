@@ -23,11 +23,11 @@ public class UserDAO {
 	}
 	
 
-	public void addUserDetails(String username, String password, String confirmPassword, String email, String confirmEmail){
+	public void addUserDetails(String username, int userType, String password, String confirmPassword, String email, String confirmEmail){
 		try {
 			Statement stmnt = connection.createStatement();
 			
-			String query_cast = "INSERT INTO user_tbl (username, password, emailAddress)\nVALUES('" + username + "', '" + password + "', '" + email + "')";
+			String query_cast = "INSERT INTO user_tbl (username, usertype, password, emailAddress)\nVALUES('" + username + "', '" + userType +  "', '" + password + "', '" + email + "')";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();
@@ -39,7 +39,10 @@ public class UserDAO {
 		
 	}
 
-	
+	// TODO: change this to updateUserDetails and change SQL statement to an UPDATE
+	//		1) find user via username
+	//		2) get the userid for this row
+	// 		3) update this row of database w/ extra data
 	public void addUserDetails(String username, String password,
 			String email, String firstName,
 			String lastName, String nickName, int yearOfBirth) {

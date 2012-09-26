@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.unsw.comp9321.logic.*, java.util.*"%>
+<jsp:useBean id="sessionBean" class="edu.unsw.comp9321.beans.SessionBean"
+	scope="session" />
 <!--jsp:useBean id="user" class="comp9321.UserBean" scope="session"-->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -44,9 +47,11 @@
               
               
             </ul>
-            <form class="navbar-form pull-right" action='myProfile.jsp' method='POST'>
-              <input class="span2" type="text" placeholder="Username">
-              <input class="span2" type="password" placeholder="Password">
+            <form class="navbar-form pull-right" action='controller' method='POST'>
+            	<input type="hidden" name="action" value="login" />
+            	<input type="hidden" name="source" value="index.jsp" />
+              <input class="span2" type="text" name="username" placeholder="Username">
+              <input class="span2" type="password" name="password" placeholder="Password">
               <button type="submit" class="btn">Sign in</button>
             </form>
           </div><!--/.nav-collapse -->
@@ -59,7 +64,28 @@
     
     
     <div class="container">
-      <!-- Main hero unit for a primary marketing message or call to action -->
+    
+    	<c:if test="${sessionBean.userType>0}">
+    		<div class="container">
+				<div class="row show-grid">
+					<div class="span9">
+						<p> Welcome, <c:out value="${sessionBean.user.username}" /> </p>
+					</div>
+				</div>
+			</div>
+    	</c:if>
+    	
+    	<c:if test="${failedLogin!=null}">
+			<div class="container">
+				<div class="row show-grid">
+					<div class="span9">
+						<p> <c:out value="${failedLogin}" /> </p>
+					</div>
+				</div>
+			</div>
+		</c:if>
+		
+		<!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
       	<li><a href="admin.jsp">Admin</a></li>
         <h1>Welcome to the SMDB!</h1>
@@ -82,7 +108,7 @@
           <h4>x Men</h4>
           <div class="row">
           <div class="span2"><p>Blurb about the movie x men</p></div>
-          <div class="span2"><img src="pics/transformers.jpg" alt="property_image" width="149" height="112"/></div>
+          <div class="span2"><img src="images/transformers.jpg" alt="property_image" width="149" height="112"/></div>
           </div>
           <p>
           <form action='controller' method='POST'>
@@ -95,7 +121,7 @@
 	      <h4>x Men</h4>
           <div class="row">
           <div class="span2"><p>Blurb about the movie x men</p></div>
-          <div class="span2"><img src="pics/transformers.jpg" alt="property_image" width="149" height="112"/></div>
+          <div class="span2"><img src="images/transformers.jpg" alt="property_image" width="149" height="112"/></div>
           </div>
           <p>
           <form action='controller' method='POST'>

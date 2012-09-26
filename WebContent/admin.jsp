@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="edu.unsw.comp9321.jdbc.*, java.util.*"%>
+<jsp:useBean id="sessionBean" class="edu.unsw.comp9321.beans.SessionBean"
+	scope="session" />
 <html>
 <head>
 <title>Admin Options</title>
@@ -17,6 +21,16 @@
 
 </head>
 <body>
+
+<c:if test="${sessionBean.userType!=2}">
+	<div class="container">
+		<div class="hero-unit">
+			<h1> Sorry! You aren't allowed to view this page :( </h1>
+		</div>
+	</div>
+</c:if>
+
+<c:if test="${sessionBean.userType==2}">
 <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -51,8 +65,14 @@
     
     
     
-    
     <div class="container">
+    
+	   	<c:if test="${adminResponse!=null}">
+	  		 <div class="hero-unit">
+	  		 	<h1> <c:out value="${adminResponse}" /> </h1>
+	  		 </div>
+	   	</c:if>
+	   	
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
       	<h2>Add Cinema:</h2>
@@ -78,7 +98,7 @@
       </div>
        <div class="hero-unit">
       	<h2>Add Movie:</h2>      	
-		<form action='controller' method='POST' enctype="multipart/form-data">
+		<form action='controller' method='POST' enctype="application/x-www-form-urlencoded">
 			<input type="hidden" name="action" value="addMovie">
           	<label> Title: </label>
             <input type="text" name="title" >
@@ -113,7 +133,7 @@
         <p>&copy; Sydney Movie Database 2012</p>
       </footer>
 </div> <!-- /container -->
-
+</c:if>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

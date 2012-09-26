@@ -1,3 +1,3 @@
 select * from movie;
 
-delete * from user_tbl;
+select * from user_tbl;

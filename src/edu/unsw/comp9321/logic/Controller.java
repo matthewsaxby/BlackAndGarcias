@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.unsw.comp9321.beans.SessionBean;
 import edu.unsw.comp9321.common.ServiceLocatorException;
 import edu.unsw.comp9321.exception.EmptyResultException;
 import edu.unsw.comp9321.jdbc.ActorDAO;
@@ -40,6 +41,7 @@ public class Controller extends HttpServlet {
 	private ActorDAO actors;
 	private UserDAO users;
 	private UserDTO currentUser;
+	private SessionBean sessionBean;
        
     /**
      * @throws ServletException 
@@ -80,6 +82,7 @@ public class Controller extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String forwardPage = "";
+		sessionBean = (SessionBean) request.getSession().getAttribute("sessionBean");
 		
 		if(request.getParameter("action").equals("nowShowing")){
 			
@@ -126,8 +129,10 @@ public class Controller extends HttpServlet {
 			if(!error){
 				System.out.println("i made it");
 				//store data to database
-				users.addUserDetails(username, password, confirmPassword, email, confirmEmail);
+				// default to 1, presumably, admins added by direct insert
+				users.addUserDetails(username, 1, password, confirmPassword, email, confirmEmail); 
 				//send email
+				//TODO: what does 'confirming' actually do? nothing?
 				MailSenderTest ms = new MailSenderTest();
 				ms.sendConfirmationEmail(username, email);
 				//return to check email page
@@ -161,15 +166,44 @@ public class Controller extends HttpServlet {
 			String nickName = request.getParameter("nickName");
 			int yearOfBirth = Integer.parseInt(request.getParameter("yearOfBirth"));
 
-			
 			//send the data to the database
 			users.addUserDetails(username, password, email, firstName, lastName, nickName, yearOfBirth);
-			
-			
 			//send user to confirmation page
 			forwardPage = "editProfileConfirm.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
+		} else if (request.getParameter("action").equals("addCinema")){
+			
+			request.setAttribute("adminResponse", new String("Cinema Added!"));
+			forwardPage = "admin.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		} else if (request.getParameter("action").equals("addMovie")){
+			
+			
+			
+			
+			request.setAttribute("adminResponse", new String("Movie Added!"));
+			forwardPage = "admin.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		} else if (request.getParameter("action").equals("login")) {
+			UserDTO attempedLogin = users.getUserDetails(request.getParameter("username"));
+			if (!request.getParameter("password").equals(attempedLogin.getPassword())) {
+				request.setAttribute("failedLogin", new String("Incorrect Password! Please try again"));
+				forwardPage = request.getParameter("source");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
+			} else {
+				sessionBean.setUserType(attempedLogin.getUserType());
+				sessionBean.setUser(attempedLogin);
+				request.getSession().setAttribute("sessionBean", sessionBean);
+				//TODO: figure out a way to fix this. How do I know which page to redirect 
+				// http://stackoverflow.com/questions/12013707/servlet-forward-response-to-caller-previous-page
+				forwardPage = request.getParameter("source");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
+			}
 		}
 		/*String forwardPage = "";
 		String action = request.getParameter("action");
