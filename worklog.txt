@@ -1,0 +1,43 @@
+Home Page
+90%
+    formatting
+
+Viewer Registration
+90%
+    salting pwords (opt)
+
+Search
+20%
+    functionality
+        controller logic
+            search class
+            cinema search
+        database stuff
+            cinemaDTO (opt)        
+
+Details
+50%
+    jsp logic
+
+Commenting
+10%
+    add to front end
+    list of comments in user prof (opt)
+    commentDAO + DTO
+
+Booking
+10%
+    Everything    
+
+Cinema Owner - adding info
+    Everything
+
+Cinema Owner - associating movie w/ cinema
+    Everything
+
+Quality of Demo
+
+SessionBean
+    user -> permission Level
+        guest
+
