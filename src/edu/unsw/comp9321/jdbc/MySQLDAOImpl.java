@@ -26,7 +26,6 @@ public class MySQLDAOImpl implements CastDAO {
 		logger.info("Got connection");
 	}
 	
-	@Override
 	public List<CharacterDTO> findAll() {
 		ArrayList<CharacterDTO> cast = new ArrayList<CharacterDTO>();
 		try{
@@ -61,7 +60,7 @@ public class MySQLDAOImpl implements CastDAO {
 		}
 		return cast;
 	}
-	@Override
+
 	public void storeComment(CommentDTO comment) {
 		
 		Statement stmnt = null; 
@@ -109,13 +108,11 @@ public class MySQLDAOImpl implements CastDAO {
 		return comments;
 	}
 
-	@Override
 	public CharacterDTO findChar(String value) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public List<CommentDTO> getComments(String character) {
 		// TODO Auto-generated method stub
 		return null;

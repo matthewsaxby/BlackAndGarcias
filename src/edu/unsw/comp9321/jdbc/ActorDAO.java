@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import edu.unsw.comp9321.beans.Movie;
 import edu.unsw.comp9321.common.ServiceLocatorException;
 
 public class ActorDAO {
@@ -33,7 +32,7 @@ public class ActorDAO {
 				
 				String firstName = res.getString("first_name");
 				String lastName = res.getString("last_name");
-				actors.add(new ActorDTO(new ArrayList<Movie>(), firstName, lastName));
+				actors.add(new ActorDTO(new ArrayList<MovieDTO>(), firstName, lastName));
 				
 			}
 

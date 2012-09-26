@@ -39,6 +39,7 @@ public class Controller extends HttpServlet {
 	private MovieDAO movies;
 	private ActorDAO actors;
 	private UserDAO users;
+	private UserDTO currentUser;
        
     /**
      * @throws ServletException 
@@ -48,6 +49,7 @@ public class Controller extends HttpServlet {
     	// TODO Auto-generated constructor stub
         super();
         try {
+        	
         	movies = new MovieDAO();
         	users = new UserDAO();
         	actors = new ActorDAO();
@@ -83,6 +85,7 @@ public class Controller extends HttpServlet {
 			
 			List<MovieDTO> resSet = movies.findNowShowing();
 			request.setAttribute("movieDeets",  resSet);
+//			request.setAttribute("userInfo");
 			forwardPage = "nowShowing.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);

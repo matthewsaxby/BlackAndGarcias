@@ -42,6 +42,7 @@
               
               
               
+              
             </ul>
             <form class="navbar-form pull-right" action='myProfile.jsp' method='POST'>
               <input class="span2" type="text" placeholder="Username">
@@ -60,6 +61,7 @@
     <div class="container">
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
+      	<li><a href="admin.jsp">Admin</a></li>
         <h1>Welcome to the SMDB!</h1>
         <p>Becoming a member is currently free, click the join now button to become a member now.</p>
         <form action='signup.jsp' method='POST'>

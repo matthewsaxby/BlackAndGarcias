@@ -28,7 +28,6 @@ public class DerbyDAOImpl implements CastDAO {
 		logger.info("Got connection");
 	}
 	
-	@Override
 	public List<CharacterDTO> findAll() {
 		ArrayList<CharacterDTO> cast = new ArrayList<CharacterDTO>();
 		try{
@@ -67,7 +66,6 @@ public class DerbyDAOImpl implements CastDAO {
 	}
 	
 	
-	@Override
 	public void storeComment(CommentDTO comment) {
 		
 		Statement stmnt = null; 
@@ -157,7 +155,6 @@ public class DerbyDAOImpl implements CastDAO {
 		return mvChar;
 	}
 
-	@Override
 	public List<CommentDTO> getComments(String character) {
 		List<CommentDTO> comments = new ArrayList<CommentDTO>();
 		try{

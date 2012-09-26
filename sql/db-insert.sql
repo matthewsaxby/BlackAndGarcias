@@ -7,3 +7,5 @@ insert into movie (title, poster, synopsis, user_rating, rating_count, release_d
 
 insert into actor (first_name, last_name) values ('Peter', 'Smith');
 insert into actor (first_name, last_name) values ('John', 'Rogers');
+
+insert into user_tbl (username, usertype, password, emailaddress) values ('admin', 2, 'admin', 'lachlan.dally@gmail.com');

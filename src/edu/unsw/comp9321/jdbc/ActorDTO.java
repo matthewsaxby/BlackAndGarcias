@@ -1,35 +1,32 @@
 package edu.unsw.comp9321.jdbc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import edu.unsw.comp9321.beans.Movie;
 
 public class ActorDTO {
 	
 	//fields
-	private List<Movie> moviesBeenIn;
+	private List<MovieDTO> moviesBeenIn;
 	private String firstName;
 	private String lastName;
 	
 	public ActorDTO() {
-		moviesBeenIn = new ArrayList<Movie>();
+		moviesBeenIn = new ArrayList<MovieDTO>();
 		firstName = "";
 		lastName = "";
 	}
 	
-	public ActorDTO(List<Movie> movies, String first, String last) {
+	public ActorDTO(List<MovieDTO> movies, String first, String last) {
 		moviesBeenIn = movies;
 		firstName = first;
 		lastName = last;
 	}
 
-	public List<Movie> getMoviesBeenIn() {
+	public List<MovieDTO> getMoviesBeenIn() {
 		return moviesBeenIn;
 	}
 
-	public void setMoviesBeenIn(List<Movie> moviesBeenIn) {
+	public void setMoviesBeenIn(List<MovieDTO> moviesBeenIn) {
 		this.moviesBeenIn = moviesBeenIn;
 	}
 
