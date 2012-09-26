@@ -180,8 +180,8 @@ public class Controller extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("addMovie")){
 			
-			
-			
+//			file upload stuff:
+//			http://stackoverflow.com/questions/2422468/how-to-upload-files-to-server-using-jsp-servlet
 			
 			request.setAttribute("adminResponse", new String("Movie Added!"));
 			forwardPage = "admin.jsp";
