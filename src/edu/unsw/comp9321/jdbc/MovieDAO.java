@@ -250,4 +250,28 @@ public class MovieDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public List<String> getGenres() {
+		List<String> genres = new ArrayList<String>();
+
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "SELECT * FROM movie";
+			ResultSet res = stmnt.executeQuery(query_cast);
+
+			while (res.next()) {
+				String[] genreList = res.getString("genres").split(", ");
+				for (String genre : genreList) {
+					if (genres.indexOf(genre) == -1) {
+					genres.add(genre);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return genres;
+	}
 }

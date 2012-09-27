@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="lib/pop3.jar"/>
 	<classpathentry kind="lib" path="lib/smtp.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -43,24 +43,45 @@ public class UserDAO {
 	//		1) find user via username
 	//		2) get the userid for this row
 	// 		3) update this row of database w/ extra data
-	public void addUserDetails(String username, String password,
+	public void updateUserDetails(String username, String password,
 			String email, String firstName,
 			String lastName, String nickName, int yearOfBirth) {
+		
+		int userToUpdate = 0;
+		
 		try {
-			Statement stmnt = connection.createStatement();
 			
-			String query_cast = "INSERT INTO user_tbl (username, password, emailAddress, firstName, LastName, nickName, yearOfBirth)\n" +
-					"VALUES('" + username + "', '" + password + "', '" + email + "', '" + firstName + "', '" + lastName + "', '" + yearOfBirth + "')";
-			System.out.println(query_cast);
-			stmnt.executeUpdate(query_cast);
+			// find user
+			Statement stmnt = connection.createStatement();
+			String query_cast = "select user_id from user_tbl where username = '" + username + "'";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			logger.info("The result set size is " + res.getFetchSize());
+			while (res.next()) {
+				userToUpdate = res.getInt("user_id");
+			}
+			res.close();
 			stmnt.close();
-
+			
+			// update user
+			if (userToUpdate != 0) {
+				stmnt = connection.createStatement();
+				query_cast = "update user_tbl set username='"+username+"', password='"+password+"', emailAddress='"+email+"', " +
+						"firstName='"+firstName+"', lastName='"+lastName+"', nickName='"+nickName+"', " +
+						"yearOfBirth="+yearOfBirth+" where user_id = " + userToUpdate;
+				stmnt.executeUpdate(query_cast);
+				stmnt.close();
+			}
+				
+				
 		} catch (Exception e) {
 			System.out.println("Caught Exception");
 			e.printStackTrace();
 		}
 		
 	}
+//	"UDPDATE user_tbl " +
+//	"SET (username, password, emailAddress, firstName, LastName, nickName, yearOfBirth)\n" +
+//	"VALUES('" + username + "', '" + password + "', '" + email + "', '" + firstName + "', '" + lastName + "', '" + nickName + "', " + yearOfBirth + ")";
 	
 	
 	public boolean checkUsername(String username) {

@@ -105,7 +105,6 @@ public class Controller extends HttpServlet {
 			
 			List<MovieDTO> resSet = movies.findNowShowing();
 			request.setAttribute("movieDeets",  resSet);
-//			request.setAttribute("userInfo");
 			forwardPage = "nowShowing.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
@@ -173,18 +172,78 @@ public class Controller extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} else if(request.getParameter("action").equals("editProfile")){
+			
+			List<String> errorMessages = new ArrayList<String>();
 			//Get data from form
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-			String confirmPassword = request.getParameter("confirmPassword");
-			String email = request.getParameter("email");
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String nickName = request.getParameter("nickName");
-			int yearOfBirth = Integer.parseInt(request.getParameter("yearOfBirth"));
+			String username = sessionBean.getUser().getUsername();
+			String password;
+			if (request.getParameter("password") != null) {
+				if (!request.getParameter("password").equals(request.getParameter("confirmPassword"))) {
+					errorMessages.add("Passwords dont match.");
+					password = sessionBean.getUser().getPassword();
+				} else {
+					password = request.getParameter("password");
+				}
+			} else {
+				password = sessionBean.getUser().getPassword();
+			}
+			String firstName;
+			if (request.getParameter("firstName") != null) {
+				firstName = request.getParameter("firstName");
+			} else {
+				if (sessionBean.getUser().getFirstName() != null) {
+					firstName = sessionBean.getUser().getFirstName();
+				} else {
+					firstName = null;
+				}
+			}
+			
+			String lastName;
+			if ( request.getParameter("lastName") != null) {
+				lastName = request.getParameter("lastName");
+			} else {
+				if (sessionBean.getUser().getLastName() != null) {
+					lastName = sessionBean.getUser().getLastName();
+				} else {
+					lastName = null;
+				}
+			}
+
+			String email;
+			if ( request.getParameter("email") != null) {
+				email = request.getParameter("email");
+			} else {
+				if (sessionBean.getUser().getEmailAddress() != null) {
+					email = sessionBean.getUser().getEmailAddress();
+				} else {
+					email = null;
+				}
+			}
+			
+			String nickName;
+			if ( request.getParameter("nickName") != null) {
+				nickName = request.getParameter("nickName");
+			} else {
+				if (sessionBean.getUser().getNickName() != null) {
+					nickName = sessionBean.getUser().getNickName();
+				} else {
+					nickName = null;
+				}
+			}
+			
+			int yearOfBirth;
+			if ( Integer.parseInt(request.getParameter("yearOfBirth")) != 0) {
+				yearOfBirth = Integer.parseInt(request.getParameter("yearOfBirth"));
+			} else {
+				if (sessionBean.getUser().getYearOfBirth() != 0) {
+					yearOfBirth = sessionBean.getUser().getYearOfBirth();
+				} else {
+					yearOfBirth = 0;
+				}
+			}
 
 			//send the data to the database
-			users.addUserDetails(username, password, email, firstName, lastName, nickName, yearOfBirth);
+			users.updateUserDetails(username, password, email, firstName, lastName, nickName, yearOfBirth);
 			//send user to confirmation page
 			forwardPage = "editProfileConfirm.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
@@ -241,6 +300,8 @@ public class Controller extends HttpServlet {
 			} else {
 				sessionBean.setUserType(attempedLogin.getUserType());
 				sessionBean.setUser(attempedLogin);
+				sessionBean.setGenreList(movies.getGenres());
+				sessionBean.setActorList(actors.getAll());
 				request.getSession().setAttribute("sessionBean", sessionBean);
 				//TODO: figure out a way to fix this. How do I know which page to redirect 
 				// http://stackoverflow.com/questions/12013707/servlet-forward-response-to-caller-previous-page

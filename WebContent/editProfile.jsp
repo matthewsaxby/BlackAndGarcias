@@ -91,29 +91,31 @@
     	  
     	  <h4>Account Details:</h4>
           <label>Username:</label>
-          <b>${user.username}</b>
+          <b>${sessionBean.user.username}</b>
           <label>Password:</label>
 		  <input type="password" name="password">
           <label>Repeat Password:</label>
 		  <input type="password" name="repeatPassowrd">
 		  <h4>Personal Details:</h4>
 		  <label>Name:</label>
-		  <input type="text" name="firstName" placeholder="${user.firstName}"><input type="text" name="lastName" placeholder="${user.lastName}">
+		  <input type="text" name="firstName" placeholder="${sessionBean.user.firstName}"> <input type="text" name="lastName" placeholder="${sessionBean.user.lastName}">
           <label>Nick Name:</label>
-		  <input type="text" name="nickName" placeholder="${user.nickName}">
+		  <input type="text" name="nickName" placeholder="${sessionBean.user.nickName}">
           <label>Year of Birth:</label>
-		  <input type="text" name="yearOfBirth" placeholder="${user.yearOfBirth}">
+		  <input type="text" name="yearOfBirth" placeholder="${sessionBean.user.yearOfBirth}">
 		  <label>Email Address:</label>
-		  <input type="text" name="emailAddress" placeholder="${user.emailAddress}">
+		  <input type="text" name="emailAddress" placeholder="${sessionBean.user.emailAddress}">
           <label>Favourite Actors:</label>
 		  <select multiple="multiple">
-			<c:forEach items="${actorList}" var="anActor">
+			<c:forEach items="${sessionBean.actorList}" var="anActor">
 				<option><c:out value="${anActor.firstName}" /> <c:out value="${anActor.lastName}" /></option>
 			</c:forEach>
 		  </select>
 		  <label>Favourite Genres:</label>
 		  <select multiple="multiple">
-			<option> to do</option>
+			<c:forEach items="${sessionBean.genreList}" var="genre">
+				<option><c:out value="${genre}" /></option>
+			</c:forEach>
 		  </select>
           
           <p>
