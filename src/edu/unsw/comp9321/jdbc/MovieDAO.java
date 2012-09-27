@@ -111,12 +111,10 @@ public class MovieDAO {
 		for (String genre : genres) {
 			logger.info(genre);
 		}
-		int cinemaId = Integer.parseInt(res.getString("cinema_id"));
-		logger.info(new String("" + cinemaId));
 		
 		movies.add(new MovieDTO(id, title, poster, synopsis,
 				currentUserRating, ratingCount, releaseDate,
-				genres, director, ageRating, cinemaId));
+				genres, director, ageRating));
 	}
 
 	public List<MovieDTO> findNowShowing() {
@@ -155,12 +153,10 @@ public class MovieDAO {
 					for (String genre : genres) {
 						logger.info(genre);
 					}
-					int cinemaId = Integer.parseInt(res.getString("cinema_id"));
-					logger.info(new String("" + cinemaId));
 					System.out.println("size" + movies.size());
 					movies.add(new MovieDTO(id, title, poster, synopsis,
 									currentUserRating, ratingCount, releaseDate,
-									genres, director, ageRating, cinemaId));
+									genres, director, ageRating));
 					if (movies.size() == 10){
 						break;
 					}
@@ -213,12 +209,10 @@ public class MovieDAO {
 					for (String genre : genres) {
 						logger.info(genre);
 					}
-					int cinemaId = Integer.parseInt(res.getString("cinema_id"));
-					logger.info(new String("" + cinemaId));
 					System.out.println("size" + movies.size());
 					movies.add(new MovieDTO(id, title, poster, synopsis,
 									currentUserRating, ratingCount, releaseDate,
-									genres, director, ageRating, cinemaId));
+									genres, director, ageRating));
 					if (movies.size() == 10){
 						break;
 					}
@@ -390,5 +384,53 @@ public class MovieDAO {
 			e.printStackTrace();
 		}
 		return results;
+	}
+
+	public MovieDTO getMovieById(int id) {
+		List<MovieDTO> results = new ArrayList<MovieDTO>();
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "SELECT * FROM movie where movie_id = " + id;
+			ResultSet res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				Date releaseDate = fmt.parse(res.getString("release_date"));
+				Calendar currentDate = Calendar.getInstance();
+				if (releaseDate.before(currentDate.getTime())) {
+					addDBDeets(results, res);
+				}
+			}
+			stmnt.close();
+			res.close();
+			
+			// add actors
+			stmnt = connection.createStatement();
+			query_cast = "select * from actor join movie_actors using (actor_id)";
+			res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				// find matching movie (by movieID
+				for (MovieDTO movie : results) {
+					if (movie.getId() == res.getInt("movie_id")) {
+						String firstName = res.getString("first_name");
+						String lastName = res.getString("last_name");
+						ActorDTO actor = new ActorDTO(firstName, lastName);
+						movie.addActor(actor);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		if (results.size()!=0) {
+			return results.get(0);
+		} else {
+			return null;
+		}
 	}
 }

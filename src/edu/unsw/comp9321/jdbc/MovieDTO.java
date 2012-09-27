@@ -27,12 +27,11 @@ public class MovieDTO {
 	private String director;
 	private String ageRating;
 	private List<ActorDTO> actors;
-	private int cinemaId;
 	
 	
 	public MovieDTO(int id, String title, String poster, String movieSynopsis,
 			double currentUserRating, int ratingCount, Date releaseDate,
-			String[] genres, String director, String ageRating, int cinemaId) {
+			String[] genres, String director, String ageRating) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -44,7 +43,6 @@ public class MovieDTO {
 		this.genres = genres;
 		this.director = director;
 		this.ageRating = ageRating;
-		this.cinemaId = cinemaId;
 		actors = new ArrayList<ActorDTO>();
 	}
 
@@ -149,16 +147,6 @@ public class MovieDTO {
 
 	public void setAgeRating(String ageRating) {
 		this.ageRating = ageRating;
-	}
-
-
-	public int getCinemaId() {
-		return cinemaId;
-	}
-
-
-	public void setCinemaId(int cinemaId) {
-		this.cinemaId = cinemaId;
 	}
 
 }

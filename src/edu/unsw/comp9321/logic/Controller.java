@@ -26,6 +26,7 @@ import edu.unsw.comp9321.jdbc.ActorDAO;
 import edu.unsw.comp9321.jdbc.ActorDTO;
 import edu.unsw.comp9321.jdbc.CastDAO;
 import edu.unsw.comp9321.jdbc.CinemaDAO;
+import edu.unsw.comp9321.jdbc.CinemaDTO;
 import edu.unsw.comp9321.jdbc.CommentDTO;
 import edu.unsw.comp9321.jdbc.DerbyDAOImpl;
 import edu.unsw.comp9321.jdbc.MovieDAO;
@@ -342,6 +343,29 @@ public class Controller extends HttpServlet {
 			
 			
 			forwardPage = "advancedSearch.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		} else if (request.getParameter("action").equals("details")) {
+			String targetPage = request.getParameter("viewDetailsOnMovie");
+			
+			// find the movie that details have been requested for
+			MovieDTO targetMovie = movies.getMovieById(Integer.parseInt(targetPage));
+//			CinemaDTO targetCinema = cinemas.getCinemaByID(targetMovie.getCinemaId());
+			// set this as session data so the details page can access it.
+			request.setAttribute("targetMovie", targetMovie);
+//			request.setAttribute("targetCinema", targetCinema);
+			
+			// need actor + cinema data too
+			
+			forwardPage = "details.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		} else if (request.getParameter("action").equals("mapMtoC")) {
+
+			// set session attribute w/ coming soon movieDTO list
+			// set session attribute w/ all cinemas
+			
+			forwardPage = "mapMtoC.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} 

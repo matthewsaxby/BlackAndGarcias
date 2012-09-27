@@ -7,7 +7,7 @@
 	scope="session" />
 <html>
 <head>
-<title>Advanced Search</title>
+<title>Admin Options</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -43,7 +43,7 @@
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="details.jsp" />
+	            		<input type="hidden" name="source" value="index.jsp" />
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -51,7 +51,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="details.jsp" />
+	            	<input type="hidden" name="source" value="admin.jsp" />
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -61,53 +61,59 @@
         </div>
       </div>
     </div>
+
     
     
-  <div class="container">
     
-    <c:if test="${targetMovie==null}">
     <div class="container">
-		<!-- if there are no results to serve, then it's searchin' time -->
+    
+    <c:if test="${sessionBean.userType!=2}">
 		<div class="hero-unit">
-			<h1>Oh Dear! No Details on this film yet.</h1>
+			<h1> Sorry! You aren't allowed to view this page :( </h1>
 		</div>
-	</div>
-    </c:if>
-     <c:if test="${targetMovie!=null}">
-    <div class="container">
-		<!-- if there are no results to serve, then it's searchin' time -->
-		<div class="hero-unit">
-			<div class="row">
-				<div class="span6">
-					<h2><c:out value="${targetMovie.title}" /></h2>
-					<p><c:out value="${targetMovie.movieSynopsis}" /> <br /></p>
-					<p><b>Current User Rating: </b> <c:out value="${targetMovie.currentUserRating}" /> <br /></p>
-					<p><b>Number of Reviews: </b> <c:out value="${targetMovie.ratingCount}" /> <br /></p>
-					<p><b>Release Date: </b> <c:out value="${targetMovie.releaseDate}" /> <br /></p>
-					<p><b>Genres: </b><br>
-					<c:forEach items="${targetMovie.genres}" var="genre"> 
-						<c:out value="${genre}" /> 
-					</c:forEach> <br></p>
-					<p><b>Director: </b> <c:out value="${targetMovie.director}" /> <br /></p>
-					<p><b>Age Rating: </b> <c:out value="${targetMovie.ageRating}" /> <br /></p>
-					<p><b>Actors: </b> <br>
-					<c:forEach items="${targetMovie.actors}" var="actor"> 
-						<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" />
-					</c:forEach> <br></p>
-				</div>
-				<div class="span3">
-					<img src="/BlackAndGarcias/<c:out value="${targetMovie.poster}" />" alt="property_image"/>
-				</div>
-			</div>
-		</div>
-	</div>
-	 </c:if>
+	</c:if>
+	
+	<c:if test="${sessionBean.userType==2}">
+    
+	   
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+      	hlleo?
+      	
+		<script language="javascript">
+		fields = 0;
+		function addInput() {
+		if (fields != 10) {
+		document.getElementById('text').innerHTML += "<input type='file' value='' /><br />";
+		fields += 1;
+		} else {
+		document.getElementById('text').innerHTML += "<br />Only 10 upload fields allowed.";
+		document.form.add.disabled=true;
+		}
+		}
+		</script>
+		<form name="form">
+		<input type="button" onclick="addInput()" name="add" value="Add input field" />
+		</form>
+		<div id="text">
 		
+		</div>
+
+
+		
+      		
+      </div>
+       
+
+
+
+	</c:if>
+
 
       <footer>
         <p>&copy; Sydney Movie Database 2012</p>
       </footer>
-	</div> <!-- /container -->
+</div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->

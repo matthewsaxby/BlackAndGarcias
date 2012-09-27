@@ -131,8 +131,10 @@
         </form>
       </div>
        <div class="hero-unit">
-      	<h2><a href="mapMtoC.jsp" >Associate a movie with a cinema</a></h2>      	
-
+      	<form action="controller" method="POST" >
+			<input type="hidden" name="action" value="mapMtoC">    
+			<input type='submit' class="btn btn" value='Map Movie to Cinemas'>  	
+      	</form>  
       </div>
 
 

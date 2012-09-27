@@ -48,8 +48,7 @@ create table movie (
 	release_date date,
 	director varchar(50),
 	age_rating varchar(50),
-	genres long varchar,
-	cinema_id int constraint cinema_fk0 references cinema
+	genres long varchar
 );
 
 create table movie_actors (
