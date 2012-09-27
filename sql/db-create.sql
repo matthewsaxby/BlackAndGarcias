@@ -33,9 +33,9 @@ create table actor (
 create table cinema (
 	cinema_id int not null generated always as identity constraint cinema_pk primary key,
 	name varchar(50),
-	address varchar(50),
+	address varchar(100),
 	seating_capacity int,
-	facilities varchar(100)
+	facilities varchar(250)
 );
 
 create table movie (

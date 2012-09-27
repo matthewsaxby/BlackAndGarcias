@@ -19,6 +19,7 @@ import edu.unsw.comp9321.exception.EmptyResultException;
 import edu.unsw.comp9321.jdbc.ActorDAO;
 import edu.unsw.comp9321.jdbc.ActorDTO;
 import edu.unsw.comp9321.jdbc.CastDAO;
+import edu.unsw.comp9321.jdbc.CinemaDAO;
 import edu.unsw.comp9321.jdbc.CommentDTO;
 import edu.unsw.comp9321.jdbc.DerbyDAOImpl;
 import edu.unsw.comp9321.jdbc.MovieDAO;
@@ -41,6 +42,7 @@ public class Controller extends HttpServlet {
 	private ActorDAO actors;
 	private UserDAO users;
 	private UserDTO currentUser;
+	private CinemaDAO cinemas;
 	private SessionBean sessionBean;
        
     /**
@@ -56,6 +58,7 @@ public class Controller extends HttpServlet {
         	users = new UserDAO();
         	actors = new ActorDAO();
 			cast = new DerbyDAOImpl();
+			cinemas = new CinemaDAO();
 		} catch (ServiceLocatorException e) {
 			logger.severe("Trouble connecting to database "+e.getStackTrace());
 			throw new ServletException();
@@ -173,6 +176,12 @@ public class Controller extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("addCinema")){
+			String name = request.getParameter("name");
+			String location = request.getParameter("location");
+			int capacity = Integer.parseInt(request.getParameter("capacity"));
+			String[] amenities = request.getParameterValues("amenities");
+			
+			cinemas.addCinema(name, location, capacity, amenities);
 			
 			request.setAttribute("adminResponse", new String("Cinema Added!"));
 			forwardPage = "admin.jsp";

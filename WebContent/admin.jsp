@@ -78,21 +78,22 @@
       	<h2>Add Cinema:</h2>
 		<form action='controller' method='POST'>
 			<input type="hidden" name="action" value="addCinema">
-          	<label> Location: </label>
+          	<label> Name: </label>
+            <input type="text" name="name" >
+            <label> Location: </label>
             <input type="text" name="location" >
             <label> Seating Capacity: </label>
             <input type="text" name="capacity">
             <label>Amenities: </label>
-            <select name="amenities" multiple="multiple">
-          		<option value="popcorn">Popcorn</option>
-          		<option value="atms">ATMs</option>
-          		<option value="snackbar">Snack Bar</option>
-				<option value="restaurant">Restaurant</option>
-				<option value="3d">3D</option>
-				<option value="disabled">Disabled Access</option>
-				<option value="beanbags">Bean Bags</option>
-				<option value="silent">Silent Cinema</option>
-          	</select><br>
+       		<input type="checkbox" name="amenities" value="popcorn">Popcorn<br>
+       		<input type="checkbox" name="amenities" value="atms">ATMs<br>
+       		<input type="checkbox" name="amenities" value="snackbar">Snack Bar<br>
+			<input type="checkbox" name="amenities" value="restaurant">Restaurant<br>
+			<input type="checkbox" name="amenities" value="3d">3D<br>
+			<input type="checkbox" name="amenities" value="disabled">Disabled Access<br>
+			<input type="checkbox" name="amenities" value="beanbags">Bean Bags<br>
+			<input type="checkbox" name="amenities" value="silent">Silent Cinema<br>
+			<br>
           	<input type='submit' class="btn" value='Add Cinema'>
         </form>
       </div>
