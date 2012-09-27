@@ -27,7 +27,7 @@ public class UserDAO {
 		try {
 			Statement stmnt = connection.createStatement();
 			
-			String query_cast = "INSERT INTO user_tbl (username, usertype, password, emailAddress)\nVALUES('" + username + "', '" + userType +  "', '" + password + "', '" + email + "')";
+			String query_cast = "INSERT INTO user_tbl (username, usertype, password, emailAddress)\nVALUES('" + username + "', " + userType +  ", '" + password + "', '" + email + "')";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();

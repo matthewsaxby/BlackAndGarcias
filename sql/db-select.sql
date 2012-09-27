@@ -14,3 +14,5 @@ select * from actor;
 SELECT * FROM movie join movie_actors using (movie_id) order by movie_id;
 
 select * from actor join movie_actors using (actor_id);
+
+select * from actor join movie_actors using (actor_id) where movie_id = 2;

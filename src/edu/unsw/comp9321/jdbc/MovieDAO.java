@@ -10,7 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import edu.unsw.comp9321.common.ServiceLocatorException;
@@ -304,6 +306,7 @@ public class MovieDAO {
 			ResultSet res;
 			//search actors
 			ArrayList<Integer> movieIdsToAdd = new ArrayList<Integer>();
+			List<String> actorToMovie = new ArrayList<String>();
 			if (actor != null && actor.length() > 0 ) {
 				stmnt = connection.createStatement();
 				query_cast = "select * from actor join movie_actors using (actor_id)";
@@ -311,7 +314,7 @@ public class MovieDAO {
 				while (res.next()) {
 					if (res.getString("first_name").equals(actor.split(" ")[0])) {
 						if (res.getString("last_name").equals(actor.split(" ")[1])) {
-							movieIdsToAdd.add(res.getInt("movie_id"));
+							actorToMovie.add(actor + "=" + res.getInt("movie_id"));
 						}
 					}
 				}
@@ -323,26 +326,48 @@ public class MovieDAO {
 			query_cast = "SELECT * FROM movie";
 			res = stmnt.executeQuery(query_cast);
 			while (res.next()) {
+				boolean addFlag = true;
 				if (title != null && title.length() > 0) {
-					if (res.getString("title").matches(title)) {
-						movieIdsToAdd.add(res.getInt("movie_id"));
+					if (!res.getString("title").toLowerCase().contains(title.toLowerCase())) {
+						addFlag = false;
 					} 
 				}
+				if (actor != null && actor.length() > 0 ) {
+					boolean actorFlag = false;
+					for (String line : actorToMovie) {
+						if (Integer.parseInt(line.split("=")[1]) == res.getInt("movie_id")) {
+							if (actor.equals(line.split("=")[0])) {
+								actorFlag = true;
+							}
+						}
+					}
+					if (!actorFlag) {
+						addFlag = false;
+					}
+				}
+				
 				if (genre != null && genre.length() > 0) {
+					boolean genreFlag = false;
 					String[] genreList = res.getString("genres").split(", ");
 					for (String moviesGenre : genreList) {
 						if (moviesGenre.toLowerCase().equals(genre.toLowerCase())) {
-							movieIdsToAdd.add(res.getInt("movie_id"));
+							genreFlag = true;
 						}
+					}
+					if (!genreFlag) {
+						addFlag = false;
 					}
 				}
 				if (yearRange != null && yearRange.length() > 0) {
 					int year = Integer.parseInt(res.getString("release_date").substring(0, 4));
 					int start = Integer.parseInt(yearRange.substring(0, 4));
 					int end = Integer.parseInt(yearRange.substring(5, 9));
-					if (year >= start && year <= end) {
-						movieIdsToAdd.add(res.getInt("movie_id"));
+					if (year <= start || year >= end) {
+						addFlag = false;
 					}
+				}
+				if (addFlag) {
+					movieIdsToAdd.add(res.getInt("movie_id"));
 				}
 			}
 			res.close();

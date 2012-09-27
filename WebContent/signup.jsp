@@ -89,7 +89,7 @@
 		  <label>Email Address:</label>
 		  <input type="text" name="email">
 		  <label>Repeat Email Address:</label>
-		  <input type="text" name="confrimEmail">
+		  <input type="text" name="confirmEmail">
           <p>
           <input type='submit' class="btn-primary btn-large" value='Submit &raquo'>
         </form>

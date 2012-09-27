@@ -308,7 +308,7 @@ public class Controller extends HttpServlet {
 				dispatcher.forward(request, response);
 			}
 		} else if (request.getParameter("action").equals("logout")) {
-			forwardPage = request.getParameter("source");
+			forwardPage = "index.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			request.getSession().invalidate();
 			dispatcher.forward(request, response);
