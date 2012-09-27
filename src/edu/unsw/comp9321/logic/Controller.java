@@ -332,7 +332,6 @@ public class Controller extends HttpServlet {
 			
 			forwardPage = "advancedSearch.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-			request.getSession().invalidate();
 			dispatcher.forward(request, response);
 		} 
 	}
