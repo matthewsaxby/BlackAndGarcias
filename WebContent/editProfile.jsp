@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="edu.unsw.comp9321.logic.*, java.util.*"%>
+<%@ page import="edu.unsw.comp9321.logic.*, edu.unsw.comp9321.jdbc.*, java.util.*"%>
 <jsp:useBean id="sessionBean" class="edu.unsw.comp9321.beans.SessionBean"
 	scope="session" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -80,49 +80,59 @@
 	</c:if>
 	<c:if test="${sessionBean.userType>0}">
     
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>Edit Your Profile</h1>
-        <p>Change your details below</p>
-        <p>	</p>
-        <br>
-        <form action='controller' method='POST'>
-    	  <input type="hidden" name="action" value="editProfile">
-    	  
-    	  <h4>Account Details:</h4>
-          <label>Username:</label>
-          <b>${sessionBean.user.username}</b>
-          <label>Password:</label>
-		  <input type="password" name="password">
-          <label>Repeat Password:</label>
-		  <input type="password" name="repeatPassowrd">
-		  <h4>Personal Details:</h4>
-		  <label>Name:</label>
-		  <input type="text" name="firstName" placeholder="${sessionBean.user.firstName}"> <input type="text" name="lastName" placeholder="${sessionBean.user.lastName}">
-          <label>Nick Name:</label>
-		  <input type="text" name="nickName" placeholder="${sessionBean.user.nickName}">
-          <label>Year of Birth:</label>
-		  <input type="text" name="yearOfBirth" placeholder="${sessionBean.user.yearOfBirth}">
-		  <label>Email Address:</label>
-		  <input type="text" name="emailAddress" placeholder="${sessionBean.user.emailAddress}">
-          <label>Favourite Actors:</label>
-		  <select multiple="multiple">
-			<c:forEach items="${actorList}" var="anActor">
-				<option><c:out value="${anActor.firstName}" /> <c:out value="${anActor.lastName}" /></option>
-			</c:forEach>
-		  </select>
-		  <label>Favourite Genres:</label>
-		  <select multiple="multiple">
-			<c:forEach items="${genreList}" var="genre">
-				<option><c:out value="${genre}" /></option>
-			</c:forEach>
-		  </select>
-          
-          <p>
-          <input type='submit' class="btn-primary btn-large" value='Update'>
-        </form>
-        
-      </div>
+    	<c:if test="${state>0}">
+	      <div class="hero-unit">
+	        <h1>Your Details have been updated</h1>
+	        <p>Thankyou for keeping your profile up to date</p>
+	      </div>
+		</c:if>
+
+   		<c:if test="${state==0}">
+	      <!-- Main hero unit for a primary marketing message or call to action -->
+	      <div class="hero-unit">
+	        <h1>Edit Your Profile</h1>
+	        <p>Change your details below</p>
+	        <p>	</p>
+	        <br>
+	        <form action='controller' method='POST'>
+	    	  <input type="hidden" name="action" value="editProfile">
+	    	  <input type="hidden" name="state" value="1">
+	    	  
+	    	  <h4>Account Details:</h4>
+	          <label>Username:</label>
+	          <b>${sessionBean.user.username}</b>
+	          <label>Password:</label>
+			  <input type="password" name="password">
+	          <label>Repeat Password:</label>
+			  <input type="password" name="repeatPassowrd">
+			  <h4>Personal Details:</h4>
+			  <label>Name:</label>
+			  <input type="text" name="firstName" placeholder="${sessionBean.user.firstName}"> <input type="text" name="lastName" placeholder="${sessionBean.user.lastName}">
+	          <label>Nick Name:</label>
+			  <input type="text" name="nickName" placeholder="${sessionBean.user.nickName}">
+	          <label>Year of Birth:</label>
+			  <input type="text" name="yearOfBirth" placeholder="${sessionBean.user.yearOfBirth}">
+			  <label>Email Address:</label>
+			  <input type="text" name="emailAddress" placeholder="${sessionBean.user.emailAddress}">
+	          <label>Favourite Actors:</label>
+			  <select multiple="multiple">
+				<c:forEach items="${actorList}" var="anActor">
+					<option><c:out value="${anActor.firstName}" /> <c:out value="${anActor.lastName}" /></option>
+				</c:forEach>
+			  </select>
+			  <label>Favourite Genres:</label>
+			  <select multiple="multiple">
+				<c:forEach items="${genreList}" var="genre">
+					<option><c:out value="${genre}" /></option>
+				</c:forEach>
+			  </select>
+	          
+	          <p>
+	          <input type='submit' class="btn-primary btn-large" value='Update'>
+	        </form>
+	        
+	      </div>
+      </c:if>
 
 	</c:if>
       

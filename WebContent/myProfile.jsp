@@ -87,7 +87,7 @@
         
         <h2>Change my details</h2>
         <p>Click the button below to change your personal details</p>
-        <form action='editProfile.jsp' method='GET'>
+        <form action='controller' method='POST'>
         <input type="hidden" name="action" value="editProfile">
         <input type='submit' class="btn btn-primary" value='Edit Details &raquo'>
         </form>

@@ -174,80 +174,91 @@ public class Controller extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} else if(request.getParameter("action").equals("editProfile")){
+			int state;
+			if (request.getParameter("state") == null) {
+				state = 0;
+				request.setAttribute("state", state);
+			} else {
+				state = Integer.parseInt(request.getParameter("state"));
+				request.setAttribute("state", state);
+			}
 			
-			List<String> errorMessages = new ArrayList<String>();
-			//Get data from form
-			String username = sessionBean.getUser().getUsername();
-			String password;
-			if (request.getParameter("password") != null) {
-				if (!request.getParameter("password").equals(request.getParameter("confirmPassword"))) {
-					errorMessages.add("Passwords dont match.");
+			if (state > 0) {
+				List<String> errorMessages = new ArrayList<String>();
+				//Get data from form
+				String username = sessionBean.getUser().getUsername();
+				String password;
+				if (request.getParameter("password") != "" && request.getParameter("password") != null) {
+					if (!request.getParameter("password").equals(request.getParameter("confirmPassword"))) {
+						errorMessages.add("Passwords dont match.");
+						password = sessionBean.getUser().getPassword();
+					} else {
+						password = request.getParameter("password");
+					}
+				} else {
 					password = sessionBean.getUser().getPassword();
-				} else {
-					password = request.getParameter("password");
 				}
-			} else {
-				password = sessionBean.getUser().getPassword();
-			}
-			String firstName;
-			if (request.getParameter("firstName") != null) {
-				firstName = request.getParameter("firstName");
-			} else {
-				if (sessionBean.getUser().getFirstName() != null) {
-					firstName = sessionBean.getUser().getFirstName();
+				String firstName;
+				if (request.getParameter("firstName") != "" && request.getParameter("firstName") != null) {
+					firstName = request.getParameter("firstName");
 				} else {
-					firstName = null;
+					if (sessionBean.getUser().getFirstName() != null) {
+						firstName = sessionBean.getUser().getFirstName();
+					} else {
+						firstName = null;
+					}
 				}
-			}
-			
-			String lastName;
-			if ( request.getParameter("lastName") != null) {
-				lastName = request.getParameter("lastName");
-			} else {
-				if (sessionBean.getUser().getLastName() != null) {
-					lastName = sessionBean.getUser().getLastName();
+				
+				String lastName;
+				if ( request.getParameter("lastName") != "" && request.getParameter("lastName") != null) {
+					lastName = request.getParameter("lastName");
 				} else {
-					lastName = null;
+					if (sessionBean.getUser().getLastName() != null) {
+						lastName = sessionBean.getUser().getLastName();
+					} else {
+						lastName = null;
+					}
 				}
-			}
-
-			String email;
-			if ( request.getParameter("email") != null) {
-				email = request.getParameter("email");
-			} else {
-				if (sessionBean.getUser().getEmailAddress() != null) {
-					email = sessionBean.getUser().getEmailAddress();
+	
+				String email;
+				if ( request.getParameter("emailAddress") != "" && request.getParameter("emailAddress") != null) {
+					email = request.getParameter("emailAddress");
 				} else {
-					email = null;
+					if (sessionBean.getUser().getEmailAddress() != null) {
+						email = sessionBean.getUser().getEmailAddress();
+					} else {
+						email = null;
+					}
 				}
-			}
-			
-			String nickName;
-			if ( request.getParameter("nickName") != null) {
-				nickName = request.getParameter("nickName");
-			} else {
-				if (sessionBean.getUser().getNickName() != null) {
-					nickName = sessionBean.getUser().getNickName();
+				
+				String nickName;
+				if ( request.getParameter("nickName") != "" && request.getParameter("nickName") != null) {
+					nickName = request.getParameter("nickName");
 				} else {
-					nickName = null;
+					if (sessionBean.getUser().getNickName() != null) {
+						nickName = sessionBean.getUser().getNickName();
+					} else {
+						nickName = null;
+					}
 				}
-			}
-			
-			int yearOfBirth;
-			if ( Integer.parseInt(request.getParameter("yearOfBirth")) != 0) {
-				yearOfBirth = Integer.parseInt(request.getParameter("yearOfBirth"));
-			} else {
-				if (sessionBean.getUser().getYearOfBirth() != 0) {
-					yearOfBirth = sessionBean.getUser().getYearOfBirth();
+				
+				int yearOfBirth;
+				if (request.getParameter("yearOfBirth") != "" && request.getParameter("yearOfBirth") != null) {
+					yearOfBirth = Integer.parseInt(request.getParameter("yearOfBirth"));
 				} else {
-					yearOfBirth = 0;
+					if (sessionBean.getUser().getYearOfBirth() != 0) {
+						yearOfBirth = sessionBean.getUser().getYearOfBirth();
+					} else {
+						yearOfBirth = 0;
+					}
 				}
+	
+				//send the data to the database
+				users.updateUserDetails(username, password, email, firstName, lastName, nickName, yearOfBirth);
+				sessionBean.setUser(users.getUserDetails(username));
 			}
-
-			//send the data to the database
-			users.updateUserDetails(username, password, email, firstName, lastName, nickName, yearOfBirth);
 			//send user to confirmation page
-			forwardPage = "editProfileConfirm.jsp";
+			forwardPage = "editProfile.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} else if(request.getParameter("action").equals("viewProfile")){
