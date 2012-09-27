@@ -2,6 +2,9 @@ package edu.unsw.comp9321.logic;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.DefaultFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.FileItem;
 
 import edu.unsw.comp9321.beans.SessionBean;
 import edu.unsw.comp9321.common.ServiceLocatorException;
@@ -44,7 +50,15 @@ public class Controller extends HttpServlet {
 	private UserDTO currentUser;
 	private CinemaDAO cinemas;
 	private SessionBean sessionBean;
+	
+	DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
        
+	// upload stuff
+	private static final String UPLOAD_DIRECTORY = "images";
+	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3;    // 3MB
+	private static final int MAX_FILE_SIZE = 1024 * 1024 * 40;    // 40MB
+	private static final int REQUEST_SIZE = 1024 * 1024 * 50;    // 50MB
+	
     /**
      * @throws ServletException 
      * @see HttpServlet#HttpServlet()
@@ -189,6 +203,20 @@ public class Controller extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("addMovie")){
 			
+			String title = request.getParameter("title");
+			String actors = request.getParameter("actors");
+			String genres = request.getParameter("genres");
+			String director = request.getParameter("director");
+			String synopsis = request.getParameter("synopsis");
+			String ageRating = request.getParameter("agerating");
+			Date releaseDate = null;
+			try {
+				releaseDate = fmt.parse(request.getParameter("releasedate"));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			
 //			file upload stuff:
 //			http://stackoverflow.com/questions/2422468/how-to-upload-files-to-server-using-jsp-servlet
 			
@@ -213,27 +241,12 @@ public class Controller extends HttpServlet {
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 				dispatcher.forward(request, response);
 			}
+		} else if (request.getParameter("action").equals("logout")) {
+			forwardPage = request.getParameter("source");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			request.getSession().invalidate();
+			dispatcher.forward(request, response);
 		}
-		/*String forwardPage = "";
-		String action = request.getParameter("action");
-		String character = request.getParameter("character");
-		try{
-			if(action.equals("character")){
-				request.setAttribute("mcharacter", cast.findChar(character));
-				request.setAttribute("character", character);
-				forwardPage = "cast.jsp";
-			}else if(action.equals("comments")){
-				request.setAttribute("comments", cast.getComments(character));
-				request.setAttribute("character", character);
-				forwardPage ="comments.jsp";
-			}else if(action.equals("postcomment"))
-				forwardPage = handlePostcomment(request,response);
-			else forwardPage = "error.jsp";
-		}catch(EmptyResultException e){
-			forwardPage = "error.jsp";
-		}
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-		dispatcher.forward(request, response);*/
 	}
 	
 	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){

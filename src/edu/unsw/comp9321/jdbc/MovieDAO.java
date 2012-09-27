@@ -235,4 +235,19 @@ public class MovieDAO {
 		return movies;
 	}
 
+	public void addMovieAndActors(String title, String actors, String director, String genres, String synopsis, String ageRating, String releaseDate) {
+		
+		try {
+			Statement stmnt = connection.createStatement();
+			
+			String query_cast = null; // "INSERT INTO movie (title, address, seating_capacity, facilities)\nVALUES('" + name + "', '" + location +  "', " + capacity + ", '" + facilities + "')";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+
+		} catch (Exception e) {
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+	}
 }

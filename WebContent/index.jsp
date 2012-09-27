@@ -42,18 +42,24 @@
               <li><a href="movieSearch.jsp">Search</a></li>
               <li><a href="nowShowing.jsp">Now Showing</a></li>
               <li><a href="comingSoon.jsp">Coming Soon</a></li>
-              
-              
-              
-              
-            </ul>
-            <form class="navbar-form pull-right" action='controller' method='POST'>
-            	<input type="hidden" name="action" value="login" />
-            	<input type="hidden" name="source" value="index.jsp" />
-              <input class="span2" type="text" name="username" placeholder="Username">
-              <input class="span2" type="password" name="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
-            </form>
+              <c:if test="${sessionBean.userType>0}">
+			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
+			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
+			  			<input type="hidden" name="action" value="logout" />
+	            		<input type="hidden" name="source" value="index.jsp" />
+	            		<button type="submit" class="btn">Logout</button>
+            		</form>
+	    	  </c:if>
+    		</ul>
+    		<c:if test="${sessionBean.userType==0}">
+	            <form class="navbar-form pull-right" action='controller' method='POST'>
+	            	<input type="hidden" name="action" value="login" />
+	            	<input type="hidden" name="source" value="index.jsp" />
+	              <input class="span2" type="text" name="username" placeholder="Username">
+	              <input class="span2" type="password" name="password" placeholder="Password">
+	              <button type="submit" class="btn">Sign in</button>
+	            </form>
+            </c:if>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -65,16 +71,6 @@
     
     <div class="container">
     
-    	<c:if test="${sessionBean.userType>0}">
-    		<div class="container">
-				<div class="row show-grid">
-					<div class="span9">
-						<p> Welcome, <c:out value="${sessionBean.user.username}" /> </p>
-					</div>
-				</div>
-			</div>
-    	</c:if>
-    	
     	<c:if test="${failedLogin!=null}">
 			<div class="container">
 				<div class="row show-grid">

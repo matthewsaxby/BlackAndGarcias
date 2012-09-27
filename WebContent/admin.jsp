@@ -22,15 +22,7 @@
 </head>
 <body>
 
-<c:if test="${sessionBean.userType!=2}">
-	<div class="container">
-		<div class="hero-unit">
-			<h1> Sorry! You aren't allowed to view this page :( </h1>
-		</div>
-	</div>
-</c:if>
 
-<c:if test="${sessionBean.userType==2}">
 <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -47,16 +39,24 @@
               <li><a href="movieSearch.jsp">Search</a></li>
               <li><a href="nowShowing.jsp">Now Showing</a></li>
               <li><a href="comingSoon.jsp">Coming Soon</a></li>
-              
-              
-              
-              
-            </ul>
-            <form class="navbar-form pull-right" action='myProfile.jsp' method='POST'>
-              <input class="span2" type="text" placeholder="Username">
-              <input class="span2" type="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
-            </form>
+            <c:if test="${sessionBean.userType>0}">
+			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
+			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
+			  			<input type="hidden" name="action" value="logout" />
+	            		<input type="hidden" name="source" value="admin.jsp" />
+	            		<button type="submit" class="btn">Logout</button>
+            		</form>
+	    	  </c:if>
+    		</ul>
+    		<c:if test="${sessionBean.userType==0}">
+	            <form class="navbar-form pull-right" action='controller' method='POST'>
+	            	<input type="hidden" name="action" value="login" />
+	            	<input type="hidden" name="source" value="admin.jsp" />
+	              <input class="span2" type="text" name="username" placeholder="Username">
+	              <input class="span2" type="password" name="password" placeholder="Password">
+	              <button type="submit" class="btn">Sign in</button>
+	            </form>
+            </c:if>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -66,6 +66,16 @@
     
     
     <div class="container">
+    
+    <c:if test="${sessionBean.userType!=2}">
+		<div class="container">
+			<div class="hero-unit">
+				<h1> Sorry! You aren't allowed to view this page :( </h1>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test="${sessionBean.userType==2}">
     
 	   	<c:if test="${adminResponse!=null}">
 	  		 <div class="hero-unit">
@@ -116,7 +126,7 @@
             <label> Age Rating: </label>
             <input type="text" name="agerating" >
             <label> Release Date: (YYYY-MM-DD)</label>
-            <input type="text" name="releasedate" >
+            <input type="text" name="releasedate" ><br>
           	<input type='submit' class="btn" value='Add movie'>
         </form>
       </div>
@@ -127,14 +137,14 @@
 
 
 
-
+		</c:if>
 
 
       <footer>
         <p>&copy; Sydney Movie Database 2012</p>
       </footer>
 </div> <!-- /container -->
-</c:if>
+
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

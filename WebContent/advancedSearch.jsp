@@ -1,15 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="edu.unsw.comp9321.logic.*, java.util.*"%>
+<%@ page import="edu.unsw.comp9321.jdbc.*, java.util.*"%>
 <jsp:useBean id="sessionBean" class="edu.unsw.comp9321.beans.SessionBean"
 	scope="session" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
-
 <head>
-<title>My Profile</title>
+<title>Admin Options</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -22,9 +20,8 @@
 
 
 </head>
-
-
 <body>
+
 
 <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -38,15 +35,15 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="index.jsp">Home</a></li>
-              <li><a href="myProfile.jsp">My Profile</a></li>			<%-- only show this is someone is logged in--%>
-              <li><a href="advancedSearch.jsp">Search</a></li>
+              <li><a href="myProfile.jsp">My Profile</a></li>			<%-- only show this if someone is logged in--%>
+              <li><a href="movieSearch.jsp">Search</a></li>
               <li><a href="nowShowing.jsp">Now Showing</a></li>
               <li><a href="comingSoon.jsp">Coming Soon</a></li>
             <c:if test="${sessionBean.userType>0}">
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="myProfile.jsp" />
+	            		<input type="hidden" name="source" value="admin.jsp" />
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -54,7 +51,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="myProfile.jsp" />
+	            	<input type="hidden" name="source" value="admin.jsp" />
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -68,55 +65,15 @@
     
     
     
-    
     <div class="container">
-    
-    <c:if test="${sessionBean.userType==0}">
-		<div class="container">
-			<div class="hero-unit">
-				<h1> Sorry! You aren't allowed to view this page :( </h1>
-			</div>
-		</div>
-	</c:if>
-	<c:if test="${sessionBean.userType>0}">
-    
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>My Profile</h1>
-        <p>Its all about you</p>
-        
-        <h2>Change my details</h2>
-        <p>Click the button below to change your personal details</p>
-        <form action='controller' method='POST'>
-        <input type="hidden" name="action" value="editProfile">
-        <input type='submit' class="btn btn-primary" value='Edit Details &raquo'>
-        </form>
-        
-        <h2>View my bookings</h2>
-        <p>Click the button below to view bookings that you have made</p>
-        <form action='controller' method='POST'>
-        <input type="hidden" name="action" value="viewBookings">
-        <input type='submit' class="btn btn-primary" value='View Bookings &raquo'>
-        </form>
-        
-        <h2>View suggested movies</h2>
-        <p>Click the button below to view movies that are recommended for you to watch</p>
-        <form action='controller' method='POST'>
-        <input type="hidden" name="action" value="seeRecommendation">
-        <input type='submit' class="btn btn-primary" value='See recommendations &raquo'>
-        </form>
-        
-      </div>
 
-		</c:if>
-      
+		    
+
 
       <footer>
         <p>&copy; Sydney Movie Database 2012</p>
       </footer>
-      
-      
-</div> <!-- /container -->
+	</div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
