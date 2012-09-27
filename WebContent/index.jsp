@@ -82,22 +82,23 @@
 		</c:if>
 		
 		<!-- Main hero unit for a primary marketing message or call to action -->
+      <c:if test="${sessionBean.user==null}">
+      	<div class="hero-unit">
+	      	
+	        <h1>Welcome to the SMDB!</h1>
+	        <p>Becoming a member is currently free, click the join now button to become a member now.</p>
+	        <form action='signup.jsp' method='POST'>
+	        <input type='submit' class="btn btn-primary btn-large" value='Join Now &raquo'>
+	        </form>
+	      </div>
+		</c:if>
+      
+
       <div class="hero-unit">
-      	<li><a href="admin.jsp">Admin</a></li>
-        <h1>Welcome to the SMDB!</h1>
-        <p>Becoming a member is currently free, click the join now button to become a member now.</p>
-        <form action='signup.jsp' method='POST'>
-        <input type='submit' class="btn btn-primary btn-large" value='Join Now &raquo'>
-        </form>
-      </div>
-
-      
-
-      
       <!-- Example row of columns -->
       <div class="row">
 
-        <div class="span4">
+        <div class="span3">
           <h2>Now Showing</h2>
 
           
@@ -112,7 +113,7 @@
           <input type='submit' class="btn" value='See more movies &raquo'>
           </form>
        </div>
-        <div class="span4">
+        <div class="span3">
           <h2>Coming Soon</h2>
 	      <h4>x Men</h4>
           <div class="row">
@@ -137,6 +138,7 @@
           </form>
        </div>
       </div>
+      </div>
 
       <hr>
 
@@ -147,6 +149,7 @@
 
       <footer>
         <p>&copy; Sydney Movie Database 2012</p>
+        <a href="admin.jsp">Admin</a>
       </footer>
 </div> <!-- /container -->
 

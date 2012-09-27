@@ -80,6 +80,7 @@
       <div class="hero-unit">
       	hlleo?
       	
+      	<!--  javascript courtesy of : http://forum.codecall.net/topic/40444-javascript-to-add-a-text-input-field/#axzz27g8nTfw2 -->
 		<script language="javascript">
 		fields = 0;
 		function addInput() {
