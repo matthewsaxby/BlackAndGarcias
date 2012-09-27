@@ -9,3 +9,11 @@ insert into actor (first_name, last_name) values ('Peter', 'Smith');
 insert into actor (first_name, last_name) values ('John', 'Rogers');
 
 insert into user_tbl (username, usertype, password, emailaddress) values ('admin', 2, 'admin', 'lachlan.dally@gmail.com');
+
+insert into movie_actors (actor_id, movie_id) values (1, 1);
+insert into movie_actors (actor_id, movie_id) values (1, 2);
+insert into movie_actors (actor_id, movie_id) values (1, 3);
+insert into movie_actors (actor_id, movie_id) values (1, 4);
+
+insert into movie_actors (actor_id, movie_id) values (2, 2);
+insert into movie_actors (actor_id, movie_id) values (2, 4);

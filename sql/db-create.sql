@@ -54,7 +54,7 @@ create table movie (
 
 create table movie_actors (
 	actor_id int constraint actor_fk0 references actor,
-	movie_id int constraint movie_fk0 references actor,
+	movie_id int constraint movie_fk0 references movie,
 	movie_actors_id int not null generated always as identity constraint ma_pk primary key
 );
 

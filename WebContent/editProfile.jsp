@@ -107,13 +107,13 @@
 		  <input type="text" name="emailAddress" placeholder="${sessionBean.user.emailAddress}">
           <label>Favourite Actors:</label>
 		  <select multiple="multiple">
-			<c:forEach items="${sessionBean.actorList}" var="anActor">
+			<c:forEach items="${actorList}" var="anActor">
 				<option><c:out value="${anActor.firstName}" /> <c:out value="${anActor.lastName}" /></option>
 			</c:forEach>
 		  </select>
 		  <label>Favourite Genres:</label>
 		  <select multiple="multiple">
-			<c:forEach items="${sessionBean.genreList}" var="genre">
+			<c:forEach items="${genreList}" var="genre">
 				<option><c:out value="${genre}" /></option>
 			</c:forEach>
 		  </select>

@@ -21,6 +21,11 @@ public class ActorDTO {
 		firstName = first;
 		lastName = last;
 	}
+	
+	public ActorDTO(String first, String last) {
+		firstName = first;
+		lastName = last;
+	}
 
 	public List<MovieDTO> getMoviesBeenIn() {
 		return moviesBeenIn;

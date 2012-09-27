@@ -1,9 +1,22 @@
 package edu.unsw.comp9321.jdbc;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MovieDTO {
 	
+	private int id;
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
 	private String title;
 	private String poster;
 	private String movieSynopsis;
@@ -13,13 +26,15 @@ public class MovieDTO {
 	private String[] genres;
 	private String director;
 	private String ageRating;
+	private List<ActorDTO> actors;
 	private int cinemaId;
 	
 	
-	public MovieDTO(String title, String poster, String movieSynopsis,
+	public MovieDTO(int id, String title, String poster, String movieSynopsis,
 			double currentUserRating, int ratingCount, Date releaseDate,
 			String[] genres, String director, String ageRating, int cinemaId) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.poster = poster;
 		this.movieSynopsis = movieSynopsis;
@@ -30,6 +45,20 @@ public class MovieDTO {
 		this.director = director;
 		this.ageRating = ageRating;
 		this.cinemaId = cinemaId;
+		actors = new ArrayList<ActorDTO>();
+	}
+
+
+	public List<ActorDTO> getActors() {
+		return actors;
+	}
+
+	public void addActor(ActorDTO actor) {
+		this.actors.add(actor);
+	}
+	
+	public void setActors(List<ActorDTO> actors) {
+		this.actors = actors;
 	}
 
 

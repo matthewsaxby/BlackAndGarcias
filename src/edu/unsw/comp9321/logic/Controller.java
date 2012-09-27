@@ -100,6 +100,8 @@ public class Controller extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String forwardPage = "";
 		sessionBean = (SessionBean) request.getSession().getAttribute("sessionBean");
+		request.setAttribute("genreList", movies.getGenres());
+		request.setAttribute("actorList", actors.getAll());
 		
 		if(request.getParameter("action").equals("nowShowing")){
 			
@@ -300,11 +302,7 @@ public class Controller extends HttpServlet {
 			} else {
 				sessionBean.setUserType(attempedLogin.getUserType());
 				sessionBean.setUser(attempedLogin);
-				sessionBean.setGenreList(movies.getGenres());
-				sessionBean.setActorList(actors.getAll());
 				request.getSession().setAttribute("sessionBean", sessionBean);
-				//TODO: figure out a way to fix this. How do I know which page to redirect 
-				// http://stackoverflow.com/questions/12013707/servlet-forward-response-to-caller-previous-page
 				forwardPage = request.getParameter("source");
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 				dispatcher.forward(request, response);
@@ -314,7 +312,29 @@ public class Controller extends HttpServlet {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			request.getSession().invalidate();
 			dispatcher.forward(request, response);
-		}
+		} else if (request.getParameter("action").equals("search")) {
+			
+			if (request.getParameter("state") != null) {
+				
+				// if needed : .equals("results")
+				// collect input
+				String yearRange = request.getParameter("yearrange");
+				String title = request.getParameter("title");
+				String actor = request.getParameter("actor");
+				String genre = request.getParameter("genre");
+				//build results object
+				List<MovieDTO> results = movies.searchOn(yearRange, title, actor, genre);
+				//send results as attribute
+				request.setAttribute("resultData", results);
+			}
+			// otherwise just serve the page as per normal
+			
+			
+			forwardPage = "advancedSearch.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			request.getSession().invalidate();
+			dispatcher.forward(request, response);
+		} 
 	}
 	
 	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){

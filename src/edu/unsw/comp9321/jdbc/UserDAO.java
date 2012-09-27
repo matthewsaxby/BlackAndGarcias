@@ -79,10 +79,6 @@ public class UserDAO {
 		}
 		
 	}
-//	"UDPDATE user_tbl " +
-//	"SET (username, password, emailAddress, firstName, LastName, nickName, yearOfBirth)\n" +
-//	"VALUES('" + username + "', '" + password + "', '" + email + "', '" + firstName + "', '" + lastName + "', '" + nickName + "', " + yearOfBirth + ")";
-	
 	
 	public boolean checkUsername(String username) {
 		boolean usernameExists = false;

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,40 +50,28 @@ public class MovieDAO {
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is " + res.getFetchSize());
 			while (res.next()) {
-				
-				int id = res.getInt("movie_id");
-				logger.info(" " + id);
-				String title = res.getString("title");
-				logger.info(title);
-				String poster = res.getString("poster");
-				logger.info(poster);
-				String synopsis = res.getString("synopsis");
-				logger.info(synopsis);
-				double currentUserRating = Double.parseDouble(res
-						.getString("user_rating"));
-				logger.info(new String("" + currentUserRating));
-				Date releaseDate = fmt.parse(res.getString("release_date"));
-				int ratingCount = Integer.parseInt(res
-						.getString("rating_count"));
-				logger.info(new String("" + ratingCount));
-				logger.info(synopsis);
-				String director = res.getString("director");
-				logger.info(director);
-				String ageRating = res.getString("age_rating");
-				logger.info(ageRating);
-				String genresAsString = res.getString("genres");
-				String[] genres = genresAsString.split(", ");
-				for (String genre : genres) {
-					logger.info(genre);
-				}
-				int cinemaId = Integer.parseInt(res.getString("cinema_id"));
-				logger.info(new String("" + cinemaId));
-				movies.add(new MovieDTO(title, poster, synopsis,
-						currentUserRating, ratingCount, releaseDate,
-						genres, director, ageRating, cinemaId));
-				
+				addDBDeets(movies, res);
 			}
 
+			res.close();
+			stmnt.close();
+			
+			// add actors
+			stmnt = connection.createStatement();
+			query_cast = "select * from actor join movie_actors using (actor_id)";
+			res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				// find matching movie (by movieID
+				for (MovieDTO movie : movies) {
+					if (movie.getId() == res.getInt("movie_id")) {
+						String firstName = res.getString("first_name");
+						String lastName = res.getString("last_name");
+						ActorDTO actor = new ActorDTO(firstName, lastName);
+						movie.addActor(actor);
+					}
+				}
+			}
+			
 			res.close();
 			stmnt.close();
 
@@ -93,12 +82,47 @@ public class MovieDAO {
 		return movies;
 	}
 
+	private void addDBDeets(List<MovieDTO> movies, ResultSet res)
+			throws SQLException, ParseException {
+		int id = res.getInt("movie_id");
+		logger.info(" " + id);
+		String title = res.getString("title");
+		logger.info(title);
+		String poster = res.getString("poster");
+		logger.info(poster);
+		String synopsis = res.getString("synopsis");
+		logger.info(synopsis);
+		double currentUserRating = Double.parseDouble(res
+				.getString("user_rating"));
+		logger.info(new String("" + currentUserRating));
+		Date releaseDate = fmt.parse(res.getString("release_date"));
+		int ratingCount = Integer.parseInt(res
+				.getString("rating_count"));
+		logger.info(new String("" + ratingCount));
+		logger.info(synopsis);
+		String director = res.getString("director");
+		logger.info(director);
+		String ageRating = res.getString("age_rating");
+		logger.info(ageRating);
+		String genresAsString = res.getString("genres");
+		String[] genres = genresAsString.split(", ");
+		for (String genre : genres) {
+			logger.info(genre);
+		}
+		int cinemaId = Integer.parseInt(res.getString("cinema_id"));
+		logger.info(new String("" + cinemaId));
+		
+		movies.add(new MovieDTO(id, title, poster, synopsis,
+				currentUserRating, ratingCount, releaseDate,
+				genres, director, ageRating, cinemaId));
+	}
+
 	public List<MovieDTO> findNowShowing() {
 
 		ArrayList<MovieDTO> movies = new ArrayList<MovieDTO>();
 		try {
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT * FROM movie";
+			String query_cast = "SELECT * FROM movie order by user_rating desc";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is " + res.getFetchSize());
 			while (res.next()) {
@@ -131,25 +155,12 @@ public class MovieDAO {
 					}
 					int cinemaId = Integer.parseInt(res.getString("cinema_id"));
 					logger.info(new String("" + cinemaId));
-					boolean inserted = false;
-					for(int i = 0; i < 10 && inserted == false; i++){
-						System.out.println("size" + movies.size());
-						if(movies.isEmpty()){
-							movies.add(0, new MovieDTO(title, poster, synopsis,
+					System.out.println("size" + movies.size());
+					movies.add(new MovieDTO(id, title, poster, synopsis,
 									currentUserRating, ratingCount, releaseDate,
 									genres, director, ageRating, cinemaId));
-							inserted = true;
-						} else if(movies.size() < i+1){
-							movies.add(i, new MovieDTO(title, poster, synopsis,
-									currentUserRating, ratingCount, releaseDate,
-									genres, director, ageRating, cinemaId));
-							inserted = true;
-						} else if(currentUserRating > movies.get(i).getCurrentUserRating()){
-							movies.add(i, new MovieDTO(title, poster, synopsis,
-									currentUserRating, ratingCount, releaseDate,
-									genres, director, ageRating, cinemaId));
-							inserted = true;
-						}
+					if (movies.size() == 10){
+						break;
 					}
 					
 				}
@@ -169,7 +180,7 @@ public class MovieDAO {
 		ArrayList<MovieDTO> movies = new ArrayList<MovieDTO>();
 		try {
 			Statement stmnt = connection.createStatement();
-			String query_cast = "SELECT * FROM movie";
+			String query_cast = "SELECT * FROM movie order by release_date";
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is " + res.getFetchSize());
 			while (res.next()) {
@@ -202,29 +213,35 @@ public class MovieDAO {
 					}
 					int cinemaId = Integer.parseInt(res.getString("cinema_id"));
 					logger.info(new String("" + cinemaId));
-					boolean inserted = false;
-					for(int i = 0; i < 10 && inserted == false; i++){
-						if(movies.isEmpty()){
-							movies.add(0, new MovieDTO(title, poster, synopsis,
+					System.out.println("size" + movies.size());
+					movies.add(new MovieDTO(id, title, poster, synopsis,
 									currentUserRating, ratingCount, releaseDate,
 									genres, director, ageRating, cinemaId));
-							inserted = true;
-						} else if(movies.size() < i+1){
-							movies.add(i, new MovieDTO(title, poster, synopsis,
-									currentUserRating, ratingCount, releaseDate,
-									genres, director, ageRating, cinemaId));
-							inserted = true;
-						} else if(releaseDate.before(movies.get(i).getReleaseDate())){
-							movies.add(i, new MovieDTO(title, poster, synopsis,
-									currentUserRating, ratingCount, releaseDate,
-									genres, director, ageRating, cinemaId));
-							inserted = true;
-						}
+					if (movies.size() == 10){
+						break;
 					}
-					
 				}
 			}
 
+			res.close();
+			stmnt.close();
+			
+			// add actors
+			stmnt = connection.createStatement();
+			query_cast = "select * from actor join movie_actors using (actor_id)";
+			res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				// find matching movie (by movieID
+				for (MovieDTO movie : movies) {
+					if (movie.getId() == res.getInt("movie_id")) {
+						String firstName = res.getString("first_name");
+						String lastName = res.getString("last_name");
+						ActorDTO actor = new ActorDTO(firstName, lastName);
+						movie.addActor(actor);
+					}
+				}
+			}
+			
 			res.close();
 			stmnt.close();
 
@@ -268,10 +285,85 @@ public class MovieDAO {
 					}
 				}
 			}
+			
+			res.close();
+			stmnt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return genres;
+	}
+	
+	public List<MovieDTO> searchOn(String yearRange, String title, String actor, String genre) {
+		List<MovieDTO> results = new ArrayList<MovieDTO>();
+		
+		Statement stmnt;
+		try {
+			String query_cast;
+			ResultSet res;
+			//search actors
+			ArrayList<Integer> movieIdsToAdd = new ArrayList<Integer>();
+			if (actor != null && actor.length() > 0 ) {
+				stmnt = connection.createStatement();
+				query_cast = "select * from actor join movie_actors using (actor_id)";
+				res = stmnt.executeQuery(query_cast);
+				while (res.next()) {
+					if (res.getString("first_name").equals(actor.split(" ")[0])) {
+						if (res.getString("last_name").equals(actor.split(" ")[1])) {
+							movieIdsToAdd.add(res.getInt("movie_id"));
+						}
+					}
+				}
+				res.close();
+				stmnt.close();
+			}
+			
+			stmnt = connection.createStatement();
+			query_cast = "SELECT * FROM movie";
+			res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				if (title != null && title.length() > 0) {
+					if (res.getString("title").matches(title)) {
+						movieIdsToAdd.add(res.getInt("movie_id"));
+					} 
+				}
+				if (genre != null && genre.length() > 0) {
+					String[] genreList = res.getString("genres").split(", ");
+					for (String moviesGenre : genreList) {
+						if (moviesGenre.toLowerCase().equals(genre.toLowerCase())) {
+							movieIdsToAdd.add(res.getInt("movie_id"));
+						}
+					}
+				}
+				if (yearRange != null && yearRange.length() > 0) {
+					int year = Integer.parseInt(res.getString("release_date").substring(0, 4));
+					int start = Integer.parseInt(yearRange.substring(0, 4));
+					int end = Integer.parseInt(yearRange.substring(5, 9));
+					if (year >= start && year <= end) {
+						movieIdsToAdd.add(res.getInt("movie_id"));
+					}
+				}
+			}
+			res.close();
+			stmnt.close();
+		
+			stmnt = connection.createStatement();
+			query_cast = "SELECT * FROM movie";
+			res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				if (movieIdsToAdd.contains(res.getInt("movie_id"))) {
+					addDBDeets(results, res);
+				}
+			}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return results;
 	}
 }
