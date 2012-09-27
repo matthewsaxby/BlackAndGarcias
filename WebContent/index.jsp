@@ -38,10 +38,10 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="index.jsp">Home</a></li>
-              <li><a href="myProfile.jsp">My Profile</a></li>			<%-- only show this if someone is logged in--%>
-              <li><a href="movieSearch.jsp">Search</a></li>
-              <li><a href="nowShowing.jsp">Now Showing</a></li>
-              <li><a href="comingSoon.jsp">Coming Soon</a></li>
+              <c:if test="${sessionBean.userType>0}"><li><a href="controller?action=viewProfile">My Profile</a></li></c:if>			<%-- only show this is someone is logged in--%>
+              <li><a href="controller?action=search">Search</a></li>
+              <li><a href="controller?action=nowShowing">Now Showing</a></li>
+              <li><a href="controller?action=comingSoon">Coming Soon</a></li>
               <c:if test="${sessionBean.userType>0}">
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>

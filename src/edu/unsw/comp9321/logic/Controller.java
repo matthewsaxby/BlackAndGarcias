@@ -189,6 +189,13 @@ public class Controller extends HttpServlet {
 			forwardPage = "editProfileConfirm.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
+		} else if(request.getParameter("action").equals("viewProfile")){
+			//Get data from form
+			//send the data to the database
+			//send user to confirmation page
+			forwardPage = "myProfile.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("addCinema")){
 			String name = request.getParameter("name");
 			String location = request.getParameter("location");
