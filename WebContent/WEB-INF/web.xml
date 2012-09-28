@@ -35,9 +35,7 @@
   <res-type>
     javax.mail.Session
   </res-type>
-  <res-auth>
-    Container
-  </res-auth>
+
 
 </resource-ref>
 
