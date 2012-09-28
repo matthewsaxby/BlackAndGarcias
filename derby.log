@@ -1,13 +1,13 @@
-Fri Sep 28 11:09:15 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
+Fri Sep 28 15:04:26 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Fri Sep 28 11:09:21 EST 2012:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013a-0a6b-9c9a-ffffce2fb04d 
-on database directory /home/lachlan/workspace/BlackAndGarcias/movieDB  with class loader sun.misc.Launcher$AppClassLoader@6d6f0472 
-Loaded from file:/home/lachlan/db-derby-10.9.1.0-bin/lib/derby.jar
+Fri Sep 28 15:29:39 EST 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013a-0b42-ed06-ffffd972e654 
+on database directory /home/matthew/workspace/BlackAndGarcias/movieDB  with class loader sun.misc.Launcher$AppClassLoader@6d6f0472 
+Loaded from file:/home/matthew/derby/lib/derby.jar
 java.vendor=Sun Microsystems Inc.
 java.runtime.version=1.6.0_24-b24
-user.dir=/home/lachlan/workspace/BlackAndGarcias
-derby.system.home=/home/lachlan/workspace/BlackAndGarcias
+user.dir=/home/matthew/workspace/BlackAndGarcias
+derby.system.home=/home/matthew/workspace/BlackAndGarcias
 Database Class Loader started - derby.database.classpath=''
 
 ------------  BEGIN SHUTDOWN ERROR STACK -------------

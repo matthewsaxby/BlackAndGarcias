@@ -415,7 +415,18 @@ public class Controller extends HttpServlet {
 			forwardPage = "mapMtoC.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
-		} 
+			
+		} else if (request.getParameter("action").equals("checkout")) {
+			
+			
+			
+			
+			forwardPage = "confirmBooking.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+			
+			
+		}
 	}
 	
 	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){
