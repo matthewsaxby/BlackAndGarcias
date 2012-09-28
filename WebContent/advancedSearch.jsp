@@ -131,12 +131,10 @@ body {
 							<div class="row">
 								<div class="span2">
 									<form action='controller' method='POST'>
-										<input type="hidden" name="action"
-											value="<c:out value="viewFullDetails" />"> <input
-											type="hidden" name="viewDetailsOnMovie"
-											value="<c:out value="${movie.title}" />"> <input
-											type='submit' class="btn btn" value='View Details'>
-									</form>
+		        					<input type="hidden" name="action" value="details" >
+		        					<input type="hidden" name="viewDetailsOnMovie" value="<c:out value="${movie.id}" />">
+	        						<input type='submit' class="btn btn" value='View Details'>
+	        						</form>
 								</div>
 							</div>
 						</div>

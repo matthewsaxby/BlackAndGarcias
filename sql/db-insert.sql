@@ -17,3 +17,4 @@ insert into movie_actors (actor_id, movie_id) values (1, 4);
 
 insert into movie_actors (actor_id, movie_id) values (2, 2);
 insert into movie_actors (actor_id, movie_id) values (2, 4);
+

@@ -75,37 +75,61 @@
 	
 	<c:if test="${sessionBean.userType==2}">
     
-	   
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-      	hlleo?
-      	
-      	<!--  javascript courtesy of : http://forum.codecall.net/topic/40444-javascript-to-add-a-text-input-field/#axzz27g8nTfw2 -->
-		<script language="javascript">
-		fields = 0;
-		function addInput() {
-		if (fields != 10) {
-		document.getElementById('text').innerHTML += "<input type='file' value='' /><br />";
-		fields += 1;
-		} else {
-		document.getElementById('text').innerHTML += "<br />Only 10 upload fields allowed.";
-		document.form.add.disabled=true;
-		}
-		}
-		</script>
-		<form name="form">
-		<input type="button" onclick="addInput()" name="add" value="Add input field" />
+	   <c:if test="${state==0}">
+	      <!-- Main hero unit for a primary marketing message or call to action -->
+	      <div class="hero-unit">
+			<form action="controller" method="POST" >
+				<input type="hidden" name="state" value="1">
+				<input type="hidden" name="action" value="mapMtoC">
+				
+		      	<select name="movie">
+		   			<c:forEach items="${movies}" var="movie">
+						<option value=<c:out value="${movie.id}"/>><c:out value="${movie.title}" /></option>
+					</c:forEach>
+		      	</select>
+		      	
+		      	
+		      	<c:forEach items="${cinemas}" var="cinema">
+			      	<div class="row">
+			      		
+						<div class="span3">
+							<p> Cinema: </p>
+							<select name="cinemaSelect">
+							<option></option>
+							<c:forEach items="${cinemas}" var="cinemaName">
+								<option value=<c:out value="${cinemaName.id}"/>><c:out value="${cinemaName.name}" /></option>
+							</c:forEach>
+							</select><br>
+						</div>
+						<div class="span3">
+							<p> Showtimes: </p>
+							<input type="text" name="showtime+0+${cinema.id}" >
+							<input type="text" name="showtime+1+${cinema.id}" >
+							<input type="text" name="showtime+2+${cinema.id}" >
+						</div>
+						<div class="span3">
+							<br><br>
+							<input type="text" name="showtime+3+${cinema.id}" >
+							<input type="text" name="showtime+4+${cinema.id}" >
+							<input type="text" name="showtime+5+${cinema.id}" >
+							
+						</div>
+						
+					</div>
+					
+				</c:forEach>
+			<div><button  type="submit" class="btn btn-primary btn-large">Add Showtimes</button></div>
 		</form>
-		<div id="text">
-		
-		</div>
-
-
-		
-      		
-      </div>
-       
-
+			
+	      		
+	    </div>
+    	</c:if>
+       <c:if test="${state>0}">
+			<!--  display confirmation page -->
+			<div class="hero-unit">
+	  		 	<h1> Showtimes Added! </h1>
+	  		 </div>
+		</c:if>
 
 
 	</c:if>
@@ -116,6 +140,31 @@
       </footer>
 </div> <!-- /container -->
 
+<script language="javascript">
+		fields = 0;
+		function addShowtime() {
+		if (fields != 10) {
+		document.getElementById('text').innerHTML += "<input type='text' name='showtime"+fields+"' ><br />";
+		fields += 1;
+		} else {
+		document.getElementById('text').innerHTML += "<br />Only 10 upload fields allowed.";
+		document.form.add.disabled=true;
+		}
+		}
+</script>
+<!--  javascript courtesy of : http://forum.codecall.net/topic/40444-javascript-to-add-a-text-input-field/#axzz27g8nTfw2 -->
+		<script language="javascript">
+		fields = 0;
+		function addInput() {
+		if (fields != 10) {
+		document.getElementById('text').innerHTML += "<select><c:forEach items='${cinemas}' var='cinema'><option value=<c:out value='${cinema.id}"+fields+"'/>><c:out value='${cinema.name}' /></option></c:forEach></select><br>"; //"<input type='file' value='' /><br />";
+		fields += 1;
+		} else {
+		document.getElementById('text').innerHTML += "<br />Only 10 upload fields allowed.";
+		document.form.add.disabled=true;
+		}
+		}
+		</script>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

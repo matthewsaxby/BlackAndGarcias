@@ -107,7 +107,7 @@ public class MovieDAO {
 		String ageRating = res.getString("age_rating");
 		logger.info(ageRating);
 		String genresAsString = res.getString("genres");
-		String[] genres = genresAsString.split(", ");
+		String[] genres = genresAsString.split(", ?");
 		for (String genre : genres) {
 			logger.info(genre);
 		}
@@ -117,7 +117,7 @@ public class MovieDAO {
 				genres, director, ageRating));
 	}
 
-	public List<MovieDTO> findNowShowing() {
+	public List<MovieDTO> findNowShowing(int numMovies) {
 
 		ArrayList<MovieDTO> movies = new ArrayList<MovieDTO>();
 		try {
@@ -157,7 +157,7 @@ public class MovieDAO {
 					movies.add(new MovieDTO(id, title, poster, synopsis,
 									currentUserRating, ratingCount, releaseDate,
 									genres, director, ageRating));
-					if (movies.size() == 10){
+					if (movies.size() == numMovies){
 						break;
 					}
 					
@@ -173,7 +173,7 @@ public class MovieDAO {
 		}
 		return movies;
 	}
-	public List<MovieDTO> findComingSoon() {
+	public List<MovieDTO> findComingSoon(int numMovies) {
 
 		ArrayList<MovieDTO> movies = new ArrayList<MovieDTO>();
 		try {
@@ -213,7 +213,7 @@ public class MovieDAO {
 					movies.add(new MovieDTO(id, title, poster, synopsis,
 									currentUserRating, ratingCount, releaseDate,
 									genres, director, ageRating));
-					if (movies.size() == 10){
+					if (movies.size() == numMovies){
 						break;
 					}
 				}

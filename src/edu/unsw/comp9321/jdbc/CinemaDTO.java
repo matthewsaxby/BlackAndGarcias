@@ -6,15 +6,26 @@ public class CinemaDTO {
 	private String location;
 	private int capacity;
 	private String[] amenities;
+	private int id;
 	
-	
-	public CinemaDTO(String name, String location, int capacity,
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public CinemaDTO(int id, String name, String location, int capacity,
 			String[] amenities) {
 		super();
 		this.name = name;
 		this.location = location;
 		this.capacity = capacity;
 		this.amenities = amenities;
+		this.id = id;
 	}
 	
 	

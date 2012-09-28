@@ -3,6 +3,8 @@
 <%@ page import="edu.unsw.comp9321.logic.*, java.util.*"%>
 <jsp:useBean id="sessionBean" class="edu.unsw.comp9321.beans.SessionBean"
 	scope="session" />
+<jsp:useBean id="indexBean" class="edu.unsw.comp9321.beans.indexBean"
+	scope="session" />
 <!--jsp:useBean id="user" class="comp9321.UserBean" scope="session"-->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -65,10 +67,6 @@
       </div>
     </div>
 
-    
-    
-    
-    
     <div class="container">
     
     	<c:if test="${failedLogin!=null}">
@@ -115,11 +113,10 @@
        </div>
         <div class="span3">
           <h2>Coming Soon</h2>
-	      <h4>x Men</h4>
-          <div class="row">
-          <div class="span2"><p>Blurb about the movie x men</p></div>
-          <div class="span2"><img src="images/transformers.jpg" alt="property_image" width="149" height="112"/></div>
-          </div>
+          <c:forEach items="${indexBean.comingSoon}" var="movie">
+          	<h2><c:out value="${movie.title}" /></h2>
+			<p><c:out value="${movie.movieSynopsis}" /> <br /></p>
+          </c:forEach>
           <p>
           <form action='controller' method='POST'>
           <input type="hidden" name="action" value="comingSoon" />

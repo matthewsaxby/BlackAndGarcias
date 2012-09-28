@@ -103,17 +103,16 @@ public class Controller extends HttpServlet {
 		sessionBean = (SessionBean) request.getSession().getAttribute("sessionBean");
 		request.setAttribute("genreList", movies.getGenres());
 		request.setAttribute("actorList", actors.getAll());
-		
 		if(request.getParameter("action").equals("nowShowing")){
 			
-			List<MovieDTO> resSet = movies.findNowShowing();
+			List<MovieDTO> resSet = movies.findNowShowing(10);
 			request.setAttribute("movieDeets",  resSet);
 			forwardPage = "nowShowing.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} else if(request.getParameter("action").equals("comingSoon")){
 			
-			List<MovieDTO> resSet = movies.findComingSoon();
+			List<MovieDTO> resSet = movies.findComingSoon(10);
 			request.setAttribute("movieDeets",  resSet);
 			forwardPage = "comingSoon.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
@@ -362,9 +361,34 @@ public class Controller extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("mapMtoC")) {
 
-			// set session attribute w/ coming soon movieDTO list
-			// set session attribute w/ all cinemas
+			int state;
+			if (request.getParameter("state") == null) {
+				state = 0;
+				request.setAttribute("state", state);
+			} else {
+				state = Integer.parseInt(request.getParameter("state"));
+				request.setAttribute("state", state);
+			}
 			
+			if (state > 0) {
+				// process input.
+				
+				// get movie
+				int movieId = Integer.parseInt(request.getParameter("movie"));
+				MovieDTO movieToLink = movies.getMovieById(movieId); // do i even need this?
+				
+				// get cinema(s)
+				String[] selectedCinemas = request.getParameterValues("cinemaSelect");
+					// for each get showtimes
+						//link showtime up
+				
+				
+			} else {
+				// set session attribute w/ coming soon movieDTO list
+				request.setAttribute("movies", movies.findComingSoon(100));
+				// set session attribute w/ all cinemas
+				request.setAttribute("cinemas", cinemas.getAll());
+			}
 			forwardPage = "mapMtoC.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);

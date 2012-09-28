@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import edu.unsw.comp9321.common.ServiceLocatorException;
@@ -75,11 +77,32 @@ public class CinemaDAO {
 		String address = res.getString("address");
 		logger.info(address);
 		int capacity = res.getInt("seating_capacity");
-		logger.info(" " + id);
+		logger.info(" " + capacity);
 		String facilities = res.getString("facilities");
 		String[] amenities = facilities.split(", ");
 		
-		return new CinemaDTO(name, address, capacity, amenities);
+		return new CinemaDTO(id, name, address, capacity, amenities);
+	}
+
+
+	public List<CinemaDTO> getAll() {
+		List<CinemaDTO> cinemas = new ArrayList<CinemaDTO>();
+		
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "SELECT * FROM cinema";
+			ResultSet res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				cinemas.add(getDeets(res));
+			}
+			stmnt.close();
+			res.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cinemas;
 	}
 }
 
