@@ -88,7 +88,7 @@
 					</c:forEach>
 		      	</select>
 		      	
-		      	
+		      	<%int i = 0; %>
 		      	<c:forEach items="${cinemas}" var="cinema">
 			      	<div class="row">
 			      		
@@ -102,27 +102,29 @@
 							</select><br>
 						</div>
 						<div class="span3">
-							<p> Showtimes: </p>
-							<input type="text" name="showtime+0+${cinema.id}" >
-							<input type="text" name="showtime+1+${cinema.id}" >
-							<input type="text" name="showtime+2+${cinema.id}" >
+							<p> Showtimes:  </p>
+							<input type="text" name="showtime<%=i %>" >
+							<input type="text" name="showtime<%=i %>" >
+							<input type="text" name="showtime<%=i %>" >
 						</div>
 						<div class="span3">
 							<br><br>
-							<input type="text" name="showtime+3+${cinema.id}" >
-							<input type="text" name="showtime+4+${cinema.id}" >
-							<input type="text" name="showtime+5+${cinema.id}" >
+							<input type="text" name="showtime<%=i %>" >
+							<input type="text" name="showtime<%=i %>" >
+							<input type="text" name="showtime<%=i %>" >
 							
 						</div>
 						
 					</div>
-					
+					<% i++; %>
 				</c:forEach>
 			<div><button  type="submit" class="btn btn-primary btn-large">Add Showtimes</button></div>
 		</form>
-			
-	      		
+		<br>
+	    <h6> Note: showtime format = YYYY-MM-DD HH:MM:SS </h6>
+	     	
 	    </div>
+	    	
     	</c:if>
        <c:if test="${state>0}">
 			<!--  display confirmation page -->

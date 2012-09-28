@@ -33,6 +33,7 @@ import edu.unsw.comp9321.jdbc.MovieDAO;
 import edu.unsw.comp9321.jdbc.MovieDTO;
 import edu.unsw.comp9321.jdbc.MySQLDAOImpl;
 import edu.unsw.comp9321.jdbc.CharacterDTO;
+import edu.unsw.comp9321.jdbc.ShowingDAO;
 import edu.unsw.comp9321.jdbc.UserDAO;
 import edu.unsw.comp9321.jdbc.UserDTO;
 import edu.unsw.comp9321.mail.MailSender;
@@ -50,6 +51,7 @@ public class Controller extends HttpServlet {
 	private UserDAO users;
 	private UserDTO currentUser;
 	private CinemaDAO cinemas;
+	private ShowingDAO showings;
 	private SessionBean sessionBean;
 	
 	DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
@@ -74,6 +76,7 @@ public class Controller extends HttpServlet {
         	actors = new ActorDAO();
 			cast = new DerbyDAOImpl();
 			cinemas = new CinemaDAO();
+			showings = new ShowingDAO();
 		} catch (ServiceLocatorException e) {
 			logger.severe("Trouble connecting to database "+e.getStackTrace());
 			throw new ServletException();
@@ -103,7 +106,11 @@ public class Controller extends HttpServlet {
 		sessionBean = (SessionBean) request.getSession().getAttribute("sessionBean");
 		request.setAttribute("genreList", movies.getGenres());
 		request.setAttribute("actorList", actors.getAll());
-		if(request.getParameter("action").equals("nowShowing")){
+		if (request.getParameter("action") == null) {
+			forwardPage = "index.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		} else if(request.getParameter("action").equals("nowShowing")){
 			
 			List<MovieDTO> resSet = movies.findNowShowing(10);
 			request.setAttribute("movieDeets",  resSet);
@@ -375,11 +382,27 @@ public class Controller extends HttpServlet {
 				
 				// get movie
 				int movieId = Integer.parseInt(request.getParameter("movie"));
-				MovieDTO movieToLink = movies.getMovieById(movieId); // do i even need this?
+				MovieDTO movieToLink = movies.getMovieByIdIgnoreReleaseDate(movieId); // do i even need this?
 				
 				// get cinema(s)
 				String[] selectedCinemas = request.getParameterValues("cinemaSelect");
-					// for each get showtimes
+				int i = 0;
+				for (String cinemaID : selectedCinemas) {
+					if (!cinemaID.equals("")) {
+						CinemaDTO cinemaToLink = cinemas.getCinemaByID(Integer.parseInt(cinemaID));
+						// for each get showtimes
+						String[] showtimes = request.getParameterValues("showtime" + i);
+							// build a link in database for each showtime 
+							for (String showtime : showtimes) {
+								// build links
+								if (!showtime.equals("")) {
+									showings.createShowing(showtime, cinemaToLink.getCapacity(), cinemaToLink.getId(), movieToLink.getId());
+								}
+							}
+					}
+					i++;
+				}
+					
 						//link showtime up
 				
 				

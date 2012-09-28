@@ -72,7 +72,8 @@ create table booking (
 
 create table showing (
 	showing_id int not null generated always as identity constraint showing_pk primary key,
-	showingTime date,
+	showingTime time,
+	showingDate date,
 	availableSeats int,
 	cinema_id int constraint cinema_fk2 references cinema,
 	movie_id int constraint movie_fk2 references movie

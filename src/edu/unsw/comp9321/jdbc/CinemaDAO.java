@@ -54,7 +54,7 @@ public class CinemaDAO {
 		Statement stmnt;
 		try {
 			stmnt = connection.createStatement();
-			String query_cast = "SELECT * FROM cinema where movie_id = " + cinemaID;
+			String query_cast = "SELECT * FROM cinema where cinema_id = " + cinemaID;
 			ResultSet res = stmnt.executeQuery(query_cast);
 			while (res.next()) {
 				cinema = getDeets(res);
