@@ -53,7 +53,6 @@ public class ShowingDAO {
 			while (res.next()) {
 				addDBDeets(results, res);
 			}
-			stmnt.executeUpdate(query_cast);
 			stmnt.close();
 		} catch (Exception e) {
 			System.out.println("Caught Exception");

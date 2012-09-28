@@ -26,3 +26,4 @@ VALUES('18:00:00', '0026-06-04', 430, 3, 3);
 
 insert into review (comment, rating, user_id, movie_id) 
 values('This movie was about cars. Yay Cars', 8, 1, 3);
+

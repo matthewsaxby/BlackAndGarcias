@@ -477,4 +477,38 @@ public class MovieDAO {
 			return null;
 		}
 	}
+
+	public void updateRating(int rating, int reviewedMovie) {
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			//get existing average + num ratings
+			double currentRating = 0;
+			int reviewCount = 0;
+			String query_cast = "SELECT user_rating, rating_count FROM movie where movie_id = " + reviewedMovie;
+			ResultSet res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				currentRating = res.getInt("user_rating");
+				reviewCount = res.getInt("rating_count");
+			}
+			stmnt.close();
+			res.close();
+			
+			//calculate new values
+			int newReviewCount = reviewCount + 1;
+			double newRating = ((currentRating * reviewCount) + rating) / newReviewCount;
+			
+			
+			stmnt = connection.createStatement();
+			query_cast = "update movie set user_rating="+newRating+", rating_count="+newReviewCount+" where movie_id = " + reviewedMovie;
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+				
+				
+		} catch (Exception e) {
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		
+	}
 }

@@ -73,7 +73,7 @@
 					<div class="span6">
 						<h2><c:out value="${targetMovie.title}" /></h2>
 						<p><c:out value="${targetMovie.movieSynopsis}" /> <br /></p>
-						<p><b>Current User Rating: </b> <c:out value="${targetMovie.currentUserRating}" /> <br /></p>
+						<p><b>Average Rating: </b> <c:out value="${targetMovie.currentUserRating}" /> <br /></p>
 						<p><b>Number of Reviews: </b> <c:out value="${targetMovie.ratingCount}" /> <br /></p>
 						<p><b>Release Date: </b> <c:out value="${targetMovie.releaseDate}" /> <br /></p>
 						<p><b>Genres: </b><br>
@@ -145,7 +145,7 @@
 										<p><small> By: <c:out value="${review.reviewer}"> </c:out></small></p>
 									</div>
 								</div>
-							</div>
+							</div><br>
 						</c:forEach>
 					</c:if>
 				</div>
@@ -156,7 +156,7 @@
 							<p> Add Review: </p>
 							<form action="controller" method="POST">
 								<input type="hidden" name="action" value="addReview">
-								<input type="hidden" name="movie" value="${targetMovie.id}">
+								<input type="hidden" name="reviewedMovie" value="${targetMovie.id}">
 								
 								<select name="rating">
 									<option value="0">0</option>
@@ -171,7 +171,8 @@
 									<option value="9">9</option>
 									<option value="10">10</option>
 								</select><br>
-								<textarea name="comment" rows="8" cols="20"></textarea>
+								<textarea name="comment" rows="8" cols="20"></textarea><br>
+								<input type='submit' class="btn btn-primary" value='Submit Review'>
 							</form>
 						</div>
 					</div>

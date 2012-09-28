@@ -465,12 +465,24 @@ public class Controller extends HttpServlet {
 				UserDTO reviewer = sessionBean.getUser();
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String comment = request.getParameter("comment");
+				int reviewedMovie = Integer.parseInt(request.getParameter("reviewedMovie"));
 				
 				// update review, table
+				reviews.addReview(comment, rating, reviewer.getId(), reviewedMovie); 
+				
+				// update average rating + user ratings in movie
+				movies.updateRating(rating, reviewedMovie);
 				
 				// redirect to thanks page
+				forwardPage = "reviewThanks.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
 
-		} 
+		} else if (request.getParameter("action").equals("home")) {
+			forwardPage = "index.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+		}
 	}
 	
 	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){

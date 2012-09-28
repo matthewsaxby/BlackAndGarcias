@@ -80,4 +80,20 @@ public class ReviewDAO {
 		
 		reviews.add(new ReviewDTO(id, comment, rating, user_id, movie_id));
 	}
+
+	public void addReview(String comment, int rating, int reviewerId, int reviewedMovie) {
+		Statement stmnt;
+		try {
+			stmnt = connection.createStatement();
+			String query_cast = "INSERT INTO review (comment, rating, user_id, movie_id)\nVALUES('" + comment + "', " + rating + ", " + reviewerId +  ", " + reviewedMovie + ")";
+			System.out.println(query_cast);
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 }
