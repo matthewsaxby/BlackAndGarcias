@@ -25,6 +25,8 @@ import edu.unsw.comp9321.common.ServiceLocatorException;
 import edu.unsw.comp9321.exception.EmptyResultException;
 import edu.unsw.comp9321.jdbc.ActorDAO;
 import edu.unsw.comp9321.jdbc.ActorDTO;
+import edu.unsw.comp9321.jdbc.BookingDAO;
+import edu.unsw.comp9321.jdbc.BookingDTO;
 import edu.unsw.comp9321.jdbc.CastDAO;
 import edu.unsw.comp9321.jdbc.CinemaDAO;
 import edu.unsw.comp9321.jdbc.CinemaDTO;
@@ -55,6 +57,7 @@ public class Controller extends HttpServlet {
 	private CinemaDAO cinemas;
 	private ShowingDAO showings;
 	private SessionBean sessionBean;
+	private BookingDAO bookings;
 	
 	DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
        
@@ -79,6 +82,7 @@ public class Controller extends HttpServlet {
 			cast = new DerbyDAOImpl();
 			cinemas = new CinemaDAO();
 			showings = new ShowingDAO();
+			bookings = new BookingDAO();
 		} catch (ServiceLocatorException e) {
 			logger.severe("Trouble connecting to database "+e.getStackTrace());
 			throw new ServletException();
@@ -418,7 +422,24 @@ public class Controller extends HttpServlet {
 						//link showtime up
 				
 				
-			} else {
+			} else if (request.getParameter("action").equals("checkout")) {
+				int numAdults = Integer.parseInt(request.getParameter("numAdults"));
+				int numConcessions = Integer.parseInt(request.getParameter("numConcessions"));
+				int numChildren = Integer.parseInt(request.getParameter("numChidren"));
+				String cinema = request.getParameter("cinema");
+				String movie = request.getParameter("movie");
+				String sessionTime = request.getParameter("sessionTime");
+				
+				
+				BookingDTO myBooking = bookings.makeBooking(movie, cinema, sessionTime, numAdults, numConcessions, numChildren);
+				
+				request.setAttribute("booking", myBooking);
+				forwardPage = "confirmBooking.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
+				
+				
+			}else {
 				// set session attribute w/ coming soon movieDTO list
 				request.setAttribute("movies", movies.findComingSoon(100));
 				// set session attribute w/ all cinemas
