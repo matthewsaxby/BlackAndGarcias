@@ -19,3 +19,7 @@ select * from actor join movie_actors using (actor_id);
 select * from showing;
 
 select * from review;
+
+select actor_id from actor where first_name='Peter' and last_name='Smith'
+
+

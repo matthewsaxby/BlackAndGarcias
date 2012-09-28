@@ -301,17 +301,15 @@ public class Controller extends HttpServlet {
 		} else if (request.getParameter("action").equals("addMovie")){
 			
 			String title = request.getParameter("title");
+			String poster = request.getParameter("poster");
 			String actors = request.getParameter("actors");
 			String genres = request.getParameter("genres");
 			String director = request.getParameter("director");
 			String synopsis = request.getParameter("synopsis");
 			String ageRating = request.getParameter("agerating");
-			Date releaseDate = null;
-			try {
-				releaseDate = fmt.parse(request.getParameter("releasedate"));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			String releaseDate = request.getParameter("releasedate");
+			
+			movies.addMovieAndActors(title, poster, actors, director, genres, synopsis, ageRating, releaseDate);
 			
 			
 //			file upload stuff:

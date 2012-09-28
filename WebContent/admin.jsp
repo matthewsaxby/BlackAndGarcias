@@ -114,7 +114,7 @@
           	<label> Title: </label>
             <input type="text" name="title" >
             <p><label> Poster: </label>
-            <input type="file" name="poster"></p>
+            <input type="text" name="poster"></p>
             <label> Actors and Actresses (comma separated): </label>
             <input type="text" name="actors" >
             <label> Genre(s) (comma separated): </label>

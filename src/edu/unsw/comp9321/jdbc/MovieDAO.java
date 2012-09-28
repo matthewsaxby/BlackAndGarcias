@@ -1,7 +1,7 @@
 package edu.unsw.comp9321.jdbc;
 
 import java.sql.Connection;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -97,7 +97,7 @@ public class MovieDAO {
 		double currentUserRating = Double.parseDouble(res
 				.getString("user_rating"));
 		logger.info(new String("" + currentUserRating));
-		Date releaseDate = fmt.parse(res.getString("release_date"));
+		Date releaseDate = java.sql.Date.valueOf(res.getString("release_date"));
 		int ratingCount = Integer.parseInt(res
 				.getString("rating_count"));
 		logger.info(new String("" + ratingCount));
@@ -126,7 +126,7 @@ public class MovieDAO {
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is " + res.getFetchSize());
 			while (res.next()) {
-				Date releaseDate = fmt.parse(res.getString("release_date"));
+				Date releaseDate =java.sql.Date.valueOf(res.getString("release_date"));
 				Calendar currentDate = Calendar.getInstance();
 				if (releaseDate.before(currentDate.getTime())) {
 					int id = res.getInt("movie_id");
@@ -182,7 +182,7 @@ public class MovieDAO {
 			ResultSet res = stmnt.executeQuery(query_cast);
 			logger.info("The result set size is " + res.getFetchSize());
 			while (res.next()) {
-				Date releaseDate = fmt.parse(res.getString("release_date"));
+				Date releaseDate = java.sql.Date.valueOf(res.getString("release_date"));
 				Calendar currentDate = Calendar.getInstance();
 				if (releaseDate.after(currentDate.getTime())) {
 					int id = res.getInt("movie_id");
@@ -248,16 +248,78 @@ public class MovieDAO {
 		return movies;
 	}
 
-	public void addMovieAndActors(String title, String actors, String director, String genres, String synopsis, String ageRating, String releaseDate) {
+	public void addMovieAndActors(String title, String poster, String actors, String director, String genres, String synopsis, String ageRating, String releaseDate) {
 		
+		String fullPosterString = "/images/" + poster;
+		Date releaseDateAsDate = java.sql.Date.valueOf(releaseDate);
+		ResultSet res;
 		try {
 			Statement stmnt = connection.createStatement();
 			
-			String query_cast = null; // "INSERT INTO movie (title, address, seating_capacity, facilities)\nVALUES('" + name + "', '" + location +  "', " + capacity + ", '" + facilities + "')";
+			String query_cast = "INSERT INTO movie (title, poster, synopsis, release_date, director, age_rating, genres, user_rating, rating_count)\nVALUES('" 
+								+ title + "', '" + fullPosterString +  "', '" + synopsis + "', '" + releaseDateAsDate + "', '" + director + "', '"
+								+ ageRating + "', '" + genres + "', " + 0 + ", " + 0 + ")";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();
 
+			// add actors to actors tbl if needed
+			String[] actorList = actors.split(", ?");
+			for (String actor : actorList) {
+				// does actor exist?
+				String firstName = actor.split(" ")[0];
+				String lastName = actor.split(" ")[1];
+				boolean addFlag = true;
+				stmnt = connection.createStatement();
+				query_cast = "select * from actor where first_name='" + firstName + "' and last_name='" + lastName + "'";
+				res = stmnt.executeQuery(query_cast);
+				while (res.next()) {
+					addFlag = false;
+				}
+				stmnt.close();
+				res.close();
+				if (addFlag) {
+					stmnt = connection.createStatement();
+					query_cast = "INSERT INTO actor (first_name, last_name)\nVALUES('" + firstName + "', '" + lastName + "')";
+					stmnt.executeUpdate(query_cast);
+					stmnt.close();
+				}
+			}
+			
+			// link movie and actors in movie_actors table
+			for (String actor : actorList) {
+				
+				//get actor id
+					String firstName = actor.split(" ")[0];
+					String lastName = actor.split(" ")[1];
+					stmnt = connection.createStatement();
+					query_cast = "select actor_id from actor where first_name='" + firstName + "' and last_name='" + lastName + "'";
+					res = stmnt.executeQuery(query_cast);
+					int actor_id = 0;
+					while (res.next()) {
+						actor_id = res.getInt("actor_id");
+					}
+					stmnt.close();
+					res.close();
+				
+				//get movie id
+				int movie_id = 0;
+				stmnt = connection.createStatement();
+				query_cast = "select movie_id from movie where title='" + title + "' and release_date='" + releaseDateAsDate + "'";
+				res = stmnt.executeQuery(query_cast);
+				while (res.next()) {
+					movie_id = res.getInt("movie_id");
+				}
+				stmnt.close();
+				res.close();
+				
+				
+				stmnt = connection.createStatement();
+				query_cast = "INSERT INTO movie_actors (actor_id, movie_id)\nVALUES(" + actor_id + ", " + movie_id + ")";
+				stmnt.executeUpdate(query_cast);
+				stmnt.close();
+			}
+			
 		} catch (Exception e) {
 			System.out.println("Caught Exception");
 			e.printStackTrace();
@@ -394,7 +456,7 @@ public class MovieDAO {
 			String query_cast = "SELECT * FROM movie where movie_id = " + id;
 			ResultSet res = stmnt.executeQuery(query_cast);
 			while (res.next()) {
-				Date releaseDate = fmt.parse(res.getString("release_date"));
+				Date releaseDate = java.sql.Date.valueOf(res.getString("release_date"));
 				Calendar currentDate = Calendar.getInstance();
 				if (releaseDate.before(currentDate.getTime())) {
 					addDBDeets(results, res);
