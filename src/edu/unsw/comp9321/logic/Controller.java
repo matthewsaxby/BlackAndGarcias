@@ -200,16 +200,20 @@ public class Controller extends HttpServlet {
 				state = Integer.parseInt(request.getParameter("state"));
 				request.setAttribute("state", state);
 			}
-			
+			boolean errors = false;
 			if (state > 0) {
-				List<String> errorMessages = new ArrayList<String>();
 				//Get data from form
 				String username = sessionBean.getUser().getUsername();
 				String password;
 				if (request.getParameter("password") != "" && request.getParameter("password") != null) {
 					if (!request.getParameter("password").equals(request.getParameter("confirmPassword"))) {
-						errorMessages.add("Passwords dont match.");
 						password = sessionBean.getUser().getPassword();
+						request.setAttribute("errormsg", "Passwords dont match.");
+						request.setAttribute("state", 0);
+						forwardPage = "editProfile.jsp";
+						RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+						dispatcher.forward(request, response);
+						errors = true;
 					} else {
 						password = request.getParameter("password");
 					}
@@ -270,15 +274,17 @@ public class Controller extends HttpServlet {
 						yearOfBirth = 0;
 					}
 				}
-	
+				
 				//send the data to the database
 				users.updateUserDetails(username, password, email, firstName, lastName, nickName, yearOfBirth);
 				sessionBean.setUser(users.getUserDetails(username));
 			}
 			//send user to confirmation page
-			forwardPage = "editProfile.jsp";
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-			dispatcher.forward(request, response);
+			if (!errors) {
+				forwardPage = "editProfile.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
+			}
 		} else if(request.getParameter("action").equals("viewProfile")){
 			//Get data from form
 			//send the data to the database

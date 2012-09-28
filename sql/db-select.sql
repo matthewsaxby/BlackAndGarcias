@@ -22,4 +22,6 @@ select * from review;
 
 select actor_id from actor where first_name='Peter' and last_name='Smith'
 
+select poster, movie_id from movie;
 
+update movie set poster='images/lionking.jpg' where movie_id=10;

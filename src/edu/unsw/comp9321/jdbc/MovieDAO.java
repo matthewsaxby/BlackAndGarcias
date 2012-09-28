@@ -166,6 +166,25 @@ public class MovieDAO {
 
 			res.close();
 			stmnt.close();
+			
+			// add actors
+			stmnt = connection.createStatement();
+			query_cast = "select * from actor join movie_actors using (actor_id)";
+			res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				// find matching movie (by movieID
+				for (MovieDTO movie : movies) {
+					if (movie.getId() == res.getInt("movie_id")) {
+						String firstName = res.getString("first_name");
+						String lastName = res.getString("last_name");
+						ActorDTO actor = new ActorDTO(firstName, lastName);
+						movie.addActor(actor);
+					}
+				}
+			}
+			
+			res.close();
+			stmnt.close();
 
 		} catch (Exception e) {
 			System.out.println("Caught Exception");
@@ -250,7 +269,7 @@ public class MovieDAO {
 
 	public void addMovieAndActors(String title, String poster, String actors, String director, String genres, String synopsis, String ageRating, String releaseDate) {
 		
-		String fullPosterString = "/images/" + poster;
+		String fullPosterString = "images/" + poster;
 		Date releaseDateAsDate = java.sql.Date.valueOf(releaseDate);
 		ResultSet res;
 		try {

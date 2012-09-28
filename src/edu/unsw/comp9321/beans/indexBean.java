@@ -17,8 +17,8 @@ public class indexBean {
 		MovieDAO movies;
 		try {
 			movies = new MovieDAO();
-			nowShowing  = movies.findComingSoon(2);
-			comingSoon = movies.findNowShowing(2);
+			nowShowing  = movies.findNowShowing(3);
+			comingSoon = movies.findComingSoon(3);
 		} catch (ServiceLocatorException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

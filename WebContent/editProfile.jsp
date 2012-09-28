@@ -42,6 +42,9 @@
               <li><a href="controller?action=search">Search</a></li>
               <li><a href="controller?action=nowShowing">Now Showing</a></li>
               <li><a href="controller?action=comingSoon">Coming Soon</a></li>
+              <c:if test="${sessionBean.userType==2}">
+              	 <li><a href="admin.jsp">Admin</a></li>
+              </c:if>
              <c:if test="${sessionBean.userType>0}">
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
@@ -88,6 +91,13 @@
 		</c:if>
 
    		<c:if test="${state==0}">
+   		
+   			<c:if test="${errormsg!=null }">
+   				 <div class="alert alert-error">
+    				<h4>Error!</h4>
+    				${errormsg}
+   		 		 </div>
+   			</c:if>
 	      <!-- Main hero unit for a primary marketing message or call to action -->
 	      <div class="hero-unit">
 	        <h1>Edit Your Profile</h1>

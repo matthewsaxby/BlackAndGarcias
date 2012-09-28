@@ -44,6 +44,9 @@
               <li><a href="controller?action=search">Search</a></li>
               <li><a href="controller?action=nowShowing">Now Showing</a></li>
               <li><a href="controller?action=comingSoon">Coming Soon</a></li>
+              <c:if test="${sessionBean.userType==2}">
+              	 <li><a href="admin.jsp">Admin</a></li>
+              </c:if>
               <c:if test="${sessionBean.userType>0}">
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
@@ -96,26 +99,45 @@
       <!-- Example row of columns -->
       <div class="row">
 
-        <div class="span3">
-          <h2>Now Showing</h2>
-
-          
-          <h4>x Men</h4>
-          <div class="row">
-          <div class="span2"><p>Blurb about the movie x men</p></div>
-          <div class="span2"><img src="images/transformers.jpg" alt="property_image" width="149" height="112"/></div>
-          </div>
+        <div class="span5">
+          <h1>Now Showing</h1>
+			<div><c:forEach items="${indexBean.nowShowing}" var="movie">
+	          		<h2><c:out value="${movie.title}" /></h2>
+	          		<p>Rating: <c:out value="${movie.currentUserRating}" /> <br /></p>
+					<p><c:out value="${movie.movieSynopsis}" /> <br /></p>
+				<div class="span2">
+					<p><b>Actors: </b> <br>
+					<c:forEach items="${movie.actors}" var="actor"> 
+						<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" /><br>
+					</c:forEach> <br></p>
+				</div>	
+				<div class="span2">	
+				<img src="${movie.poster}" alt="property_image" width="149" height="112"/>
+				</div>
+				<p><br>
+          	</c:forEach></div><br>
           <p>
           <form action='controller' method='POST'>
           <input type="hidden" name="action" value="nowShowing" />
           <input type='submit' class="btn" value='See more movies &raquo'>
           </form>
        </div>
-        <div class="span3">
-          <h2>Coming Soon</h2>
+        <div class="span5">
+          <h1>Coming Soon</h1>
           <c:forEach items="${indexBean.comingSoon}" var="movie">
-          	<h2><c:out value="${movie.title}" /></h2>
-			<p><c:out value="${movie.movieSynopsis}" /> <br /></p>
+          		<h2><c:out value="${movie.title}" /></h2>
+          		<p>Rating: <c:out value="${movie.releaseDate}" /> <br /></p>
+					<p><c:out value="${movie.movieSynopsis}" /> <br /></p>
+				<div class="span2">
+					<p><b>Actors: </b> <br>
+					<c:forEach items="${movie.actors}" var="actor"> 
+						<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" /><br>
+					</c:forEach> <br></p>
+				</div>	
+				<div class="span2">	
+				<img src="${movie.poster}" alt="property_image" width="149" height="112"/>
+				</div>
+				<p><br>
           </c:forEach>
           <p>
           <form action='controller' method='POST'>
@@ -123,19 +145,9 @@
           <input type='submit' class="btn" value='See more movies &raquo'>
           </form>
        </div>
-        <div class="span4">
-          <h2>Search</h2>
-		  <p>Can't find what your looking for? Why not search for a movie or a cinema here:</p>
-          <form action='controller' method='POST'>
-          <input type="hidden" name="action" value="search">
-          <input type="hidden" name="state" value="results">
-          <select><option>Movie</option><option>Cinema</option></select>
-          <input type="text" placeholder="Movie or Cinema">
-          <input type='submit' class="btn" value='Search &raquo'>
-          </form>
        </div>
       </div>
-      </div>
+     
 
       <hr>
 
@@ -146,9 +158,8 @@
 
       <footer>
         <p>&copy; Sydney Movie Database 2012</p>
-        <a href="admin.jsp">Admin</a>
       </footer>
-</div> <!-- /container -->
+	</div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
