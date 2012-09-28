@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -34,6 +35,7 @@ import edu.unsw.comp9321.jdbc.MovieDTO;
 import edu.unsw.comp9321.jdbc.MySQLDAOImpl;
 import edu.unsw.comp9321.jdbc.CharacterDTO;
 import edu.unsw.comp9321.jdbc.ShowingDAO;
+import edu.unsw.comp9321.jdbc.ShowingDTO;
 import edu.unsw.comp9321.jdbc.UserDAO;
 import edu.unsw.comp9321.jdbc.UserDTO;
 import edu.unsw.comp9321.mail.MailSender;
@@ -354,12 +356,22 @@ public class Controller extends HttpServlet {
 		} else if (request.getParameter("action").equals("details")) {
 			String targetPage = request.getParameter("viewDetailsOnMovie");
 			
+			List<CinemaDTO> relatedCinemas  = new ArrayList<CinemaDTO>();
 			// find the movie that details have been requested for
-			MovieDTO targetMovie = movies.getMovieById(Integer.parseInt(targetPage));
-//			CinemaDTO targetCinema = cinemas.getCinemaByID(targetMovie.getCinemaId());
+			MovieDTO targetMovie = movies.getMovieByIdIgnoreReleaseDate(Integer.parseInt(targetPage));
+			List<ShowingDTO> showingList = showings.getShowingsFor(targetMovie.getId());
+			for (ShowingDTO showing : showingList) {
+				relatedCinemas.add(cinemas.getCinemaByID(showing.getCinema_id()));
+			}
 			// set this as session data so the details page can access it.
+			Calendar currentDate = Calendar.getInstance();
+			if (targetMovie.getReleaseDate().after(currentDate.getTime())) {
+				request.setAttribute("released", false);
+			} else {
+				request.setAttribute("released", true);
+			}
 			request.setAttribute("targetMovie", targetMovie);
-//			request.setAttribute("targetCinema", targetCinema);
+			request.setAttribute("relatedCinemas", relatedCinemas);
 			
 			// need actor + cinema data too
 			
@@ -415,18 +427,7 @@ public class Controller extends HttpServlet {
 			forwardPage = "mapMtoC.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
-			
-		} else if (request.getParameter("action").equals("checkout")) {
-			
-			
-			
-			
-			forwardPage = "confirmBooking.jsp";
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-			dispatcher.forward(request, response);
-			
-			
-		}
+		} 
 	}
 	
 	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){
