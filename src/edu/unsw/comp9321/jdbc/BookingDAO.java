@@ -19,10 +19,21 @@ public class BookingDAO {
 		logger.info("Got connection");
 	}
 	
-	public BookingDTO getBooking(){
+	public BookingDTO makeBooking(String movie, String cinema, String sessionTime, int numAdults, int numConcessions, int numChildren){
+		
+		//Generate Booking Reference
+		int bookingRef = Integer.parseInt(movie + cinema + sessionTime + numAdults + numConcessions + numChildren) + Integer.;
+		
+		//Find movieID and cinemaID
 		
 		
+		//Reduce number of session seats by 1
 		
+		//Add booking to booking database
+		BookingDTO myBooking = new BookingDTO();
+		myBooking.setCinema(cinema);
+		myBooking.setMovie(movie);
+		myBooking.setBookingRef(bookingRef);
 		
 		
 		return null;

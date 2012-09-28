@@ -96,6 +96,8 @@
         <c:if test="${booking.numChildren!=0}">
         	<p><b>Number of child tickets:</b> ${booking.numChildren}</p>
         </c:if>
+        <p><b>Cinema:</b> ${booking.cost}</p>
+        <h3><b>Booking Reference:</b> ${booking.bookingRed}</h3>
         
       </div>
 

@@ -91,6 +91,9 @@
         
         <form action='controller' method='POST'>
         <input type="hidden" name="action" value="checkout">
+        <input type="hidden" name="movie" value="${movie}">
+        <input type="hidden" name="cinema" value="${cinema}">
+        <input type="hidden" name="showTime" value="${showTime}">
         
         <label>Number of adults:</label>
         <select name='numAdults' size="1">
