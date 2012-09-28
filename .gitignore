@@ -1,5 +1,7 @@
 *.class
 *.classpath
+.settings/*
+.settings/
 
 # no derby stuff plz
 *.log
