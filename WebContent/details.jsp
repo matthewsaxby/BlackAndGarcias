@@ -65,42 +65,76 @@
     
   <div class="container">
     
-    <c:if test="${targetMovie==null}">
-    <div class="container">
-		<!-- if there are no results to serve, then it's searchin' time -->
-		<div class="hero-unit">
-			<h1>Oh Dear! No Details on this film yet.</h1>
-		</div>
-	</div>
-    </c:if>
-     <c:if test="${targetMovie!=null}">
-    <div class="container">
-		<!-- if there are no results to serve, then it's searchin' time -->
-		<div class="hero-unit">
-			<div class="row">
-				<div class="span6">
-					<h2><c:out value="${targetMovie.title}" /></h2>
-					<p><c:out value="${targetMovie.movieSynopsis}" /> <br /></p>
-					<p><b>Current User Rating: </b> <c:out value="${targetMovie.currentUserRating}" /> <br /></p>
-					<p><b>Number of Reviews: </b> <c:out value="${targetMovie.ratingCount}" /> <br /></p>
-					<p><b>Release Date: </b> <c:out value="${targetMovie.releaseDate}" /> <br /></p>
-					<p><b>Genres: </b><br>
-					<c:forEach items="${targetMovie.genres}" var="genre"> 
-						<c:out value="${genre}" /> 
-					</c:forEach> <br></p>
-					<p><b>Director: </b> <c:out value="${targetMovie.director}" /> <br /></p>
-					<p><b>Age Rating: </b> <c:out value="${targetMovie.ageRating}" /> <br /></p>
-					<p><b>Actors: </b> <br>
-					<c:forEach items="${targetMovie.actors}" var="actor"> 
-						<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" />
-					</c:forEach> <br></p>
-				</div>
+    <c:if test="${!released}">
+	    <div class="container">
+			<!-- if there are no results to serve, then it's searchin' time -->
+			<div class="hero-unit">
+				<div class="row">
+					<div class="span6">
+						<h2><c:out value="${targetMovie.title}" /></h2>
+						<p><c:out value="${targetMovie.movieSynopsis}" /> <br /></p>
+						<p><b>Current User Rating: </b> <c:out value="${targetMovie.currentUserRating}" /> <br /></p>
+						<p><b>Number of Reviews: </b> <c:out value="${targetMovie.ratingCount}" /> <br /></p>
+						<p><b>Release Date: </b> <c:out value="${targetMovie.releaseDate}" /> <br /></p>
+						<p><b>Genres: </b><br>
+						<c:forEach items="${targetMovie.genres}" var="genre"> 
+							<c:out value="${genre}" /> 
+						</c:forEach> <br></p>
+						<p><b>Director: </b> <c:out value="${targetMovie.director}" /> <br /></p>
+						<p><b>Age Rating: </b> <c:out value="${targetMovie.ageRating}" /> <br /></p>
+						<p><b>Actors: </b> <br>
+						<c:forEach items="${targetMovie.actors}" var="actor"> 
+							<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" />
+						</c:forEach> <br></p>
+						</div>
 				<div class="span3">
 					<img src="/BlackAndGarcias/<c:out value="${targetMovie.poster}" />" alt="property_image"/>
 				</div>
 			</div>
 		</div>
-	</div>
+    </c:if>
+     <c:if test="${released}">
+	    <div class="container">
+			<!-- if there are no results to serve, then it's searchin' time -->
+			<div class="hero-unit">
+				<div class="row">
+					<div class="span6">
+						<h2><c:out value="${targetMovie.title}" /></h2>
+						<p><c:out value="${targetMovie.movieSynopsis}" /> <br /></p>
+						<p><b>Current User Rating: </b> <c:out value="${targetMovie.currentUserRating}" /> <br /></p>
+						<p><b>Number of Reviews: </b> <c:out value="${targetMovie.ratingCount}" /> <br /></p>
+						<p><b>Release Date: </b> <c:out value="${targetMovie.releaseDate}" /> <br /></p>
+						<p><b>Genres: </b><br>
+						<c:forEach items="${targetMovie.genres}" var="genre"> 
+							<c:out value="${genre}" /> 
+						</c:forEach> <br></p>
+						<p><b>Director: </b> <c:out value="${targetMovie.director}" /> <br /></p>
+						<p><b>Age Rating: </b> <c:out value="${targetMovie.ageRating}" /> <br /></p>
+						<p><b>Actors: </b> <br>
+						<c:forEach items="${targetMovie.actors}" var="actor"> 
+							<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" />
+						</c:forEach> <br></p>
+						
+						<h2>Cinemas:</h2>
+						<c:forEach items="${relatedCinemas}" var="cinema">
+							<p>
+								<c:out value="${cinema.name}"></c:out> 
+								<form action='controller' method='POST'>
+		        					<input type="hidden" name="action" value="makeBooking">
+		        					<input type="hidden" name="buyTicketsMovieId" value="<c:out value="${targetMovie.id}" />">
+		        					<input type="hidden" name="buyTicketsCinemaId" value="<c:out value="${cinema.id}" />">
+		        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>
+	        					</form>
+							</p>
+						</c:forEach>
+					</div>
+					<div class="span3">
+						<img src="/BlackAndGarcias/<c:out value="${targetMovie.poster}" />" alt="property_image"/>
+					</div>
+					
+				</div>
+			</div>
+		</div>
 	 </c:if>
 		
 
