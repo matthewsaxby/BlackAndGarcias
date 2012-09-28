@@ -18,3 +18,8 @@ insert into movie_actors (actor_id, movie_id) values (1, 4);
 insert into movie_actors (actor_id, movie_id) values (2, 2);
 insert into movie_actors (actor_id, movie_id) values (2, 4);
 
+INSERT INTO showing (showingTime, showingDate, availableSeats, cinema_id, movie_id)
+VALUES('18:00:00', '0026-06-04', 50, 1, 3);
+
+INSERT INTO showing (showingTime, showingDate, availableSeats, cinema_id, movie_id)
+VALUES('18:00:00', '0026-06-04', 430, 3, 3);

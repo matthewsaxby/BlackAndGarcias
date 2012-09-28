@@ -129,7 +129,12 @@
        <c:if test="${state>0}">
 			<!--  display confirmation page -->
 			<div class="hero-unit">
-	  		 	<h1> Showtimes Added! </h1>
+	  		 	<h1> Showtimes Added! </h1><br>
+	  		 	<form action="controller" method="POST" >
+					<input type="hidden" name="state" value="0">
+					<input type="hidden" name="action" value="mapMtoC">
+		  		 	<button  type="submit" class="btn btn-primary btn-large">Add More Showtimes</button>
+	  		 	</form>
 	  		 </div>
 		</c:if>
 
