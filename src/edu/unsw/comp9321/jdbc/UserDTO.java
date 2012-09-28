@@ -2,6 +2,7 @@ package edu.unsw.comp9321.jdbc;
 
 
 public class UserDTO {
+	private int id;
 	private String username;
 	private int userType;
 	private String nickName;
@@ -23,6 +24,14 @@ public class UserDTO {
 		this.setEmailAddress(emailAddress);
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -87,10 +96,5 @@ public class UserDTO {
 		this.emailAddress = emailAddress;
 	}
 
-
-
-	
-	
-	
 	
 }

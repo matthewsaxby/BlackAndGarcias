@@ -7,7 +7,7 @@
 	scope="session" />
 <html>
 <head>
-<title>Advanced Search</title>
+<title>Movie Details</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -43,7 +43,7 @@
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="details.jsp" />
+	            		<input type="hidden" name="source" value="nowShowing.jsp" />
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -51,7 +51,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="details.jsp" />
+	            	<input type="hidden" name="source" value="nowShowing.jsp" />
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -133,6 +133,49 @@
 					</div>
 					
 				</div>
+				<div>
+					<p> Reviews: </p>
+					<c:if test="${reviews!=null}">
+						<c:forEach items="${reviews}" var="review">
+							<div class="thumbnail">
+								<div class="row">
+									<div class="span8 offset1">
+										<p> Rating: <c:out value="${review.rating}"></c:out></p>
+										<p><small><c:out value="${review.comment}"></c:out></small></p>
+										<p><small> By: <c:out value="${review.reviewer}"> </c:out></small></p>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
+				</div>
+				<br>
+				<c:if test="${sessionBean.userType>0}">
+					<div class="row">
+						<div class="span9">
+							<p> Add Review: </p>
+							<form action="controller" method="POST">
+								<input type="hidden" name="action" value="addReview">
+								<input type="hidden" name="movie" value="${targetMovie.id}">
+								
+								<select name="rating">
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select><br>
+								<textarea name="comment" rows="8" cols="20"></textarea>
+							</form>
+						</div>
+					</div>
+				</c:if>
 			</div>
 		</div>
 	 </c:if>

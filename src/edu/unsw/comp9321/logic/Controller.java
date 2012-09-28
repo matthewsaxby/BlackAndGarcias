@@ -36,6 +36,8 @@ import edu.unsw.comp9321.jdbc.MovieDAO;
 import edu.unsw.comp9321.jdbc.MovieDTO;
 import edu.unsw.comp9321.jdbc.MySQLDAOImpl;
 import edu.unsw.comp9321.jdbc.CharacterDTO;
+import edu.unsw.comp9321.jdbc.ReviewDAO;
+import edu.unsw.comp9321.jdbc.ReviewDTO;
 import edu.unsw.comp9321.jdbc.ShowingDAO;
 import edu.unsw.comp9321.jdbc.ShowingDTO;
 import edu.unsw.comp9321.jdbc.UserDAO;
@@ -58,6 +60,7 @@ public class Controller extends HttpServlet {
 	private ShowingDAO showings;
 	private SessionBean sessionBean;
 	private BookingDAO bookings;
+	private ReviewDAO reviews;
 	
 	DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
        
@@ -79,10 +82,11 @@ public class Controller extends HttpServlet {
         	movies = new MovieDAO();
         	users = new UserDAO();
         	actors = new ActorDAO();
-			cast = new DerbyDAOImpl();
+//			cast = new DerbyDAOImpl();
 			cinemas = new CinemaDAO();
 			showings = new ShowingDAO();
 			bookings = new BookingDAO();
+			reviews = new ReviewDAO();
 		} catch (ServiceLocatorException e) {
 			logger.severe("Trouble connecting to database "+e.getStackTrace());
 			throw new ServletException();
@@ -122,6 +126,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("movieDeets",  resSet);
 			forwardPage = "nowShowing.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			System.out.println("serving home page");
 			dispatcher.forward(request, response);
 		} else if(request.getParameter("action").equals("comingSoon")){
 			
@@ -359,7 +364,7 @@ public class Controller extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("details")) {
 			String targetPage = request.getParameter("viewDetailsOnMovie");
-			
+
 			List<CinemaDTO> relatedCinemas  = new ArrayList<CinemaDTO>();
 			// find the movie that details have been requested for
 			MovieDTO targetMovie = movies.getMovieByIdIgnoreReleaseDate(Integer.parseInt(targetPage));
@@ -367,6 +372,12 @@ public class Controller extends HttpServlet {
 			for (ShowingDTO showing : showingList) {
 				relatedCinemas.add(cinemas.getCinemaByID(showing.getCinema_id()));
 			}
+			
+			
+			// find the reviews for this movie
+			List<ReviewDTO> reviewList = reviews.getReviewsFor(targetMovie.getId());
+			// get user that did review
+			
 			// set this as session data so the details page can access it.
 			Calendar currentDate = Calendar.getInstance();
 			if (targetMovie.getReleaseDate().after(currentDate.getTime())) {
@@ -376,6 +387,7 @@ public class Controller extends HttpServlet {
 			}
 			request.setAttribute("targetMovie", targetMovie);
 			request.setAttribute("relatedCinemas", relatedCinemas);
+			request.setAttribute("reviews", reviewList);
 			
 			// need actor + cinema data too
 			
@@ -448,6 +460,16 @@ public class Controller extends HttpServlet {
 			forwardPage = "mapMtoC.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
+		} else if(request.getParameter("action").equals("addReview")) {
+				// get info
+				UserDTO reviewer = sessionBean.getUser();
+				int rating = Integer.parseInt(request.getParameter("rating"));
+				String comment = request.getParameter("comment");
+				
+				// update review, table
+				
+				// redirect to thanks page
+
 		} 
 	}
 	

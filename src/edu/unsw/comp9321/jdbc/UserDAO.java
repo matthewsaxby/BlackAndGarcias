@@ -118,6 +118,7 @@ public class UserDAO {
 			logger.info("The result set size is " + res.getFetchSize());
 			while (res.next()) {
 				if(res.getString("username").equals(username)){
+					user.setId(res.getInt("user_id"));
 					user.setUsername(res.getString("username"));
 					user.setEmailAddress(res.getString("emailAddress"));
 					user.setPassword(res.getString("password"));
