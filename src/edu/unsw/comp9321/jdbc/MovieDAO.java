@@ -277,7 +277,7 @@ public class MovieDAO {
 			
 			String query_cast = "INSERT INTO movie (title, poster, synopsis, release_date, director, age_rating, genres, user_rating, rating_count)\nVALUES('" 
 								+ title + "', '" + fullPosterString +  "', '" + synopsis + "', '" + releaseDateAsDate + "', '" + director + "', '"
-								+ ageRating + "', '" + genres + "', " + 0 + ", " + 0 + ")";
+								+ ageRating + "', '" + genres + "', " + -1 + ", " + 0 + ")";
 			System.out.println(query_cast);
 			stmnt.executeUpdate(query_cast);
 			stmnt.close();

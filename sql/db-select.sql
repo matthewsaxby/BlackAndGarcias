@@ -24,4 +24,9 @@ select actor_id from actor where first_name='Peter' and last_name='Smith'
 
 select poster, movie_id from movie;
 
-update movie set poster='images/lionking.jpg' where movie_id=10;
+update movie set user_rating=-1, rating_count=0 where movie_id=5;
+
+delete from USER_TBL where user_id=5;
+delete from USER_TBL where user_id=6;
+delete from USER_TBL where user_id=7;
+delete from USER_TBL where user_id=8;

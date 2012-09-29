@@ -17,6 +17,23 @@ public class BookingDTO {
 
 	}
 
+
+
+	public BookingDTO(String movie, String cinema, Date session, int numAdults,
+			int numConcessions, int numChildren, int cost, int bookingRef) {
+		super();
+		this.movie = movie;
+		this.cinema = cinema;
+		this.session = session;
+		this.numAdults = numAdults;
+		this.numConcessions = numConcessions;
+		this.numChildren = numChildren;
+		this.cost = cost;
+		this.bookingRef = bookingRef;
+	}
+
+
+
 	public String getMovie() {
 		return movie;
 	}

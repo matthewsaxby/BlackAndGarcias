@@ -34,7 +34,7 @@
           <a class="brand" href="#">SMDB</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.jsp">Home</a></li>
+              <li class="active"><a href="controller?action=home">Home</a></li>
               <c:if test="${sessionBean.userType>0}"><li><a href="controller?action=viewProfile">My Profile</a></li></c:if>			<%-- only show this is someone is logged in--%>
               <li><a href="controller?action=search">Search</a></li>
               <li><a href="controller?action=nowShowing">Now Showing</a></li>
@@ -46,7 +46,7 @@
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="nowShowing.jsp" />
+	            		
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -54,7 +54,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="nowShowing.jsp" />
+	            	
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -67,7 +67,14 @@
     
     
   <div class="container">
-    
+    <c:if test="${sessionBean.user!=null}">
+			<c:if test="${sessionBean.user.userType==0}">
+	     		 <div class="alert alert-error">
+	   				<h4>Error!</h4>
+	   				You're Account is unconfirmed. Please confirm via Email!
+		 		 </div>
+			</c:if>
+		</c:if>
     <c:if test="${!released}">
 	    <div class="container">
 			<!-- if there are no results to serve, then it's searchin' time -->
@@ -123,7 +130,7 @@
 							<p>
 								<c:out value="${cinema.name}"></c:out> 
 								<form action='controller' method='POST'>
-		        					<input type="hidden" name="action" value="makeBooking">
+		        					<input type="hidden" name="action" value="bookingDetails">
 		        					<input type="hidden" name="buyTicketsMovieId" value="<c:out value="${targetMovie.id}" />">
 		        					<input type="hidden" name="buyTicketsCinemaId" value="<c:out value="${cinema.id}" />">
 		        					<input type='submit' class="btn btn-primary" value='Buy Tickets'>

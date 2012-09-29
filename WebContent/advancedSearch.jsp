@@ -32,7 +32,7 @@ body {
 				</a> <a class="brand" href="#">SMDB</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="index.jsp">Home</a></li>
+						<li class="active"><a href="controller?action=home">Home</a></li>
 						<c:if test="${sessionBean.userType>0}">
 							<li><a href="controller?action=viewProfile">My Profile</a></li>
 						</c:if>
@@ -74,6 +74,14 @@ body {
 
 
 	<div class="container">
+	<c:if test="${sessionBean.user!=null}">
+			<c:if test="${sessionBean.user.userType==0}">
+	     		 <div class="alert alert-error">
+	   				<h4>Error!</h4>
+	   				You're Account is unconfirmed. Please confirm via Email!
+		 		 </div>
+			</c:if>
+		</c:if>
 		<c:if test="${resultData==null}">
 			<!-- if there are no results to serve, then it's searchin' time -->
 			<div class="hero-unit">
@@ -114,11 +122,13 @@ body {
 							<h2>
 								<c:out value="${movie.title}" />
 							</h2>
+							<c:if test="${movie.currentUserRating>0}">
 							<p>
 								<b>Current User Rating: </b>
 								<c:out value="${movie.currentUserRating}" />
 								<br />
 							</p>
+							</c:if>
 							<p>
 								<b>Number of Reviews: </b>
 								<c:out value="${movie.ratingCount}" />

@@ -1,20 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.unsw.comp9321.logic.*, java.util.*"%>
 <jsp:useBean id="sessionBean" class="edu.unsw.comp9321.beans.SessionBean"
 	scope="session" />
-<jsp:useBean id="indexBean" class="edu.unsw.comp9321.beans.indexBean"
-	scope="session" />
-<!--jsp:useBean id="user" class="comp9321.UserBean" scope="session"-->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 
 <head>
-<title>SMDB Homepage</title>
+<title>SMDB</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="fontAwesome/css/font-awesome.css">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -39,7 +38,7 @@
           <a class="brand" href="#">SMDB</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.jsp">Home</a></li>
+              <li class="active"><a href="controller?action=home">Home</a></li>
               <c:if test="${sessionBean.userType>0}"><li><a href="controller?action=viewProfile">My Profile</a></li></c:if>			<%-- only show this is someone is logged in--%>
               <li><a href="controller?action=search">Search</a></li>
               <li><a href="controller?action=nowShowing">Now Showing</a></li>
@@ -47,11 +46,11 @@
               <c:if test="${sessionBean.userType==2}">
               	 <li><a href="admin.jsp">Admin</a></li>
               </c:if>
-              <c:if test="${sessionBean.userType>0}">
+            <c:if test="${sessionBean.userType>0}">
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="index.jsp" />
+	            		
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -59,7 +58,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="index.jsp" />
+	            	
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -73,19 +72,22 @@
     <div class="container">
     
     	<c:if test="${failedLogin!=null}">
-			<div class="container">
-				<div class="row show-grid">
-					<div class="span9">
-						<p> <c:out value="${failedLogin}" /> </p>
-					</div>
-				</div>
-			</div>
+     		 <div class="alert alert-error">
+   				<h4>Error!</h4>
+   				${failedLogin}
+	 		 </div>
 		</c:if>
-		
+		 <c:if test="${sessionBean.user!=null}">
+			<c:if test="${sessionBean.user.userType==0}">
+	     		 <div class="alert alert-error">
+	   				<h4>Error!</h4>
+	   				You're Account is unconfirmed. Please confirm via Email!
+		 		 </div>
+			</c:if>
+		</c:if>
 		<!-- Main hero unit for a primary marketing message or call to action -->
       <c:if test="${sessionBean.user==null}">
       	<div class="hero-unit">
-	      	
 	        <h1>Welcome to the SMDB!</h1>
 	        <p>Becoming a member is currently free, click the join now button to become a member now.</p>
 	        <form action='signup.jsp' method='POST'>
@@ -101,8 +103,8 @@
 
         <div class="span5">
           <h1>Now Showing</h1>
-			<div><c:forEach items="${indexBean.nowShowing}" var="movie">
-	          		<h2><c:out value="${movie.title}" /></h2>
+			<div><c:forEach items="${nowShowing}" var="movie"><br>
+	          		<h2 style="clear: left;"><c:out value="${movie.title}" /></h2>
 	          		<p>Rating: <c:out value="${movie.currentUserRating}" /> <br /></p>
 					<p><c:out value="${movie.movieSynopsis}" /> <br /></p>
 				<div class="span2">
@@ -111,7 +113,7 @@
 						<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" /><br>
 					</c:forEach> <br></p>
 				</div>	
-				<div class="span2">	
+				<div class="span2" >	
 				<img src="${movie.poster}" alt="property_image" width="149" height="112"/>
 				</div>
 				<p><br>
@@ -122,24 +124,24 @@
           <input type='submit' class="btn" value='See more movies &raquo'>
           </form>
        </div>
-        <div class="span5">
+        <div class="span5" >
           <h1>Coming Soon</h1>
-          <c:forEach items="${indexBean.comingSoon}" var="movie">
-          		<h2><c:out value="${movie.title}" /></h2>
+          	<c:forEach items="${comingSoon}" var="movie"><br>
+          		<h2 style="clear: left;"><c:out value="${movie.title}" /></h2>
           		<p>Rating: <c:out value="${movie.releaseDate}" /> <br /></p>
 					<p><c:out value="${movie.movieSynopsis}" /> <br /></p>
 				<div class="span2">
 					<p><b>Actors: </b> <br>
 					<c:forEach items="${movie.actors}" var="actor"> 
 						<c:out value="${actor.firstName}" /><c:out value=" ${actor.lastName}" /><br>
-					</c:forEach> <br></p>
-				</div>	
+					</c:forEach> </p>
+				</div>
+				<br>
 				<div class="span2">	
 				<img src="${movie.poster}" alt="property_image" width="149" height="112"/>
 				</div>
-				<p><br>
-          </c:forEach>
-          <p>
+				<br>
+          	</c:forEach>
           <form action='controller' method='POST'>
           <input type="hidden" name="action" value="comingSoon" />
           <input type='submit' class="btn" value='See more movies &raquo'>

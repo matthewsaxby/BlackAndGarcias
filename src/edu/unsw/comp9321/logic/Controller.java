@@ -117,6 +117,10 @@ public class Controller extends HttpServlet {
 		request.setAttribute("genreList", movies.getGenres());
 		request.setAttribute("actorList", actors.getAll());
 		if (request.getParameter("action") == null) {
+			List<MovieDTO> nowShowing = movies.findNowShowing(3);
+			request.setAttribute("nowShowing",  nowShowing);
+			List<MovieDTO> comingSoon = movies.findComingSoon(3);
+			request.setAttribute("comingSoon",  comingSoon);
 			forwardPage = "index.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
@@ -165,14 +169,18 @@ public class Controller extends HttpServlet {
 			if(!error){
 				System.out.println("i made it");
 				//store data to database
-				// default to 1, presumably, admins added by direct insert
-				users.addUserDetails(username, 1, password, confirmPassword, email, confirmEmail); 
+				// userttype to 0, need to validate to get to 1, presumably, admins added by direct insert
+				users.addUserDetails(username, 0, password, confirmPassword, email, confirmEmail); 
 				//send email
 				//TODO: what does 'confirming' actually do? nothing?
 				MailSenderTest ms = new MailSenderTest();
 				ms.sendConfirmationEmail(username, email);
 				//return to check email page
-				forwardPage = "confirmSignup.jsp";
+				List<MovieDTO> nowShowing = movies.findNowShowing(3);
+				request.setAttribute("nowShowing",  nowShowing);
+				List<MovieDTO> comingSoon = movies.findComingSoon(3);
+				request.setAttribute("comingSoon",  comingSoon);
+				forwardPage = "index.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 				dispatcher.forward(request, response);
 			} else {
@@ -184,11 +192,10 @@ public class Controller extends HttpServlet {
 			}
 		} else if(request.getParameter("action").equals("confirmSignup")){
 			
-			UserDTO user = users.getUserDetails(request.getParameter("username"));
-			ArrayList<ActorDTO> actorList = actors.getAll();
-			request.setAttribute("user",  user);
-			request.setAttribute("actorList",  actorList);
-			forwardPage = "editProfile.jsp";
+			if (users.getUserDetails(request.getParameter("username")).getUserType() == 0) {
+				users.validateUser(request.getParameter("username"));
+			}
+			forwardPage = "confirmSignup.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
 		} else if(request.getParameter("action").equals("editProfile")){
@@ -329,21 +336,32 @@ public class Controller extends HttpServlet {
 			UserDTO attempedLogin = users.getUserDetails(request.getParameter("username"));
 			if (!request.getParameter("password").equals(attempedLogin.getPassword())) {
 				request.setAttribute("failedLogin", new String("Incorrect Password! Please try again"));
-				forwardPage = request.getParameter("source");
+				List<MovieDTO> nowShowing = movies.findNowShowing(3);
+				request.setAttribute("nowShowing",  nowShowing);
+				List<MovieDTO> comingSoon = movies.findComingSoon(3);
+				request.setAttribute("comingSoon",  comingSoon);
+				forwardPage = "index.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 				dispatcher.forward(request, response);
 			} else {
 				sessionBean.setUserType(attempedLogin.getUserType());
 				sessionBean.setUser(attempedLogin);
 				request.getSession().setAttribute("sessionBean", sessionBean);
-				forwardPage = request.getParameter("source");
+				List<MovieDTO> nowShowing = movies.findNowShowing(3);
+				request.setAttribute("nowShowing",  nowShowing);
+				List<MovieDTO> comingSoon = movies.findComingSoon(3);
+				request.setAttribute("comingSoon",  comingSoon);
+				forwardPage = "index.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 				dispatcher.forward(request, response);
 			}
 		} else if (request.getParameter("action").equals("logout")) {
-			forwardPage = "index.jsp";
+			List<MovieDTO> nowShowing = movies.findNowShowing(3);
+			request.setAttribute("nowShowing",  nowShowing);
+			List<MovieDTO> comingSoon = movies.findComingSoon(3);
+			request.setAttribute("comingSoon",  comingSoon);
+			forwardPage = "logout.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-			request.getSession().invalidate();
 			dispatcher.forward(request, response);
 		} else if (request.getParameter("action").equals("search")) {
 			
@@ -373,8 +391,15 @@ public class Controller extends HttpServlet {
 			// find the movie that details have been requested for
 			MovieDTO targetMovie = movies.getMovieByIdIgnoreReleaseDate(Integer.parseInt(targetPage));
 			List<ShowingDTO> showingList = showings.getShowingsFor(targetMovie.getId());
+			List<Integer> added = new ArrayList<Integer>();
 			for (ShowingDTO showing : showingList) {
-				relatedCinemas.add(cinemas.getCinemaByID(showing.getCinema_id()));
+				if (!added.contains(showing.getCinema_id())) {
+					Date curDate = new Date();	
+					if (showing.getShowingDate().after(curDate)) {
+						relatedCinemas.add(cinemas.getCinemaByID(showing.getCinema_id()));
+						added.add(showing.getCinema_id());
+					}
+				}
 			}
 			
 			
@@ -434,36 +459,106 @@ public class Controller extends HttpServlet {
 					}
 					i++;
 				}
-					
-						//link showtime up
-				
-				
-			} else if (request.getParameter("action").equals("checkout")) {
-				int numAdults = Integer.parseInt(request.getParameter("numAdults"));
-				int numConcessions = Integer.parseInt(request.getParameter("numConcessions"));
-				int numChildren = Integer.parseInt(request.getParameter("numChidren"));
-				String cinema = request.getParameter("cinema");
-				String movie = request.getParameter("movie");
-				String sessionTime = request.getParameter("sessionTime");
-				
-				
-				BookingDTO myBooking = bookings.makeBooking(movie, cinema, sessionTime, numAdults, numConcessions, numChildren);
-				
-				request.setAttribute("booking", myBooking);
-				forwardPage = "confirmBooking.jsp";
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
-				dispatcher.forward(request, response);
-				
-				
-			}else {
+			} else {
 				// set session attribute w/ coming soon movieDTO list
-				request.setAttribute("movies", movies.findComingSoon(100));
+				request.setAttribute("movies", movies.findAll());
 				// set session attribute w/ all cinemas
 				request.setAttribute("cinemas", cinemas.getAll());
 			}
 			forwardPage = "mapMtoC.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
+		} else if (request.getParameter("action").equals("bookingDetails")) {
+
+			int cinemaID = Integer.parseInt(request.getParameter("buyTicketsCinemaId"));
+			int movieID = Integer.parseInt(request.getParameter("buyTicketsMovieId"));
+
+			
+			//Get movie and cinema title
+			MovieDTO movie = movies.getMovieById(movieID);
+			CinemaDTO cinema = cinemas.getCinemaByID(cinemaID);
+			
+			//Get session times given the above movie and cinema
+			List<ShowingDTO> showTimes = showings.getShowingsFor(movieID, cinemaID);
+			
+			
+			request.setAttribute("showTimes", showTimes);
+			request.setAttribute("movie", movie);
+			request.setAttribute("cinema", cinema);
+			forwardPage = "checkout.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+			dispatcher.forward(request, response);
+			
+			
+		} else if (request.getParameter("action").equals("checkout")) {
+			int numAdults = Integer.parseInt(request.getParameter("numAdults"));
+			int numConcessions = Integer.parseInt(request.getParameter("numConcessions"));
+			int numChildren = Integer.parseInt(request.getParameter("numChildren"));
+			int cinemaID = Integer.parseInt(request.getParameter("cinemaID"));
+			int movieID = Integer.parseInt(request.getParameter("movieID"));
+			String creditcardNum = request.getParameter("creditcardNumber");
+			String csv = request.getParameter("creditcardCSV");
+			String cardName = request.getParameter("creditcardName");
+			String showTime = request.getParameter("showTime");
+			
+			//Get movie and cinema title
+			MovieDTO movie = movies.getMovieById(movieID);
+			CinemaDTO cinema = cinemas.getCinemaByID(cinemaID);
+			int showingID = bookings.findShowingID(movie, cinema, showTime);
+			int totalSeatsRequired = numAdults + numChildren + numConcessions;
+			
+			//check for errors in form input
+			boolean error = false;
+			String errorMessage = "";
+			if(showingID == -1){
+				error = true;
+				errorMessage = "An error has occured, please reutrn to the home page and try again";
+			} else if (csv == "" || cardName == "" || creditcardNum == ""){
+				error = true;
+				errorMessage = "Your credit card details have been entered incorrectly";
+			} else if (totalSeatsRequired < 1){
+				error = true;
+				errorMessage = "You need to select at least one ticket to make a booking";
+			} else if (bookings.noSeatsAvailable(totalSeatsRequired, showingID)){
+				error = true;
+				errorMessage = "This session does not have enough seats to support your order";
+			}
+			
+			
+			if(error == false){
+				//get user id
+				int userID = sessionBean.getUser().getId();
+				//Make the actual booking
+				BookingDTO myBooking = bookings.makeBooking(movie, cinema, showTime, numAdults, numConcessions, numChildren, userID);
+				
+				request.setAttribute("booking", myBooking);
+				forwardPage = "confirmBooking.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
+			} else {
+				List<ShowingDTO> showTimes = showings.getShowingsFor(movieID, cinemaID);
+				request.setAttribute("error", errorMessage);
+				request.setAttribute("isError", 1);
+				request.setAttribute("showTimes", showTimes);
+				request.setAttribute("movie", movie);
+				request.setAttribute("cinema", cinema);
+				forwardPage = "checkout.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);
+
+			}
+			
+			
+		} else if(request.getParameter("action").equals("viewBookings")) {
+				int userID = sessionBean.getUser().getId();
+				List<BookingDTO> myBookings = bookings.getBookings(userID, cinemas, movies);
+				
+							
+				request.setAttribute("bookings", myBookings);
+				forwardPage = "viewBookings.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
+				dispatcher.forward(request, response);	
+		
 		} else if(request.getParameter("action").equals("addReview")) {
 				// get info
 				UserDTO reviewer = sessionBean.getUser();
@@ -483,28 +578,14 @@ public class Controller extends HttpServlet {
 				dispatcher.forward(request, response);
 
 		} else if (request.getParameter("action").equals("home")) {
+			List<MovieDTO> nowShowing = movies.findNowShowing(3);
+			request.setAttribute("nowShowing",  nowShowing);
+			List<MovieDTO> comingSoon = movies.findComingSoon(3);
+			request.setAttribute("comingSoon",  comingSoon);
 			forwardPage = "index.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/"+forwardPage);
 			dispatcher.forward(request, response);
-		}
+		} 
 	}
 	
-	private String handlePostcomment(HttpServletRequest request, HttpServletResponse response){
-		String forwardPage = "";
-		String character = (String) request.getParameter("character");
-		logger.info("Comment on character: "+character);
-		try{
-			CharacterDTO mchar = cast.findChar(character);
-			String commentString = request.getParameter("comments");
-			CommentDTO comment = new CommentDTO(mchar.getId(), mchar.getName(), "SKV", new Date(), commentString);
-			cast.storeComment(comment);
-			request.setAttribute("comments", cast.getComments(character));
-			forwardPage = "success.jsp";
-		}catch(Exception e){
-			e.printStackTrace();
-			forwardPage = "error.jsp";
-		}
-		return forwardPage;
-	}
-
 }

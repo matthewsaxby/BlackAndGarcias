@@ -8,8 +8,8 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,8 +28,8 @@ public class ShowingDAO {
 
 	public void createShowing(String showtime, int seats, int cinema_id, int movie_id ) {
 		try {
-			Date showtimeDate = java.sql.Date.valueOf((showtime.split(" ")[0]));
-			Time showtimeTime = java.sql.Time.valueOf(showtime.split(" ")[1].concat(":00"));
+			java.sql.Date showtimeDate = java.sql.Date.valueOf((showtime.split(" ")[0]));
+			Time showtimeTime = java.sql.Time.valueOf(showtime.split(" ")[1]);
 			Statement stmnt = connection.createStatement();
 			
 			String query_cast = "INSERT INTO showing (showingTime, showingDate, availableSeats, cinema_id, movie_id)\nVALUES('" + showtimeTime + "', '" + showtimeDate + "', " + seats +  ", " + cinema_id + ", " + movie_id + ")";
@@ -43,15 +43,38 @@ public class ShowingDAO {
 		
 	}
 
-	public List<ShowingDTO> getShowingsFor(int id) {
+	public List<ShowingDTO> getShowingsFor(int movieID) {
 		List<ShowingDTO> results = new ArrayList<ShowingDTO>();
 		try {
 			Statement stmnt = connection.createStatement();
-			String query_cast = "select * from showing where movie_id = " + id;
+			String query_cast = "select * from showing where movie_id = " + movieID;
 			System.out.println(query_cast);
 			ResultSet res = stmnt.executeQuery(query_cast);
 			while (res.next()) {
 				addDBDeets(results, res);
+			}
+			stmnt.close();
+		} catch (Exception e) {
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	public List<ShowingDTO> getShowingsFor(int movieID, int cinemaID) {
+		java.util.Date currentDate = new Date();
+		List<ShowingDTO> results = new ArrayList<ShowingDTO>();
+		try {
+			Statement stmnt = connection.createStatement();
+			String query_cast = "select * from showing where movie_id = " + movieID + " and cinema_id = " + cinemaID;
+			System.out.println(query_cast);
+			ResultSet res = stmnt.executeQuery(query_cast);
+			while (res.next()) {
+				
+				if(res.getDate("showingDate").after(currentDate)){
+					addDBDeets(results, res);
+				}
+				
 			}
 			stmnt.close();
 		} catch (Exception e) {
@@ -72,8 +95,8 @@ public class ShowingDAO {
 	private void addDBDeets(List<ShowingDTO> showings, ResultSet res)
 			throws SQLException, ParseException {
 		int id = res.getInt("showing_id");
-		Time showingTime = res.getTime("showingTime");
-		Date showingDate = res.getDate("showingDate");
+		java.sql.Time showingTime = res.getTime("showingTime");
+		java.sql.Date showingDate = res.getDate("showingDate");
 		int availableSeats = res.getInt("availableSeats");
 		int cinema_id = res.getInt("cinema_id");
 		int movie_id = res.getInt("movie_id");

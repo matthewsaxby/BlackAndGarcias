@@ -142,6 +142,23 @@ public class UserDAO {
 	}
 
 
+	public void validateUser(String userName) {
+		try {
+			
+			Statement stmnt = connection.createStatement();
+			String query_cast = "update user_tbl set usertype="+1+" where username = '" + userName + "'";
+			stmnt.executeUpdate(query_cast);
+			stmnt.close();
+				
+				
+		} catch (Exception e) {
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+		}
+		
+	}
+
+
 	
 	
 	

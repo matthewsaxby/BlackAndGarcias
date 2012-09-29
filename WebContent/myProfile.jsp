@@ -37,7 +37,7 @@
           <a class="brand" href="#">SMDB</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.jsp">Home</a></li>
+              <li class="active"><a href="controller?action=home">Home</a></li>
               <c:if test="${sessionBean.userType>0}"><li><a href="controller?action=viewProfile">My Profile</a></li></c:if>			<%-- only show this is someone is logged in--%>
               <li><a href="controller?action=search">Search</a></li>
               <li><a href="controller?action=nowShowing">Now Showing</a></li>
@@ -49,7 +49,7 @@
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="myProfile.jsp" />
+	            		
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -57,7 +57,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="myProfile.jsp" />
+	            	
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -73,7 +73,14 @@
     
     
     <div class="container">
-    
+    <c:if test="${sessionBean.user!=null}">
+			<c:if test="${sessionBean.user.userType==0}">
+	     		 <div class="alert alert-error">
+	   				<h4>Error!</h4>
+	   				You're Account is unconfirmed. Please confirm via Email!
+		 		 </div>
+			</c:if>
+		</c:if>
     <c:if test="${sessionBean.userType==0}">
 		<div class="container">
 			<div class="hero-unit">
@@ -88,7 +95,7 @@
         <h1>My Profile</h1>
         <p>Its all about you</p>
         
-        <h2>Change my details</h2>
+       	<h2>Change my details</h2>
         <p>Click the button below to change your personal details</p>
         <form action='controller' method='POST'>
         <input type="hidden" name="action" value="editProfile">
@@ -100,13 +107,6 @@
         <form action='controller' method='POST'>
         <input type="hidden" name="action" value="viewBookings">
         <input type='submit' class="btn btn-primary" value='View Bookings &raquo'>
-        </form>
-        
-        <h2>View suggested movies</h2>
-        <p>Click the button below to view movies that are recommended for you to watch</p>
-        <form action='controller' method='POST'>
-        <input type="hidden" name="action" value="seeRecommendation">
-        <input type='submit' class="btn btn-primary" value='See recommendations &raquo'>
         </form>
         
       </div>

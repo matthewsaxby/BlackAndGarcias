@@ -36,7 +36,7 @@
           <a class="brand" href="#">SMDB</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.jsp">Home</a></li>
+              <li class="active"><a href="controller?action=home">Home</a></li>
               <c:if test="${sessionBean.userType>0}"><li><a href="controller?action=viewProfile">My Profile</a></li></c:if>			<%-- only show this is someone is logged in--%>
               <li><a href="controller?action=search">Search</a></li>
               <li><a href="controller?action=nowShowing">Now Showing</a></li>
@@ -48,7 +48,7 @@
 			  	<li><a>Welcome, <c:out value="${sessionBean.user.username}" /> </a></li>
 			  	<li><form class="navbar-form pull-right" action='controller' method='POST'>
 			  			<input type="hidden" name="action" value="logout" />
-	            		<input type="hidden" name="source" value="comingSoon.jsp" />
+	            		
 	            		<button type="submit" class="btn">Logout</button>
             		</form>
 	    	  </c:if>
@@ -56,7 +56,7 @@
     		<c:if test="${sessionBean.userType==0}">
 	            <form class="navbar-form pull-right" action='controller' method='POST'>
 	            	<input type="hidden" name="action" value="login" />
-	            	<input type="hidden" name="source" value="comingSoon.jsp" />
+	            	
 	              <input class="span2" type="text" name="username" placeholder="Username">
 	              <input class="span2" type="password" name="password" placeholder="Password">
 	              <button type="submit" class="btn">Sign in</button>
@@ -72,6 +72,14 @@
     
     
     <div class="container">
+    <c:if test="${sessionBean.user!=null}">
+			<c:if test="${sessionBean.user.userType==0}">
+	     		 <div class="alert alert-error">
+	   				<h4>Error!</h4>
+	   				You're Account is unconfirmed. Please confirm via Email!
+		 		 </div>
+			</c:if>
+		</c:if>
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h1>Coming Soon</h1>

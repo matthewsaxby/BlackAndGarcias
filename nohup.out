@@ -1,10 +1,3 @@
-Tue Sep 25 09:19:54 EST 2012 : Security manager installed using the Basic server security policy.
-Tue Sep 25 09:19:55 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
-Wed Sep 26 08:30:33 EST 2012 : Security manager installed using the Basic server security policy.
-Wed Sep 26 08:30:33 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
-Thu Sep 27 10:39:22 EST 2012 : Security manager installed using the Basic server security policy.
-Thu Sep 27 10:39:22 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
-Fri Sep 28 11:09:15 EST 2012 : Security manager installed using the Basic server security policy.
-Fri Sep 28 11:09:15 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
-Fri Sep 28 15:04:26 EST 2012 : Security manager installed using the Basic server security policy.
-Fri Sep 28 15:04:26 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
+Unable to access jarfile /lib/derbyrun.jar
+Sat Sep 29 14:37:08 EST 2012 : Security manager installed using the Basic server security policy.
+Sat Sep 29 14:37:09 EST 2012 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
